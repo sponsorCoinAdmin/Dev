@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title form alignment></title>
+		<style type="text/css">
+			label {
+				width:180px;
+				display:inline-block;
+			}
+			
+            input[type="text"] {
+				width:325px;
+			}
+		</style>
+	</head>
+
+<body>
+    <h1 id="header1">Sponsoring Coin</h1>
+
+	<div id="form sponsor">
+		<form action="/registerBeneficary_page.php">
+		  <label for="bname">Beneficary Address: </label>
+		  <input type="text" id="bname" name="bname" value="" >
+		  <select name="searchBeneficiary" id="searchBeneficiary" onchange="setSelection(this)">
+			<option value="">Please Select Beneficary:</option>
+			<option value="0xc154d2cF8FF3416064dd0dB9aC370d5545c7aD3F">Rebel Media:</option>
+			<option value="0x1c6b92588f50b5a1d00f88f1150b5bc8c5878252">Childrens Wish Fund</option>
+			<option value="0xbC6D31085170De10f4644Fb4CCB999727730e403">Toronto's Hospitals</option>
+			<option value="0x5bb24da3af9cd5013fc17e1e2de8492afceb6983">Sara's House Burned Down</option>
+			<option value="0x7D90E99D3203969B5044C5Ef3ffa48fb475a475d">Crypto Dev Team A</option>
+			<option value="0x4ed855c476320346eE3b8681A7bDD13B5C57C647">Crypto Dev Team B</option>
+			<option value="0x028e90d06F91FC270509A0Cd45aD8A17CaCE3C49">Build the Bridge</option>
+			<option value="0x22bed8e2f3a29aEE5002087F1140Ef4C6ACa25B4">Land Rover</option>
+			<option value="0x12bed8e2f3a29aEE5002087F1140Ef4C6ACa26b4">Liberty Media Fund</option>
+			<option value="0x7Dbed8e2f3a29aEE5002087F1140Ef4C6ACa2794">Kill The Bill Fund</option>
+			<option value="0xBCbae8b2f3a29aEE5002087F1140Ef4C6ACa2514">Save the Dogs</option>
+			<option value="0xFAbed8c2f3a29aEE5002087F1140Ef4C6ACa2AB4">Womens Shelter</option>
+			<option value="0x5bbed8e2f3a29aEE5002087F1140Ef4C6ACa2AA4">Mens Shelter</option>
+		  </select><br><br>
+		  <label for="saddress">Sponsor Address: </label>
+		  <input type="text" id="saddress" name="saddress"><br><br>
+		  <label for="samount">Ethereum: </label>
+		  <input type="text" id="samount" name="samount"><br><br>
+		  <label for="samount">SponsorCoin: </label>
+		  <input type="text" id="samount" name="samount"><br><br>
+		  <input type="submit" value="Sponsor">
+		</form> <br>
+	</div>
+===========================================================================
+
+<p>If you click the "Sponsor" button, the form-data will be sent to a page called "/sponsor_page.php".</p>
+
+<script>
+function setSelection(sel) {
+  var selectedIndex = sel.selectedIndex;
+  var addr = sel.options[sel.selectedIndex].value;
+  var text = sel.options[sel.selectedIndex].text;
+
+  document.getElementById("bname").value = "" + addr;
+  document.getElementById("header1").innerHTML = "Sponsoring " + '"'+text+'"';
+}
+</script> 
+
+</body>
+</html>
