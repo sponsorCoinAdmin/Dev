@@ -2,7 +2,7 @@
 pragma solidity ^0.8.6;
 // use latest solidity version at time of writing, need not worry about overflow and underflow
 
-/// @title ERC20 Contract 
+/// @title ERC20 Contract
 
 contract Token {
 
@@ -79,5 +79,4 @@ contract Token {
         _transfer(_from, _to, _value);
         return true;
     }
-
 }
