@@ -9,13 +9,29 @@ contract SPC_Token {
     // My Variables
     string public name;
     string public symbol;
-    uint256  decimals;
+    uint256 public decimals;
     uint256 public totalSupply;
 
+/*
+    struct Map {
+        address[] accountKeys;
+        mapping(address => uint256) balanceOf;
+        mapping(address => uint256) indexOf;
+        mapping(address => bool) inserted;
+    }
+*/
+
     // Keep track balances and allowances approved
-    mapping(address => uint256)  balanceOf;
+    mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
 
+    // Robin Added New
+    address[] public accountKeys;
+    mapping(address => uint) public indexOf;
+    mapping(address => bool) inserted;
+
+    // Robin Add
+ 
     // Events - fire events on state changes etc
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
@@ -37,6 +53,22 @@ contract SPC_Token {
         totalSupply = 1000000000000000000000000; 
         setBalance(msg.sender, totalSupply);
     }
+
+   // Robin Added New
+    function setBalance(address accountKey, uint newBalance ) internal {
+         balanceOf[accountKey] = newBalance;
+         if (!inserted[accountKey]) {
+            inserted[accountKey] = true;
+            accountKeys.push(accountKey);
+        }
+     }
+
+    function isInserted(address accountKey) public view returns (bool) {
+        if (!inserted[accountKey])
+            return false;
+        else
+            return true;
+      }
 
     /// @notice transfer amount of tokens to an address
     /// @param _to receiver of token
@@ -88,65 +120,5 @@ contract SPC_Token {
         allowance[_from][msg.sender] = allowance[_from][msg.sender] - (_value);
         _transfer(_from, _to, _value);
         return true;
-    }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                               Robin Added New Code Area                                              //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // Robin Added New
-    address[] public accountKeys;
-    mapping(address => uint)  indexOf;
-    mapping(address => bool)  inserted;
-
-/*  ToDo Create Account Structure
-    struct Map {
-        address[] accountKeys;
-        mapping(address => uint256) balanceOf;
-        mapping(address => uint256) indexOf;
-        mapping(address => bool) inserted;
-    }
-*/
-
-    /// @notice set amount of tokens for a specified address
-    /// @param _accountKey public account key to set new balance
-    /// @param _newBalance amount value to set for new balance of account identified by accountKey
-    /// @return true if balance is set, false otherwise
-    function setBalance(address _accountKey, uint _newBalance ) internal returns (bool) {
-         balanceOf[_accountKey] = _newBalance;
-         if (!inserted[_accountKey]) {
-            inserted[_accountKey] = true;
-            accountKeys.push(_accountKey);
-            indexOf[_accountKey] = accountKeys.length;
-
-            return true;
-         }
-         else
-            return false;
-     }
-
-    /// @notice determines if address is inserted in account array
-    /// @param _accountKey public account key to set new balance
-    function isInserted(address _accountKey) public view returns (bool) {
-        if (!inserted[_accountKey])
-            return false;
-        else
-            return true;
-      }
-
-    /// @notice retreives the array index of a specific address.
-    /// @param _accountKey public account key to set new balance
-     function getIndexOf(address _accountKey) public view returns (uint) {
-        if (isInserted(_accountKey))
-            return indexOf[_accountKey];
-        else
-            return 0;
-      }
-
-    /// @notice retreives the account balance of a specific address.
-    /// @param _accountKey public account key to set new balance
-    function getAccountBalance(address _accountKey) public view returns (uint) {
-        require (isInserted(_accountKey));
-        return balanceOf[_accountKey];
     }
 }

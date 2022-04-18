@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.13+commit.abaa5c0e"
+		"version": "0.8.7+commit.e28d00a7"
 	},
 	"language": "Solidity",
 	"output": {
@@ -131,24 +131,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "_accountKey",
 						"type": "address"
 					}
 				],
-				"name": "balanceOf",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "decimals",
+				"name": "getAccountBalance",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -163,11 +150,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "_accountKey",
 						"type": "address"
 					}
 				],
-				"name": "indexOf",
+				"name": "getIndexOf",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -182,7 +169,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "accountKey",
+						"name": "_accountKey",
 						"type": "address"
 					}
 				],
@@ -302,6 +289,11 @@
 						"_0": "true, success once address approved"
 					}
 				},
+				"isInserted(address)": {
+					"params": {
+						"_accountKey": "public account key to set new balance"
+					}
+				},
 				"transfer(address,uint256)": {
 					"params": {
 						"_to": "receiver of token",
@@ -359,11 +351,11 @@
 	},
 	"sources": {
 		"V1/Contracts/sponsorCoin/SPC_Token.sol": {
-			"keccak256": "0xe3ea13484a3623d83959690393c3694aa311b4b5ddc79838122b3538b53577d2",
+			"keccak256": "0x7b2ba9de9699a78c665c754496d6088926b1b05cd799d024c0636711d284624e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2b7af18dc16dc505b01006e4b0b1877ac8bf735007cf2450f67c3633545684ca",
-				"dweb:/ipfs/QmTfBqyiDENJUJbJNcwMCSyRYwrxYLFZ5RDYFiRRdkskFH"
+				"bzz-raw://c2555dfbf5bf5ce2244d6d88c525cb28fbec628a4b196d1cadb8cb86c2ac421d",
+				"dweb:/ipfs/QmNkZY3DcMHBEjjh6K5fCWu86AvQb1DKektMTLz2TKVNsx"
 			]
 		}
 	},

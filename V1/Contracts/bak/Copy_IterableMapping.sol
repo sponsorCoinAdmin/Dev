@@ -10,7 +10,7 @@ library IterableMapping {
         mapping(address => bool) inserted;
     }
 
-    function getAccountBalance(Map storage map, address key) public view returns (uint) {
+    function get(Map storage map, address key) public view returns (uint) {
         return map.values[key];
     }
 
@@ -70,7 +70,7 @@ contract TestIterableMap {
         for (uint i = 0; i < map.size(); i++) {
             address key = map.getKeyAtIndex(i);
 
-            assert(map.getAccountBalance(key) == i * 100);
+            assert(map.get(key) == i * 100);
         }
 
         map.remove(address(1));
