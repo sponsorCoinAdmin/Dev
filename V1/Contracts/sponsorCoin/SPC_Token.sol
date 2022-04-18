@@ -14,9 +14,9 @@ contract SPC_Token {
 
 /*
     struct Map {
-        address[] keys;
-        mapping(address => uint) values;
-        mapping(address => uint) indexOf;
+        address[] accountKeys;
+        mapping(address => uint256) balanceOf;
+        mapping(address => uint256) indexOf;
         mapping(address => bool) inserted;
     }
 */
@@ -26,8 +26,8 @@ contract SPC_Token {
     mapping(address => mapping(address => uint256)) public allowance;
 
     // Robin Added New
-    address[] public keys;
-    mapping(address => uint) indexOf;
+    address[] public accountKeys;
+    mapping(address => uint) public indexOf;
     mapping(address => bool) inserted;
 
     // Robin Add
@@ -36,29 +36,39 @@ contract SPC_Token {
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
+/*
     constructor(string memory _name, string memory _symbol, uint _decimals, uint _totalSupply) {
         name = _name;
         symbol = _symbol;
         decimals = _decimals;
         totalSupply = _totalSupply; 
-        balanceOf[msg.sender] = totalSupply;
+ //       balanceOf[msg.sender] = totalSupply;
+        setBalance(msg.sender, totalSupply);
+    }
+*/
+    constructor() {
+        name = "sponsorCoin";
+        symbol = "SP_Coin";
+        decimals = 18;
+        totalSupply = 1000000000000000000000000; 
+        setBalance(msg.sender, totalSupply);
     }
 
    // Robin Added New
-    function set(
-        Map storage map,
-        address key,
-        uint val
-    ) public {
-        if (map.inserted[key]) {
-            map.values[key] = val;
-        } else {
-            map.inserted[key] = true;
-            map.values[key] = val;
-            map.indexOf[key] = map.keys.length;
-            map.keys.push(key);
+    function setBalance(address accountKey, uint newBalance ) internal {
+         balanceOf[accountKey] = newBalance;
+         if (!inserted[accountKey]) {
+            inserted[accountKey] = true;
+            accountKeys.push(accountKey);
         }
-    }
+     }
+
+    function isInserted(address accountKey) public view returns (bool) {
+        if (!inserted[accountKey])
+            return false;
+        else
+            return true;
+      }
 
     /// @notice transfer amount of tokens to an address
     /// @param _to receiver of token
@@ -76,7 +86,15 @@ contract SPC_Token {
     /// @param _value amount value of token to send
     // Internal function transfer can only be called by this contract
     //  Emit Transfer Event event 
-    function _transfer(address _from, address _to, uint256 _value) internal {
+   function _transfer(address _from, address _to, uint256 _value) internal {
+        // Ensure sending is to valid address! 0x0 address cane be used to burn() 
+        require(_to != address(0));
+        setBalance(_from, balanceOf[_from] - _value);
+        setBalance(_to,  balanceOf[_to] + _value);
+        emit Transfer(_from, _to, _value);
+    }
+
+    function _transfer_OLD(address _from, address _to, uint256 _value) internal {
         // Ensure sending is to valid address! 0x0 address cane be used to burn() 
         require(_to != address(0));
         balanceOf[_from] = balanceOf[_from] - (_value);
@@ -84,6 +102,7 @@ contract SPC_Token {
         emit Transfer(_from, _to, _value);
     }
 
+ 
     /// @notice Approve other to spend on your behalf eg an exchange 
     /// @param _spender allowed to spend and a max amount allowed to spend
     /// @param _value amount value of token to send

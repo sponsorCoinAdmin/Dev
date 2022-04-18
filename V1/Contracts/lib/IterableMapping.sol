@@ -4,7 +4,7 @@ pragma solidity ^0.8.10;
 library IterableMapping {
     // Iterable mapping from address to uint;
     struct Map {
-        address[] keys;
+        address[] accountKeys;
         mapping(address => uint) values;
         mapping(address => uint) indexOf;
         mapping(address => bool) inserted;
@@ -15,45 +15,43 @@ library IterableMapping {
     }
 
     function getKeyAtIndex(Map storage map, uint index) public view returns (address) {
-        return map.keys[index];
+        return map.accountKeys[index];
     }
 
     function size(Map storage map) public view returns (uint) {
-        return map.keys.length;
+        return map.accountKeys.length;
     }
 
     function set(
         Map storage map,
-        address key,
-        uint val
+        address accountKey,
+        uint newBalance
     ) public {
-        if (map.inserted[key]) {
-            map.values[key] = val;
-        } else {
-            map.inserted[key] = true;
-            map.values[key] = val;
-            map.indexOf[key] = map.keys.length;
-            map.keys.push(key);
+        map.values[accountKey] = newBalance;
+        if (!map.inserted[accountKey]) {
+            map.inserted[accountKey] = true;
+            map.indexOf[accountKey] = map.accountKeys.length;
+            map.accountKeys.push(accountKey);
         }
     }
 
-    function remove(Map storage map, address key) public {
-        if (!map.inserted[key]) {
+    function remove(Map storage map, address accountKey) public {
+        if (!map.inserted[accountKey]) {
             return;
         }
 
-        delete map.inserted[key];
-        delete map.values[key];
+        delete map.inserted[accountKey];
+        delete map.values[accountKey];
 
         uint index = map.indexOf[key];
-        uint lastIndex = map.keys.length - 1;
-        address lastKey = map.keys[lastIndex];
+        uint lastIndex = map.accountKeys.length - 1;
+        address lastKey = map.accountKeys[lastIndex];
 
         map.indexOf[lastKey] = index;
         delete map.indexOf[key];
 
-        map.keys[index] = lastKey;
-        map.keys.pop();
+        map.accountKeys[index] = lastKey;
+        map.accountKeys.pop();
     }
 }
 
@@ -77,7 +75,7 @@ contract TestIterableMap {
 
         map.remove(address(1));
 
-        // keys = [address(0), address(3), address(2)]
+        // accountKeys = [address(0), address(3), address(2)]
  //       assert(map.size() == 3);
  //       assert(map.getKeyAtIndex(0) == address(0));
  //       assert(map.getKeyAtIndex(1) == address(3));
