@@ -18,14 +18,11 @@ contract SPC_Token {
     mapping(address => bool)  inserted;
 
     struct account {
-        uint256 balance;
-        address sponsor;
-        address agent;
-        uint sponsoredTime;
+        uint256 balanceOf;
     }
 
     // Keep track balances and allowances approved
-    mapping(address => account)  accounts;
+    mapping(address => uint256)  balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
 
     // Events - fire events on state changes etc
@@ -34,7 +31,7 @@ contract SPC_Token {
 
     constructor() {
         name = "sponsorCoin";
-        symbol = "SPCoin";
+        symbol = "SP_Coin";
         decimals = 18;
         totalSupply = 1000000000000000000000000; 
         initToken(name, symbol, decimals, totalSupply);
@@ -53,7 +50,7 @@ contract SPC_Token {
     /// @param _value amount value of token to send
     /// @return success as true, for transfer 
     function transfer(address _to, uint256 _value) external returns (bool success) {
-        require(accounts[msg.sender].balance >= _value);
+        require(balanceOf[msg.sender] >= _value);
         _transfer(msg.sender, _to, _value);
         return true;
     }
@@ -67,8 +64,8 @@ contract SPC_Token {
    function _transfer(address _from, address _to, uint256 _value) internal {
         // Ensure sending is to valid address! 0x0 address cane be used to burn() 
         require(_to != address(0));
-        setBalance(_from, accounts[_from].balance - _value);
-        setBalance(_to,  accounts[_to].balance + _value);
+        setBalance(_from, balanceOf[_from] - _value);
+        setBalance(_to,  balanceOf[_to] + _value);
         emit Transfer(_from, _to, _value);
     }
 
@@ -93,7 +90,7 @@ contract SPC_Token {
     /// @return true, success once transfered from original account    
     // Allow _spender to spend up to _value on your behalf
     function transferFrom(address _from, address _to, uint256 _value) external returns (bool) {
-        require(_value <= accounts[_from].balance);
+        require(_value <= balanceOf[_from]);
         require(_value <= allowance[_from][msg.sender]);
         allowance[_from][msg.sender] = allowance[_from][msg.sender] - (_value);
         _transfer(_from, _to, _value);
@@ -109,8 +106,7 @@ contract SPC_Token {
     /// @param _newBalance amount value to set for new balance of account identified by accountKey
     /// @return true if balance is set, false otherwise
     function setBalance(address _accountKey, uint _newBalance ) internal returns (bool) {
-         accounts[_accountKey].balance = _newBalance;
-         accounts[_accountKey].sponsoredTime = block.timestamp;
+         balanceOf[_accountKey] = _newBalance;
          if (!inserted[_accountKey]) {
             inserted[_accountKey] = true;
             accountKeys.push(_accountKey);
@@ -144,13 +140,6 @@ contract SPC_Token {
     /// @param _accountKey public account key to set new balance
     function getAccountBalance(address _accountKey) public view returns (uint) {
         require (isInserted(_accountKey));
-        return accounts[_accountKey].balance;
-    }
-
-    /// @notice retreives the account balance of a specific address.
-    /// @param _accountKey public account key to set new balance
-    function getAccount(address _accountKey) public view returns (account memory) {
-        require (isInserted(_accountKey));
-        return accounts[_accountKey];
+        return balanceOf[_accountKey];
     }
 }
