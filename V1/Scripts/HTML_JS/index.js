@@ -1,4 +1,4 @@
-const { ethers } = require("ethers");
+//const { ethers } = require("ethers");
 
 async function toggleConnection(btnType) {
   var btn = document.getElementById(btnType);
