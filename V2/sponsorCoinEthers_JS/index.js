@@ -1,4 +1,3 @@
-
 let provider = new ethers.providers.Web3Provider(window.ethereum)
 let signer
 
@@ -13,7 +12,7 @@ async function connectMetamask() {
 }
 
 // 2. Get balance
-async function getBalance() {
+async function getWalletEthBalance() {
     const balance = await signer.getBalance()
     const convertToEth = 1e18;
     const ethbalance = balance.toString() / convertToEth;
@@ -23,6 +22,7 @@ async function getBalance() {
 
 // 3. read data from the USDT contract on kovan 
 const usdtAddress = "0x13512979ADE267AB5100878E2e0f485B568328a4";
+const spCoinAddress = '0x4F75f07232a56c2b98FC9878F496bFc32e317Ace';
 
 const usdtAbi = [
     // Some details about the token
@@ -34,26 +34,84 @@ const usdtAbi = [
     "function transfer(address to, uint amount)"
 ];
 
-async function readDataFromSmartContract() {
+const spCoinAbi = [
+    // Some details about the token
+    "function name() view returns (string)",
+    "function symbol() view returns (string)",
+    "function decimals() view returns (uint8)",
+    "function balanceOf(address) view returns (uint)",
+    "function totalSupply() view returns (uint256)",
+    "function transfer(address to, uint amount)",
+    "function isInserted(address _accountKey) returns (bool)"
+];
 
+
+async function readDataFromSpCoinContract() {
+    mainContainer = document.getElementById("spCoinData");
+    const spCoinContract = new ethers.Contract(spCoinAddress, spCoinAbi, provider);
+    const spCoinName = await spCoinContract.name()
+    const spCoinSymbol = await spCoinContract.symbol()
+ //   const spCoinDecimals = await spCoinContract.decimals()
+    const spCoinTotalSupply = await spCoinContract.totalSupply()
+ //   const spcCoinBalance = await spCoinContract.balanceOf("0x06214f2E1e1896739D92F3526Bd496DC028Bd7F9")
+   const spcCoinBalance = await spCoinContract.balanceOf("0x06214f2E1e1896739D92F3526Bd496DC028Bd7F9")
+  //   const spcCoinisInserted = await spCoinContract.isInserted("0x06214f2E1e1896739D92F3526Bd496DC028Bd7F9");
+ 
+    mainContainer.innerHTML = "";
+    appendDivData(mainContainer, "spCoinName", spCoinName);
+    appendDivData(mainContainer, "spCoinSymbol", spCoinSymbol);
+//    appendDivData(mainContainer, spCoinDecimals, "spCoinDecimals", );
+    appendDivData(mainContainer, "spCoinTotalSupply", spCoinTotalSupply);
+    appendDivData(mainContainer, "spcCoinBalance", spcCoinBalance);
+//    appendDivData(mainContainer, "spCoinContract", objToString(spCoinContract));
+}
+
+async function readDataFromUSDTContract() {
+    mainContainer = document.getElementById("usdtData");
     const usdtContract = new ethers.Contract(usdtAddress, usdtAbi, provider);
     
-    const name = await usdtContract.name()
-    const symbol = await usdtContract.symbol()
-    const decimals = await usdtContract.decimals()
-    const totalSupply = await usdtContract.totalSupply()
-    const myBalance = await usdtContract.balanceOf("0x06214f2E1e1896739D92F3526Bd496DC028Bd7F9")
+    const usdtName = await usdtContract.name()
+    const usdtSymbol = await usdtContract.symbol()
+    const usdtDecimals = await usdtContract.decimals()
+    const usdtTotalSupply = await usdtContract.totalSupply()
+    const usdtBalance = await usdtContract.balanceOf("0x06214f2E1e1896739D92F3526Bd496DC028Bd7F9")
 
-    console.log(`name = ${name}`)
-    console.log(`symbol = ${symbol}`)
-    console.log(`decimals = ${decimals}`)
-    console.log(`totalSupply = ${totalSupply / 1e6 }`)
-    console.log(`myBalance = ${myBalance / 1e6}`)
+    mainContainer.innerHTML = "";
+    appendDivData(mainContainer, "name", usdtName);
+    appendDivData(mainContainer, "usdtSymbol", usdtSymbol);
+    appendDivData(mainContainer, "usdtDecimals", usdtDecimals);
+    appendDivData(mainContainer, "usdtTotalSupply", usdtTotalSupply);
+    appendDivData(mainContainer, "usdtBalance", usdtBalance);
+//    appendDivData(mainContainer, "usdtContract", objToString(usdtContract));
+}
+
+function objToString(object) {
+    var str = '';
+    for (var k in object) {
+      if (object.hasOwnProperty(k)) {
+        str += k + '::' + object[k] + '\n';
+      }
+    }
+//  console.log(str);
+    return str;
+  }
+  
+  function appendDivData(mainContainer, name, val) {
+    var div = document.createElement("DIV");
+    str = name + " = " + val;
+    div.innerHTML = str;
+    mainContainer.appendChild(div);
+    console.log(str);
 }
 
 // 4. Send Usdt to one account to another
 async function sendUsdtToAccount() {
     const usdtContract = new ethers.Contract(usdtAddress, usdtAbi, provider);
+    usdtContract.connect(signer).transfer("0x6CC3dFBec068b7fccfE06d4CD729888997BdA6eb", "500000000")
+}
+
+async function sendSPCoinToAccount() {
+    const usdtContract = new ethers.Contract(spCoinAddress, usdtAbi, provider);
     usdtContract.connect(signer).transfer("0x6CC3dFBec068b7fccfE06d4CD729888997BdA6eb", "500000000")
 }
 
