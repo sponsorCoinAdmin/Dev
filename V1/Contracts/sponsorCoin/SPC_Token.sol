@@ -142,7 +142,7 @@ contract SPC_Token {
 
     /// @notice retreives the account balance of a specific address.
     /// @param _accountKey public account key to set new balance
-    function getAccountBalance(address _accountKey) public view returns (uint) {
+    function balanceOf(address _accountKey) public view returns (uint) {
         require (isInserted(_accountKey));
         return accounts[_accountKey].balance;
     }
