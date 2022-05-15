@@ -7,11 +7,14 @@
     <title>Learn Ethers.js</title>
 </head>
 <body>
-    <button onclick="connectMetamask()">Connect Metamask Account</button>
-    <input type="text" id="connectText" size="80" value="Connect Address">
+    <button onclick="connectMetaMaskWallet()">Connect Metamask Wallet</button>
     <BR>
     
-    <button onclick="getWalletEthBalance()">Get Wallet Ethereum Balance</button>
+    <button onclick="connectMetaMaskAccount()">Connect Metamask Account</button>
+    <input type="text" id="connMetaMaskAccount_TB" size="80" value="Connect Address">
+    <BR>
+        
+    <button onclick="getWalletEthBalance()">Get Account Ethereum Balance</button>
     <input type="text" id="balanceText" size="80" value="Ethereum Balance">
     <BR>
 
@@ -19,15 +22,15 @@
     <input type="text" id="contractText" size="80" value="Contract Address">
     <BR>
     
-    <button onclick="readDataFromSpCoinContract()">readDataFromSpCoinContract</button>
+    <button onclick="readContractData()">Read Contract Data</button>
     <BR>
     <DIV id="spCoinData">Data From spCoin Contract</DIV>
 
     <!-- ######################################################################################## -->
-    <button onclick="balanceOf()">balanceOf</button>
+    <button onclick="balanceOf()">Account balanceOf</button>
     <input type="text" id="addressText" size="80" value="Address Required">
     <BR>
-    <DIV id="balanceOfData">Balance</DIV>
+    <DIV id="balanceOf_DIV">Balance</DIV>
     <!-- ######################################################################################## -->
 
     <button onclick="sendSPCoinToAccount()">sendSPCoinToAccount</button>

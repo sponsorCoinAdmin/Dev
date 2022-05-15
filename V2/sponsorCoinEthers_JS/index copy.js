@@ -51,6 +51,7 @@ async function getWalletEthBalance() {
 // 4. Connect contract
 async function connectContract() {
 	try {
+		alert("Executing connectContract " + contractAddress);
 		contractContainer = document.getElementById("contractData");
 		contractText = document.getElementById("contractText");
 		contractAddress = contractText.value;
@@ -66,6 +67,14 @@ async function connectContract() {
 // 5. Read contract data from the contract on the connected account
 async function readContractData() {
 	try {
+		alert("Contract = " + contract);
+//################
+        contractContainer = document.getElementById("contractData");
+		contractText = document.getElementById("contractText");
+		contractAddress = contractText.value;
+		contract = new ethers.Contract(contractAddress, spCoinABI, signer);
+//################
+		alert("Contract = " + contract);
 		mainContainer = document.getElementById("spCoinData");
 		spCoinName = await contract.name()
 		spCoinSymbol = await contract.symbol()
@@ -86,7 +95,6 @@ async function readContractData() {
 
 async function balanceOf() {
 	try {
-		balanceOfContainer = document.getElementById("balanceOf_DIV");
 		balance = await contract.balanceOf(accountAddress);
 		balanceOfContainer.innerHTML = "";
 		appendDivData(balanceOfContainer, "Balance", balance);
