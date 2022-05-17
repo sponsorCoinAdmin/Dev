@@ -1,4 +1,4 @@
-const defaultContractAddress = '0x9BAD613F5DBFd749E7a952Fb4F524cBb03c9F1EA';
+const defaultContractAddress = '0x925195d664A8CAdA8Ff90a8948e394B9bd15237B';
 var provider;
 var signer;
 var contractAddress = defaultContractAddress;
@@ -12,6 +12,7 @@ async function connectMetaMaskWallet() {
 		provider = new ethers.providers.Web3Provider(window.ethereum)
 		await provider.send("eth_requestAccounts", []);
 		signer = await provider.getSigner();
+		document.getElementById('connectMetaMaskWallet_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
 	}
 	catch(err) {
 		console.log(err.message);
@@ -26,6 +27,7 @@ async function connectMetaMaskAccount() {
 		accountAddress = await signer.getAddress();
 		document.getElementById('connMetaMaskAccount_TB').value = accountAddress;
 		console.log("Account address s:", accountAddress);
+		document.getElementById('connectMetaMaskAccount_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
 	}
 	catch(err) {
 		console.log(err.message);
@@ -34,13 +36,14 @@ async function connectMetaMaskAccount() {
 }
 
 // 3. Get Ethereum balance
-async function getWalletEthBalance() {
+async function getEthereumAccountBalance() {
 	try {
 		const balance = await signer.getBalance()
 		const convertToEth = 1e18;
 		const ethbalance = balance.toString() / convertToEth;
 		document.getElementById('balanceText').value = ethbalance;
 		console.log("account's balance in ether:", balance.toString() / convertToEth);
+		document.getElementById('connectMetaMaskAccount_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
 	}
 	catch(err) {
 		console.log(err.message);
@@ -55,6 +58,7 @@ async function connectContract() {
 		contractText = document.getElementById("contractText");
 		contractAddress = contractText.value;
 		contract = new ethers.Contract(contractAddress, spCoinABI, signer);
+		document.getElementById('connectContract_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
 	}
 	catch(err) {
 		contractConnectError = "Cannot Connect to Address" + contractAddress + "\n" + err.message;
@@ -66,8 +70,9 @@ async function connectContract() {
 // 5. Read contract data from the contract on the connected account
 async function readContractData() {
 	try {
-		mainContainer = document.getElementById("spCoinData");
+		mainContainer = document.getElementById("contractData_DIV");
 		spCoinName = await contract.name()
+		alert(spCoinName);
 		spCoinSymbol = await contract.symbol()
 	//  spCoinDecimals = await contract.decimals()
 		spCoinTotalSupply = await contract.totalSupply()
@@ -111,10 +116,11 @@ function appendDivData(mainContainer, name, val) {
 	}
 }
 
-async function sendSPCoinToAccount() {
+async function sendToAccount() {
 	try {
 		const spCoinContract = new ethers.Contract(contractAddress, spCoinABI, provider);
     	spCoinContract.connect(signer).transfer("0x6CC3dFBec068b7fccfE06d4CD729888997BdA6eb", "500000000")
+		document.getElementById('sendToAccount_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
 	}
 	catch(err) {
 		console.log(err.message);

@@ -1,50 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="./styles.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn Ethers.js</title>
+    <title>SponsorCoin.js</title>
+ 
 </head>
 <body>
-    <button onclick="connectMetaMaskWallet()">Connect Metamask Wallet</button>
-    <BR>
+
+    <table> 
+        <tbody> 
+            <tr>
+                <th>Contract Call</th>
+                <th>Parameters</th>
+                <th>Result</th>
+            </tr>
+            <tr> 
+                <td><input type="button" class = "button" onclick="connectMetaMaskWallet()" value="Connect Metamask Wallet"> </td> 
+                <td></td> 
+                <td><DIV id="connectMetaMaskWallet_DIV"></DIV></td> 
+             </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="connectMetaMaskAccount()" value="Connect Metamask Account"> </td> 
+                <td><input type="text" id="connMetaMaskAccount_TB" size="80" value="Connect Address"></td> 
+                <td><DIV id="connectMetaMaskAccount_DIV"></DIV></td> 
+             </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="getEthereumAccountBalance()" value="Ethereum Account Balance"></td> 
+                <td> <input type="text" id="balanceText" size="80"></td> 
+                <td><DIV id="walletEthBalance_DIV"></DIV></td> 
+             </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="connectContract()" value="Connect Contract Address"></td> 
+                <td><input type="text" id="contractText" size="80"></td> 
+                <td> <DIV id="connectContract_DIV"></DIV></td>
+             </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="readContractData()" value="Read Contract Data"></td> 
+                <td><input type="text" id="contractText" size="80"></td> 
+                <td><DIV id="contractData_DIV"></DIV></td> 
+             </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="readContractName()" value="Contract Name"></td> 
+                <td><input type="text" id="contractText" size="80"></td> 
+                <td><DIV id="contractName_DIV"></DIV></td> 
+             </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="readContractSymbol()" value="Contract Symbol"></td> 
+                <td><input type="text" id="contractText" size="80"></td> 
+                <td><DIV id="contractSymbol_DIV"></DIV></td> 
+             </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="readContractTotalSupply()" value="Contract Total Supply"></td> 
+                <td><input type="text" id="contractText" size="80"></td> 
+                <td><DIV id="contractTotalSupply_DIV"></DIV></td> 
+             </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="balanceOf()" value="Account balanceOf"></td> 
+                <td><input type="text" id="addressText" size="80"></td> 
+                <td><DIV id="balanceOf_DIV"></DIV></td> 
+            </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="sendToAccount()" value="sendSPCoinToAccount"></td> 
+                <td><input type="text" id="sendUSDTText" size="80"></td> 
+                <td><DIV id="sendToAccount_DIV"></DIV></td> 
+            </tr> 
+             <tr> 
+                <td><input type="button" class = "button" onclick="readFromScConctractStorage()" value="readFromScConctractStorage"></td> 
+                <td></td> 
+                <td></td> 
+             </tr> 
+        </tbody> 
+    </table>  
     
-    <button onclick="connectMetaMaskAccount()">Connect Metamask Account</button>
-    <input type="text" id="connMetaMaskAccount_TB" size="80" value="Connect Address">
-    <BR>
-        
-    <button onclick="getWalletEthBalance()">Get Account Ethereum Balance</button>
-    <input type="text" id="balanceText" size="80" value="Ethereum Balance">
-    <BR>
+    <BR><BR><BR> <BR> Contract Address for Testing 0x9BAD613F5DBFd749E7a952Fb4F524cBb03c9F1EA
 
-    <button onclick="connectContract()">Connect Contract Address</button>
-    <input type="text" id="contractText" size="80" value="Contract Address">
-    <BR>
-    
-    <button onclick="readContractData()">Read Contract Data</button>
-    <BR>
-    <DIV id="spCoinData">Data From spCoin Contract</DIV>
-
-    <!-- ######################################################################################## -->
-    <button onclick="balanceOf()">Account balanceOf</button>
-    <input type="text" id="addressText" size="80" value="Address Required">
-    <BR>
-    <DIV id="balanceOf_DIV">Balance</DIV>
-    <!-- ######################################################################################## -->
-
-    <button onclick="sendSPCoinToAccount()">sendSPCoinToAccount</button>
-    <input type="text" id="sendUSDTText" size="80" value="Address">
-    <BR>
-
-    <button onclick="readFromScConctractStorage()">readFromScConctractStorage</button>
-    <BR>
-
-    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
         type="application/javascript"></script>
         <script src="spCoinABI.js" type="application/javascript"> </script>
 
     <script src="index.js" type="application/javascript"> </script>
+
+
 
 </body>
 </html>
