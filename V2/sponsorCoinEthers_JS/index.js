@@ -1,3 +1,5 @@
+const { isAddress } = require("ethers/lib/utils");
+
 const defaultContractAddress = '0x925195d664A8CAdA8Ff90a8948e394B9bd15237B';
 var provider;
 var signer;
@@ -12,25 +14,28 @@ async function connectMetaMaskWallet() {
 		provider = new ethers.providers.Web3Provider(window.ethereum)
 		await provider.send("eth_requestAccounts", []);
 		signer = await provider.getSigner();
-		document.getElementById('connectMetaMaskWallet_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
+		document.getElementById('connectMetaMaskWallet_TX').value = "Provider With Signer Connected";
+		changeElementIdColor("connectMetaMaskWallet_BTN", "green");
 	}
 	catch(err) {
 		console.log(err.message);
+		changeElementIdColor("connectMetaMaskWallet_BTN", "red");
 		alert(err.message);
 	}
 }
 
 // 2. Connect Metamask Account
-async function connectMetaMaskAccount() {
+async function getActiveMetaMaskAccount() {
 	try {
 		// MetaMask requires requesting permission to connect users accounts
 		accountAddress = await signer.getAddress();
-		document.getElementById('connMetaMaskAccount_TB').value = accountAddress;
+		document.getElementById('activeMetaMaskAccount_TX').value = accountAddress;
 		console.log("Account address s:", accountAddress);
-		document.getElementById('connectMetaMaskAccount_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
+		changeElementIdColor("activeMetaMaskAccount_BTN", "green");
 	}
 	catch(err) {
 		console.log(err.message);
+		changeElementIdColor("activeMetaMaskAccount_BTN", "red");
 		alert(err.message);
 	}
 }
@@ -41,12 +46,13 @@ async function getEthereumAccountBalance() {
 		const balance = await signer.getBalance()
 		const convertToEth = 1e18;
 		const ethbalance = balance.toString() / convertToEth;
-		document.getElementById('balanceText').value = ethbalance;
+		document.getElementById('ethereumAccountBalance_TX').value = ethbalance;
 		console.log("account's balance in ether:", balance.toString() / convertToEth);
-		document.getElementById('connectMetaMaskAccount_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
+		changeElementIdColor("ethereumAccountBalance_BTN", "green");
 	}
 	catch(err) {
 		console.log(err.message);
+		changeElementIdColor("ethereumAccountBalance_BTN", "red");
 		alert(err.message);
 	}
 }
@@ -54,15 +60,19 @@ async function getEthereumAccountBalance() {
 // 4. Connect contract
 async function connectContract() {
 	try {
-		contractContainer = document.getElementById("contractData");
-		contractText = document.getElementById("contractText");
+		contractContainer = document.getElementById("contractData_TX");
+		contractText = document.getElementById("connectContract_TX");
 		contractAddress = contractText.value;
+
 		contract = new ethers.Contract(contractAddress, spCoinABI, signer);
-		document.getElementById('connectContract_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
+		// do a test call to see if contract is valid.
+		tokenName = await contract.name()
+		changeElementIdColor("connectContract_BTN", "green");
 	}
 	catch(err) {
 		contractConnectError = "Cannot Connect to Address" + contractAddress + "\n" + err.message;
 		console.log(contractConnectError);
+		changeElementIdColor("connectContract_BTN", "red");
 		alert(contractConnectError);
 	}
 }
@@ -70,60 +80,84 @@ async function connectContract() {
 // 5. Read contract data from the contract on the connected account
 async function readContractData() {
 	try {
-		mainContainer = document.getElementById("contractData_DIV");
-		spCoinName = await contract.name()
-		alert(spCoinName);
-		spCoinSymbol = await contract.symbol()
-	//  spCoinDecimals = await contract.decimals()
+		tokenName = await contract.name()
+		document.getElementById("contractName_TX").value=tokenName;
+		symbol = await contract.symbol()
+		document.getElementById("contractSymbol_TX").value=symbol;
+	
+		// decimals = await contract.decimals()
+		// alert("spCoinDecimals = "+decimals);
 		spCoinTotalSupply = await contract.totalSupply()
-
-		mainContainer.innerHTML = "";
-		appendDivData(mainContainer, "spCoinName", spCoinName);   
-		appendDivData(mainContainer, "spCoinSymbol", spCoinSymbol);
-	// appendDivData(mainContainer, spCoinDecimals, "spCoinDecimals");
-		appendDivData(mainContainer, "spCoinTotalSupply", spCoinTotalSupply);
+		document.getElementById("contractTotalSupply_TX").value=spCoinTotalSupply;
+		changeElementIdColor("contractData_BTN", "green");
 	}
 	catch(err) {
 		console.log(err.message);
+		changeElementIdColor("contractData_BTN", "red");
 		alert(err.message);
 	}
 }
 
 async function balanceOf() {
 	try {
-		balanceOfContainer = document.getElementById("balanceOf_DIV");
 		balance = await contract.balanceOf(accountAddress);
-		balanceOfContainer.innerHTML = "";
-		appendDivData(balanceOfContainer, "Balance", balance);
+		document.getElementById("balanceOf_TX").value = balance;
+		console.log("balanceOf " + accountAddress + " = " + balance);
+		changeElementIdColor("balanceOf_BTN", "green");
 	}
 	catch(err) {
 		console.log(err.message);
-		alert(err.message);
-	}
-}
-  
-function appendDivData(mainContainer, name, val) {
-	try {
-		var div = document.createElement("DIV");
-		str = name + " = " + val;
-		div.innerHTML = str;
-		mainContainer.appendChild(div);
-		console.log(str);
-	}
-	catch(err) {
-		console.log(err.message);
+		changeElementIdColor("balanceOf_BTN", "red");
 		alert(err.message);
 	}
 }
 
+
 async function sendToAccount() {
 	try {
 		const spCoinContract = new ethers.Contract(contractAddress, spCoinABI, provider);
-    	spCoinContract.connect(signer).transfer("0x6CC3dFBec068b7fccfE06d4CD729888997BdA6eb", "500000000")
-		document.getElementById('sendToAccount_DIV').innerHTML = "<span style='color:red'>&#x2705</span>";
+ 		sendToAccountAddr=document.getElementById("sendToAccountAddr_TX");
+		addr=document.getElementById("sendToAccountAddr_TX").value;
+		if (!addr && addr.length == 0) {
+			console.log("Address is empty");
+			sendToAccountAddr.value = "Address is empty";
+			changeElementIdColor("sendToAccountAddr_TX", "red");
+			changeElementIdColor("sendToAccount_BTN", "red");
+		}
+		  else{
+			if (!ethers.utils.isAddress(addr))
+			{
+				alert("Address %s is not valid", addr);
+				changeElementIdColor("sendToAccountAddr_TX", "red");
+				changeElementIdColor("sendToAccount_BTN", "red");
+			}
+			else{
+			  spCoinContract.connect(signer).transfer(addr, "500000000")
+			  changeElementIdColor("sendToAccount_BTN", "green");
+			}
+		  }
 	}
 	catch(err) {
 		console.log(err.message);
+		changeElementIdColor("sendToAccount_BTN", "red");
 		alert(err.message);
 	}
+}
+
+function changeElementIdColor(name, color){
+//	alert("EXECUTING changeElementIdColor ("+name + " , " + color);
+	document.getElementById(name).style.backgroundColor=color;
+}
+
+async function clearFields() {
+	window.location.
+	document.getElementById('connectMetaMaskWallet_TX').value = "";
+	document.getElementById('activeMetaMaskAccount_TX').value = "";
+	document.getElementById('ethereumAccountBalance_TX').value = "";
+	document.getElementById("contractData_TX").value = "";
+	document.getElementById("connectContract_TX").value = "";
+	document.getElementById("contractName_TX").value = "";
+	document.getElementById("contractSymbol_TX").value = "";
+	document.getElementById("contractTotalSupply_TX").value = "";
+	document.getElementById('balanceOf_TX').value = "";
 }

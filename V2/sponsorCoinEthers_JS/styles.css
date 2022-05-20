@@ -1,5 +1,7 @@
 table {
    border-collapse:collapse;
+   border-spacing: 10;
+   padding: 3px 8px;
 }
 
 tr, td {
@@ -10,7 +12,7 @@ tr, td {
    background-color: #5482c7;
    border: none;
    color: white;
-   padding: 2px 32px;
+   padding: 3px 8px;
    text-align: center;
    text-decoration: none;
    display: inline-block;
@@ -26,6 +28,20 @@ tr {
    text-align:left;
    margin:0;
    padding:0;
+}
+
+.addr {
+   width:330px;
+}
+.spacer {
+   width:20px;
+}
+
+th {
+   margin-left: 130px;
+   margin: 33px;
+   width:200px;
+   border:80px;
 }
 
 td {
