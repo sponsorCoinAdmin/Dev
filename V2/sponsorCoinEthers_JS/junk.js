@@ -8,67 +8,18 @@ var contractAddress = defaultContractAddress;
 var accountAddress;
 var contract;
 
-/* clean connection code
-const connect = () => {
-    provider.request({ method: "eth_requestAccounts" })
-         .then(response => console.log(response)
-         .catch(err => console.log(err)
-  };
-
-or if you want to keep it with async
-
-const connect = async () => {
-    try {
-      const addresses = await provider.request({ method: "eth_requestAccounts" });
-      console.log(addresses)
-    } catch (e) {
-      console.log("error in request", e);
-      // location.reload();
-    }
-  };
-*/
-
-function getProvider() {
-	try {
-		if (provider == null) {
-	        provider = new ethers.providers.Web3Provider(window.ethereum);
-		}
-	} catch (err) {
-	    alert(err.message);
-	    throw err;
-	}
-	return provider;
-}
-
-function isEmptyObj(object) {
-	isEmpty =  JSON.stringify(object) === '{}';
-	alert("isEmpty = " + isEmpty);
-	return isEmpty;
-  }
-
-function getSigner() {
-	try {
-		if (signer == null) {
-			signer = getProvider().getSigner();
-		}
-	} catch (err) {
-	    alert(err.message);
-	    throw err;
-	}
-	return signer;
-}
-
 // 1. Connect Metamask with Dapp
 async function connectMetaMaskWallet() {
   try {
     // MetaMask requires requesting permission to connect users accounts
-    await getProvider().send("eth_requestAccounts", []);
-    signer = await getSigner();
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    signer = await provider.getSigner();
     document.getElementById("connectMetaMaskWallet_TX").value =
       "Provider With Signer Connected";
     changeElementIdColor("connectMetaMaskWallet_BTN", "green");
   } catch (err) {
-	alertLogError(err,"connectMetaMaskWallet_BTN");
+    alertLogError(err,connectMetaMaskWallet_BTN);
   }
 }
 
@@ -81,8 +32,8 @@ async function getActiveMetaMaskAccount() {
     console.log("Account address s:", accountAddress);
     changeElementIdColor("activeMetaMaskAccount_BTN", "green");
   } catch (err) {
-	alertLogError(err,"activeMetaMaskAccount_BTN");
-  }
+        alertLogError(err,activeMetaMaskAccount_BTN);
+      }
 }
 
 // 3. Get Ethereum balance
@@ -98,7 +49,7 @@ async function getEthereumAccountBalance() {
     );
     changeElementIdColor("ethereumAccountBalance_BTN", "green");
   } catch (err) {
-	alertLogError(err,"ethereumAccountBalance_BTN");
+        alertLogError(err,ethereumAccountBalance_BTN);
   }
 }
 
@@ -117,7 +68,7 @@ async function connectContract() {
     contractConnectError =
       "Cannot Connect to Address" + contractAddress + "\n" + err.message;
     console.log(contractConnectError);
-    alertLogError(err,"connectContract_BTN");
+    alertLogError(err,connectContract_BTN);
   }
 }
 
@@ -136,8 +87,8 @@ async function readContractData() {
     document.getElementById("contractTotalSupply_TX").value = spCoinTotalSupply;
     changeElementIdColor("contractData_BTN", "green");
   } catch (err) {
-        alertLogError(err,"contractData_BTN");
-  }
+        alertLogError(err,contractData_BTN);
+      }
 }
 */
 
@@ -147,7 +98,7 @@ async function readContractName() {
     document.getElementById("contractName_TX").value = tokenName;
     changeElementIdColor("contractName_BTN", "green");
   } catch (err) {
-	alertLogError(err,"contractName_BTN");
+        alertLogError(err,contractName_BTN);
   }
 }
 
@@ -157,7 +108,7 @@ async function readContractSymbol() {
     document.getElementById("contractSymbol_TX").value = symbol;
     changeElementIdColor("contractSymbol_BTN", "green");
   } catch (err) {
-	alertLogError(err,"contractSymbol_BTN");
+        alertLogError(err,contractSymbol_BTN);
   }
 }
 
@@ -167,7 +118,7 @@ async function readContractTotalSupply() {
     document.getElementById("contractTotalSupply_TX").value = spCoinTotalSupply;
     changeElementIdColor("contractTotalSupply_BTN", "green");
   } catch (err) {
-	alertLogError(err,"contractTotalSupply_BTN");
+        alertLogError(err,contractTotalSupply_BTN);
   }
 }
 
@@ -177,7 +128,7 @@ async function readContractDecimals() {
     document.getElementById("contractDecimals_TX").value = decimals;
     changeElementIdColor("contractDecimals_BTN", "green");
   } catch (err) {
-	alertLogError(err,"contractDecimals_BTN");
+        alertLogError(err,contractDecimals_BTN);
   }
 }
 
@@ -188,7 +139,7 @@ async function balanceOf() {
     console.log("balanceOf " + accountAddress + " = " + balance);
     changeElementIdColor("balanceOf_BTN", "green");
   } catch (err) {
-	alertLogError(err,"balanceOf_BTN");
+        alertLogError(err,balanceOf_BTN);
   }
 }
 
@@ -204,20 +155,20 @@ async function sendToAccount() {
     if (!addr && addr.length == 0) {
       console.log("Address is empty");
       sendToAccountAddr.value = "Address is empty";
-      changeElementIdColor("sendToAccountAddr_TX", "red");
-      changeElementIdColor("sendToAccount_BTN", "red");
+      changeElementIdColor("sendToAccountAddr_TX);
+      changeElementIdColor("sendToAccount_BTN);
     } else {
       if (!ethers.utils.isAddress(addr)) {
         alert("Address %s is not valid", addr);
-        changeElementIdColor("sendToAccountAddr_TX", "red");
-        changeElementIdColor("sendToAccount_BTN", "red");
+        changeElementIdColor("sendToAccountAddr_TX);
+        changeElementIdColor("sendToAccount_BTN);
       } else {
         spCoinContract.connect(signer).transfer(addr, "500000000");
         changeElementIdColor("sendToAccount_BTN", "green");
       }
     }
   } catch (err) {
-    alertLogError(err,"sendToAccount_BTN");
+    alertLogError(err,sendToAccount_BTN);
   }
 }
 

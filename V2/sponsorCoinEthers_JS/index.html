@@ -1,133 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <link rel="stylesheet" href="./styles.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SponsorCoin.js</title>
+  </head>
 
-<head>
-   <link rel="stylesheet" href="./styles.css">
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>SponsorCoin.js</title>
-</head>
+  <body>
+    <ul>
+      <li><a href="#home">WALLET</a></li>
+      <li><a href="#news">ACCOUNTS</a></li>
+      <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">CONTRACT CALLS</a>
+        <div class="dropdown-content">
+          <a href="#">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+      </li>
+      <li><a href="#news">REBASE</a></li>
+      <li><a href="#news">SPONSORS</a></li>
+      <li><a href="#news">SETTINGS</a></li>
+      <li><a href="#news">ABOUT</a></li>
 
-<body>
-   <table>
+
+    </ul>
+
+    <h3>Sponsor Coin</h3>
+    <table>
       <tbody id="connectWallet_TBL">
-         <tr>
-            <th>Wallet Calls</th>
-            <th class="addr">Parameters</th>
-            <td class="spacer"></td>
-            <th>Test Account</th>
-            <th class="addr">Test Address</th>
-         </tr>
-         <tr>
-            <td><input type="button" id="connectMetaMaskWallet_BTN" class="button" onclick="connectMetaMaskWallet()"
-                  value="Connect Metamask Wallet"></td>
-            <td><input type="text" id="connectMetaMaskWallet_TX"></td>
-            <td class="spacer"></td>
-            <td>SponsorCoin Contract</td>
-            <td>0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A</td>
-         </tr>
-         <tr>
-            <th>Account Calls</th>
-            <td class="addr"></td>
-            <td class="spacer"></td>
-            <td>Meta Mask Account 1</td>
-            <td>0x4F75f07232a56c2b98FC9878F496bFc32e317Ace</td>
-         </tr>
-         <tr>
-            <td><input type="button" id="activeMetaMaskAccount_BTN" class="button" onclick="getActiveMetaMaskAccount()"
-                  value="get Active Metamask Account"></td>
-            <td><input type="text" id="activeMetaMaskAccount_TX"></td>
-            <td class="spacer"></td>
-            <td>Meta Mask Ledger 2</td>
-            <td>0xFAbed8e2f3a29aEE5002087F1140Ef4C6ACa25B4</td>
-         </tr>
-         <tr>
-            <td><input type="button" id="ethereumAccountBalance_BTN" class="button"
-                  onclick="getEthereumAccountBalance()" value="Ethereum Account Balance"></td>
-            <td> <input type="text" id="ethereumAccountBalance_TX"></td>
-            <td class="spacer"></td>
-            <td>Meta Mask Ledger 2</td>
-            <td>0x1EFFDE4A0e5eEcF79810Dd39f954A515ab962D63</td>
-         </tr>
+        <tr>
+          <th>Wallet Calls</th>
+          <th class="addr">Parameters</th>
+          <td class="spacer"></td>
+          <th>Test Account</th>
+          <th class="addr">Test Address</th>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="button"
+              id="connectMetaMaskWallet_BTN"
+              class="button"
+              onclick="connectMetaMaskWallet()"
+              value="Connect Metamask Wallet"
+            />
+          </td>
+          <td><input type="text" id="connectMetaMaskWallet_TX" /></td>
+          <td class="spacer"></td>
+          <td>SponsorCoin Contract</td>
+          <td>0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A</td>
+        </tr>
+        <tr>
+          <th>Account Calls</th>
+          <td class="addr"></td>
+          <td class="spacer"></td>
+          <td>Meta Mask Account 1</td>
+          <td>0x4F75f07232a56c2b98FC9878F496bFc32e317Ace</td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="button"
+              id="activeMetaMaskAccount_BTN"
+              class="button"
+              onclick="getActiveMetaMaskAccount()"
+              value="get Active Metamask Account"
+            />
+          </td>
+          <td><input type="text" id="activeMetaMaskAccount_TX" /></td>
+          <td class="spacer"></td>
+          <td>Meta Mask Ledger 2</td>
+          <td>0xFAbed8e2f3a29aEE5002087F1140Ef4C6ACa25B4</td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="button"
+              id="ethereumAccountBalance_BTN"
+              class="button"
+              onclick="getEthereumAccountBalance()"
+              value="Ethereum Account Balance"
+            />
+          </td>
+          <td><input type="text" id="ethereumAccountBalance_TX" /></td>
+          <td class="spacer"></td>
+          <td>Meta Mask Ledger 2</td>
+          <td>0x1EFFDE4A0e5eEcF79810Dd39f954A515ab962D63</td>
+        </tr>
       </tbody>
-   </table>
+    </table>
 
-   <table id="account_TBL">
+    <table id="account_TBL">
       <tbody>
-         <tr>
-            <th>Contract Calls</th>
-            <td class="addr"></td>
-         </tr>
-         <tr>
-            <td><input type="button" id="connectContract_BTN" class="button" onclick="connectContract()"
-                  value="Connect Contract Address"></td>
-            <td><input type="text" id="connectContract_TX"></td>
-            <td><input type="button" id="contractData_BTN" class="button" onclick="toggle()"
-                  value="Read Contract Data"></td>
-         </tr>
+        <tr>
+          <th>Contract Calls</th>
+          <td class="addr"></td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="button"
+              id="connectContract_BTN"
+              class="button"
+              onclick="connectContract()"
+              value="Connect Contract Address"
+            />
+          </td>
+          <td><input type="text" id="connectContract_TX" /></td>
+          <td>
+            <input
+              type="button"
+              id="contractData_BTN"
+              class="button"
+              onclick="toggle('myDIV')"
+              value="Read Contract Data"
+            />
+          </td>
+        </tr>
       </tbody>
-   </table>
-   <div id="myDIV">
+    </table>
+    <div id="myDIV">
       <table id="contract_TBL">
-         <tbody>
-            <tr>
-               <td><input type="button" id="contractName_BTN" class="button" onclick="readContractName()"
-                     value="Contract Name"></td>
-               <td><input type="text" id="contractName_TX"></td>
-            </tr>
-            <tr>
-               <td><input type="button" id="contractSymbol_BTN" class="button" onclick="readContractSymbol()"
-                     value="Contract Symbol"></td>
-               <td><input type="text" id="contractSymbol_TX"></td>
-            </tr>
-            <tr>
-               <td><input type="button" id="contractTotalSupply_BTN" class="button" onclick="readContractTotalSupply()"
-                     value="Contract Total Supply"></td>
-               <td><input type="text" id="contractTotalSupply_TX"></td>
-            </tr>
-            <tr>
-               <td><input type="button" id="contractDecimals_BTN" class="button" onclick="readContractDecimals()"
-                     value="Contract Decimals"></td>
-               <td><input type="text" id="contractDecimals_TX"></td>
-            </tr>
-         </tbody>
+        <tbody>
+          <tr>
+            <td>
+              <input
+                type="button"
+                id="contractName_BTN"
+                class="button"
+                onclick="readContractName()"
+                value="Contract Name"
+              />
+            </td>
+            <td><input type="text" id="contractName_TX" /></td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                type="button"
+                id="contractSymbol_BTN"
+                class="button"
+                onclick="readContractSymbol()"
+                value="Contract Symbol"
+              />
+            </td>
+            <td><input type="text" id="contractSymbol_TX" /></td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                type="button"
+                id="contractTotalSupply_BTN"
+                class="button"
+                onclick="readContractTotalSupply()"
+                value="Contract Total Supply"
+              />
+            </td>
+            <td><input type="text" id="contractTotalSupply_TX" /></td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                type="button"
+                id="contractDecimals_BTN"
+                class="button"
+                onclick="readContractDecimals()"
+                value="Contract Decimals"
+              />
+            </td>
+            <td><input type="text" id="contractDecimals_TX" /></td>
+          </tr>
+        </tbody>
       </table>
-   </div>
-   <table id="action_TBL">
+    </div>
+    <table id="action_TBL">
       <tbody>
-         <tr>
-            <td><input type="button" id="balanceOf_BTN" class="button" onclick="balanceOf()"
-                  value="Account Token balance"></td>
-            <td><input type="text" id="balanceOf_TX"></td>
-         </tr>
-         <tr>
-            <td><input type="button" id="sendToAccount_BTN" class="button" onclick="sendToAccount()"
-                  value="send To Account"></td>
-            <td><input type="text" id="sendToAccountAddr_TX"></td>
-            <td class="spacer"></td>
-            <td>Amount</td>
-            <td width="200px"><input type="text" id="tokenAmount"></td>
-         </tr>
-         <tr>
-            <td><input type="button" id="" class="button" onclick="readFromScConctractStorage()"
-                  value="readFromScConctractStorage"></td>
-            <td></td>
-         </tr>
-         <tr>
-            <td><input type="button" class="button" onclick="clearFields()" value="Clear Fields"></td>
-            <td></td>
-         </tr>
+        <tr>
+          <td>
+            <input
+              type="button"
+              id="balanceOf_BTN"
+              class="button"
+              onclick="balanceOf()"
+              value="Account Token balance"
+            />
+          </td>
+          <td><input type="text" id="balanceOf_TX" /></td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="button"
+              id="sendToAccount_BTN"
+              class="button"
+              onclick="sendToAccount()"
+              value="send To Account"
+            />
+          </td>
+          <td><input type="text" id="sendToAccountAddr_TX" /></td>
+          <td class="spacer"></td>
+          <td>Amount</td>
+          <td width="200px"><input type="text" id="tokenAmount" /></td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="button"
+              id=""
+              class="button"
+              onclick="readFromScConctractStorage()"
+              value="readFromScConctractStorage"
+            />
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="button"
+              class="button"
+              onclick="clearFields()"
+              value="Clear Fields"
+            />
+          </td>
+          <td></td>
+        </tr>
       </tbody>
-   </table>
+    </table>
 
-   <input type="button" value="Reload Page" onClick="document.location.reload(true);">
+    <input
+      type="button"
+      value="Reload Page"
+      onClick="document.location.reload(true);"
+    />
 
-   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
-   <script src="spCoinABI.js" type="application/javascript"> </script>
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+      type="application/javascript"
+    ></script>
+    <script src="spCoinABI.js" type="application/javascript"></script>
 
-   <script src="index.js" type="application/javascript"> </script>
-
-</body>
-
+    <script src="index.js" type="application/javascript"></script>
+  </body>
 </html>
