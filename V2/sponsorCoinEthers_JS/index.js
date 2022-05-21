@@ -3,6 +3,7 @@ const { isAddress } = require("ethers/lib/utils");
 //const defaultContractAddress = "0x925195d664A8CAdA8Ff90a8948e394B9bd15237B";
 const defaultContractAddress = "0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A";
 var defaultWallet="METAMASK";
+var wallet;
 var provider;
 var signer;
 var contractAddress = defaultContractAddress;
@@ -10,7 +11,7 @@ var accountAddress;
 var contract;
 
 
-function connectMetaMask() {
+function connectMetaMask(wallet) {
 	try {
 	  // MetaMask requires requesting permission to connect users accounts
 	  provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -20,10 +21,22 @@ function connectMetaMask() {
 	return provider;
   }
 
+  function getWallet() {
+	try {
+		if (wallet == null) {
+	        wallet = defaultWallet;
+		}
+	} catch (err) {
+	    alert(err.message);
+	    throw err;
+	}
+	return wallet;
+}
+
 function getProvider() {
 	try {
 		if (provider == null) {
-	        provider = connectMetaMask();
+	        provider = connectMetaMask(getWallet());
 		}
 	} catch (err) {
 	    alert(err.message);
