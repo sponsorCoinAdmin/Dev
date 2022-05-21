@@ -2,36 +2,28 @@ const { isAddress } = require("ethers/lib/utils");
 
 //const defaultContractAddress = "0x925195d664A8CAdA8Ff90a8948e394B9bd15237B";
 const defaultContractAddress = "0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A";
+var defaultWallet="METAMASK";
 var provider;
 var signer;
 var contractAddress = defaultContractAddress;
 var accountAddress;
 var contract;
 
-/* clean connection code
-const connect = () => {
-    provider.request({ method: "eth_requestAccounts" })
-         .then(response => console.log(response)
-         .catch(err => console.log(err)
-  };
 
-or if you want to keep it with async
-
-const connect = async () => {
-    try {
-      const addresses = await provider.request({ method: "eth_requestAccounts" });
-      console.log(addresses)
-    } catch (e) {
-      console.log("error in request", e);
-      // location.reload();
-    }
-  };
-*/
+function connectMetaMask() {
+	try {
+	  // MetaMask requires requesting permission to connect users accounts
+	  provider = new ethers.providers.Web3Provider(window.ethereum);
+	} catch (err) {
+	  alertLogError(err,"connectWallet_BTN");
+	}
+	return provider;
+  }
 
 function getProvider() {
 	try {
 		if (provider == null) {
-	        provider = new ethers.providers.Web3Provider(window.ethereum);
+	        provider = connectMetaMask();
 		}
 	} catch (err) {
 	    alert(err.message);
@@ -59,16 +51,16 @@ function getSigner() {
 }
 
 // 1. Connect Metamask with Dapp
-async function connectMetaMaskWallet() {
+async function connectWallet() {
   try {
     // MetaMask requires requesting permission to connect users accounts
     await getProvider().send("eth_requestAccounts", []);
     signer = await getSigner();
-    document.getElementById("connectMetaMaskWallet_TX").value =
+    document.getElementById("connectWallet_TX").value =
       "Provider With Signer Connected";
-    changeElementIdColor("connectMetaMaskWallet_BTN", "green");
+    changeElementIdColor("connectWallet_BTN", "green");
   } catch (err) {
-	alertLogError(err,"connectMetaMaskWallet_BTN");
+	alertLogError(err,"connectWallet_BTN");
   }
 }
 
@@ -76,7 +68,7 @@ async function connectMetaMaskWallet() {
 async function getActiveMetaMaskAccount() {
   try {
     // MetaMask requires requesting permission to connect users accounts
-    accountAddress = await signer.getAddress();
+    accountAddress = await getSigner().getAddress();
     document.getElementById("activeMetaMaskAccount_TX").value = accountAddress;
     console.log("Account address s:", accountAddress);
     changeElementIdColor("activeMetaMaskAccount_BTN", "green");
@@ -88,7 +80,7 @@ async function getActiveMetaMaskAccount() {
 // 3. Get Ethereum balance
 async function getEthereumAccountBalance() {
   try {
-    const balance = await signer.getBalance();
+    const balance = await getSigner().getBalance();
     const convertToEth = 1e18;
     const ethbalance = balance.toString() / convertToEth;
     document.getElementById("ethereumAccountBalance_TX").value = ethbalance;
@@ -109,7 +101,7 @@ async function connectContract() {
     contractText = document.getElementById("connectContract_TX");
     contractAddress = contractText.value;
 
-    contract = new ethers.Contract(contractAddress, spCoinABI, signer);
+    contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
     // do a test call to see if contract is valid.
     tokenName = await contract.name();
     changeElementIdColor("connectContract_BTN", "green");
@@ -197,7 +189,7 @@ async function sendToAccount() {
     const spCoinContract = new ethers.Contract(
       contractAddress,
       spCoinABI,
-      provider
+      getProvider()
     );
     sendToAccountAddr = document.getElementById("sendToAccountAddr_TX");
     addr = document.getElementById("sendToAccountAddr_TX").value;
@@ -228,12 +220,11 @@ function alertLogError(err, element) {
 }
 
 function changeElementIdColor(name, color) {
-  //	alert("EXECUTING changeElementIdColor ("+name + " , " + color);
   document.getElementById(name).style.backgroundColor = color;
 }
 
 async function clearFields() {
-  window.location.document.getElementById("connectMetaMaskWallet_TX").value = "";
+//  window.location.document.getElementById("connectWallet_TX").value = "";
   document.getElementById("activeMetaMaskAccount_TX").value = "";
   document.getElementById("ethereumAccountBalance_TX").value = "";
   document.getElementById("contractData_TX").value = "";
