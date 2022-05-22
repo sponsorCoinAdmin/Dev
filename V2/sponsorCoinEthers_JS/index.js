@@ -142,23 +142,6 @@ async function connectContract() {
   }
 }
 
-async function connectContract2() {
-	try {
-	  contractText = document.getElementById("connectContract_TX");
-	  contractAddress = contractText.value;
-  
-	  contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
-	  // do a test call to see if contract is valid.
-	  tokenName = await contract.name();
-	  changeElementIdColor("connectContract_BTN", "green");
-	} catch (err) {
-	  contractConnectError =
-		"Cannot Connect to Address" + contractAddress + "\n" + err.message;
-	  console.log(contractConnectError);
-	  alertLogError(err,"connectContract_BTN");
-	}
-  }
-  
 
 // 5. Read contract data from the contract on the connected account
 /*
