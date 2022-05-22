@@ -1,4 +1,4 @@
-const { isAddress } = require("ethers/lib/utils");
+const { isAddress, serializeTransaction } = require("ethers/lib/utils");
 
 //const defaultContractAddress = "0x925195d664A8CAdA8Ff90a8948e394B9bd15237B";
 const defaultContractAddress = "0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A";
@@ -132,13 +132,17 @@ async function connectContract() {
   try {
     contractText = document.getElementById("connectContract_TX");
     contractAddress = contractText.value;
-
     contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
-    // do a test call to see if contract is valid.
+	// do a test call to see if contract is valid.
     tokenName = await contract.name();
     changeElementIdColor("connectContract_BTN", "green");
   } catch (err) {
-    alertLogError(err,"connectContract_BTN");
+	  if (contractAddress == null || contractAddress.length == 0)
+		msg = "Error: Contract Address required";
+	  else
+	    msg="Error: Invalid Contract Address " + contractAddress;
+	  alertLogError({'name':'Bad Contract Address','message':msg},"connectContract_BTN");
+	  console.log(err.message);
   }
 }
 
