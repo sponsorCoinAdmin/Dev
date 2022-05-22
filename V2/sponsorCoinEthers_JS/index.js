@@ -10,7 +10,6 @@ var contractAddress = defaultContractAddress;
 var accountAddress;
 var contract;
 
-
 function connectMetaMask() {
 	try {
 	  // MetaMask requires requesting permission to connect users accounts
@@ -66,10 +65,6 @@ function getProvider() {
 	return provider;
 }
 
-function isEmptyObj(object) {
-	isEmpty =  JSON.stringify(object) === '{}';
-	return isEmpty;
-  }
 
 function getSigner() {
 	try {
@@ -136,9 +131,6 @@ async function getEthereumAccountBalance() {
 async function connectContract() {
   try {
     contractText = document.getElementById("connectContract_TX");
-	if (isEmptyObj(contractText)){
-		throw "Contract Address Empty";
-	}
     contractAddress = contractText.value;
 
     contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
@@ -146,10 +138,27 @@ async function connectContract() {
     tokenName = await contract.name();
     changeElementIdColor("connectContract_BTN", "green");
   } catch (err) {
-   console.log(contractConnectError);
     alertLogError(err,"connectContract_BTN");
   }
 }
+
+async function connectContract2() {
+	try {
+	  contractText = document.getElementById("connectContract_TX");
+	  contractAddress = contractText.value;
+  
+	  contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
+	  // do a test call to see if contract is valid.
+	  tokenName = await contract.name();
+	  changeElementIdColor("connectContract_BTN", "green");
+	} catch (err) {
+	  contractConnectError =
+		"Cannot Connect to Address" + contractAddress + "\n" + err.message;
+	  console.log(contractConnectError);
+	  alertLogError(err,"connectContract_BTN");
+	}
+  }
+  
 
 // 5. Read contract data from the contract on the connected account
 /*
@@ -282,4 +291,9 @@ function toggle(elmt) {
 		myDiv.style.display = "none";
 		div.style.display = "none";
 	}
+  }
+
+   function isEmptyObj(object) {
+	isEmpty =  JSON.stringify(object) === '{}';
+	return isEmpty;
   }
