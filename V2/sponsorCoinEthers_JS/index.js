@@ -11,12 +11,15 @@ var accountAddress;
 var contract;
 
 
-function connectMetaMask(wallet) {
+function connectMetaMask() {
 	try {
 	  // MetaMask requires requesting permission to connect users accounts
 	  provider = new ethers.providers.Web3Provider(window.ethereum);
+	  document.getElementById("connectWallet_TX").value =
+      "Connected to MetaMask";
 	} catch (err) {
 	  alertLogError(err,"connectWallet_BTN");
+	  throw err;
 	}
 	return provider;
   }
@@ -33,10 +36,28 @@ function connectMetaMask(wallet) {
 	return wallet;
 }
 
+function getWalletProvider(_wallet) {
+	try {
+		switch(_wallet) {
+			case "METAMASK":
+				provider = connectMetaMask();
+				break;
+			default:
+				provider = connectMetaMask();
+				break;
+		} 
+	} catch (err) {
+	    alert(err.message);
+	    throw err;
+	}
+	return provider;
+}
+
 function getProvider() {
 	try {
 		if (provider == null) {
-	        provider = connectMetaMask(getWallet());
+	        provider = getWalletProvider(getWallet());
+			changeElementIdColor("connectWallet_BTN", "green");
 		}
 	} catch (err) {
 	    alert(err.message);
@@ -47,7 +68,6 @@ function getProvider() {
 
 function isEmptyObj(object) {
 	isEmpty =  JSON.stringify(object) === '{}';
-	alert("isEmpty = " + isEmpty);
 	return isEmpty;
   }
 
@@ -67,14 +87,19 @@ function getSigner() {
 async function connectWallet() {
   try {
     // MetaMask requires requesting permission to connect users accounts
+	alert("connectWallet");
+	var wallet = document.getElementById("connectWallet_TX").value;
+	provider = getWalletProvider(wallet);
+
+	/*
     await getProvider().send("eth_requestAccounts", []);
     signer = await getSigner();
-    document.getElementById("connectWallet_TX").value =
-      "Provider With Signer Connected";
-    changeElementIdColor("connectWallet_BTN", "green");
-  } catch (err) {
-	alertLogError(err,"connectWallet_BTN");
-  }
+    
+ 	*/
+	 changeElementIdColor("connectWallet_BTN", "green");
+	 } catch (err) {
+	   alertLogError(err,"connectWallet_BTN");
+     }
 }
 
 // 2. Connect Metamask Account
@@ -110,8 +135,10 @@ async function getEthereumAccountBalance() {
 // 4. Connect contract
 async function connectContract() {
   try {
-    contractContainer = document.getElementById("contractData_TX");
     contractText = document.getElementById("connectContract_TX");
+	if (isEmptyObj(contractText)){
+		throw "Contract Address Empty";
+	}
     contractAddress = contractText.value;
 
     contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
@@ -119,9 +146,7 @@ async function connectContract() {
     tokenName = await contract.name();
     changeElementIdColor("connectContract_BTN", "green");
   } catch (err) {
-    contractConnectError =
-      "Cannot Connect to Address" + contractAddress + "\n" + err.message;
-    console.log(contractConnectError);
+   console.log(contractConnectError);
     alertLogError(err,"connectContract_BTN");
   }
 }
