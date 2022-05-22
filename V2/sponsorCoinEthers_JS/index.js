@@ -35,6 +35,19 @@ function connectMetaMask() {
 	return wallet;
 }
 
+function getContract() {
+	console.log("getContract");
+	try {
+		if (contract == null) {
+	        connectContract();
+		}
+	} catch (err) {
+	    alert(err.message);
+	    throw err;
+	}
+	return contract;
+}
+
 function getWalletProvider(_wallet) {
 	try {
 		switch(_wallet) {
@@ -82,7 +95,6 @@ function getSigner() {
 async function connectWallet() {
   try {
     // MetaMask requires requesting permission to connect users accounts
-	alert("connectWallet");
 	var wallet = document.getElementById("connectWallet_TX").value;
 	provider = getWalletProvider(wallet);
 
@@ -129,14 +141,15 @@ async function getEthereumAccountBalance() {
 
 // 4. Connect contract
 async function connectContract() {
+  console.log("START connectContract()");
   try {
     contractText = document.getElementById("connectContract_TX");
     contractAddress = contractText.value;
     contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
 	// do a test call to see if contract is valid.
-    tokenName = await contract.name();
-    changeElementIdColor("connectContract_BTN", "green");
-  } catch (err) {
+//    tokenName = await contract.name();
+	changeElementIdColor("connectContract_BTN", "green");
+ } catch (err) {
 	  if (contractAddress == null || contractAddress.length == 0)
 		msg = "Error: Contract Address required";
 	  else
@@ -144,6 +157,8 @@ async function connectContract() {
 	  alertLogError({'name':'Bad Contract Address','message':msg},"connectContract_BTN");
 	  console.log(err.message);
   }
+  console.log("FINISH connectContract()");
+  return contract;
 }
 
 
@@ -169,7 +184,7 @@ async function readContractData() {
 
 async function readContractName() {
   try {
-    tokenName = await contract.name();
+    tokenName = await getContract().name();
     document.getElementById("contractName_TX").value = tokenName;
     changeElementIdColor("contractName_BTN", "green");
   } catch (err) {
@@ -179,7 +194,7 @@ async function readContractName() {
 
 async function readContractSymbol() {
   try {
-    symbol = await contract.symbol();
+    symbol = await getContract().symbol();
     document.getElementById("contractSymbol_TX").value = symbol;
     changeElementIdColor("contractSymbol_BTN", "green");
   } catch (err) {
@@ -189,7 +204,7 @@ async function readContractSymbol() {
 
 async function readContractTotalSupply() {
   try {
-    spCoinTotalSupply = await contract.totalSupply();
+    spCoinTotalSupply = await getContract().totalSupply();
     document.getElementById("contractTotalSupply_TX").value = spCoinTotalSupply;
     changeElementIdColor("contractTotalSupply_BTN", "green");
   } catch (err) {
@@ -199,7 +214,7 @@ async function readContractTotalSupply() {
 
 async function readContractDecimals() {
   try {
-    decimals = await contract.decimals();
+    decimals = await getContract().decimals();
     document.getElementById("contractDecimals_TX").value = decimals;
     changeElementIdColor("contractDecimals_BTN", "green");
   } catch (err) {
@@ -209,7 +224,7 @@ async function readContractDecimals() {
 
 async function balanceOf() {
   try {
-    balance = await contract.balanceOf(accountAddress);
+    balance = await getContract().balanceOf(accountAddress);
     document.getElementById("balanceOf_TX").value = balance;
     console.log("balanceOf " + accountAddress + " = " + balance);
     changeElementIdColor("balanceOf_BTN", "green");
@@ -269,14 +284,12 @@ async function clearFields() {
   document.getElementById("balanceOf_TX").value = "";
 }
 
-function toggle(elmt) {
-	myDiv = document.getElementById(elmt);
-	if (myDiv.style.display === "none") {
-		myDiv.style.display = "block";
-		div.style.display = "block";
+function toggle(elmtStr) {
+	elmtObj = document.getElementById(elmtStr);
+	if (elmtObj.style.display === "none") {
+		elmtObj.style.display = "block";
 	} else {
-		myDiv.style.display = "none";
-		div.style.display = "none";
+		elmtObj.style.display = "none";
 	}
   }
 
