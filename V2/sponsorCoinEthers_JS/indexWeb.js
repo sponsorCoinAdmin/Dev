@@ -1,7 +1,7 @@
 function GUI_connectMetaMask() {
   try {
     // MetaMask requires requesting permission to connect users accounts
-    provider = new ethers.providers.Web3Provider(window.ethereum);
+    connectMetaMask();
     document.getElementById("connectWallet_TX").value = "Connected to MetaMask";
   } catch (err) {
     throw err;
@@ -12,27 +12,19 @@ function GUI_connectMetaMask() {
 // 1. Connect Metamask with Dapp
 async function GUI_connectWallet() {
   try {
-    // MetaMask requires requesting permission to connect users accounts
-    var wallet = document.getElementById("connectWallet_TX").value;
-    provider = getWalletProvider(wallet);
-
-    /*
-    await getProvider().send("eth_requestAccounts", []);
-    signer = await getSigner();
-    
- 	*/
+    connectWallet();
     changeElementIdColor("connectWallet_BTN", "green");
   } catch (err) {
-  }
+	alertLogError(err);
+}
 }
 
 // 2. Connect Metamask Account
 async function GUI_getActiveMetaMaskAccount() {
   try {
     // MetaMask requires requesting permission to connect users accounts
-    accountAddress = await getSigner().getAddress();
-    document.getElementById("activeMetaMaskAccount_TX").value = accountAddress;
-    console.log("Account address s:", accountAddress);
+    accountAddress = await getActiveMetaMaskAccount();
+	document.getElementById("activeMetaMaskAccount_TX").value = accountAddress;
     changeElementIdColor("activeMetaMaskAccount_BTN", "green");
   } catch (err) {
     alertLogError(err, "activeMetaMaskAccount_BTN");
