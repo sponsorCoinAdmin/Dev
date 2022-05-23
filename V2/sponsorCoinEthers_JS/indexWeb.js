@@ -1,4 +1,4 @@
-function WEB_connectMetaMask() {
+function GUI_connectMetaMask() {
   try {
     // MetaMask requires requesting permission to connect users accounts
     provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -9,75 +9,8 @@ function WEB_connectMetaMask() {
   return provider;
 }
 
-function WEB_getWallet() {
-  try {
-    if (wallet == null) {
-      wallet = defaultWallet;
-    }
-  } catch (err) {
-    alert(err.message);
-    throw err;
-  }
-  return wallet;
-}
-
-function WEB_getContract() {
-  console.log("getContract");
-  try {
-    if (contract == null) {
-		contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
-    }
-  } catch (err) {
-    alert(err.message);
-    throw err;
-  }
-  return contract;
-}
-
-function WEB_getWalletProvider(_wallet) {
-  try {
-    switch (_wallet) {
-      case "METAMASK":
-        provider = connectMetaMask();
-        break;
-      default:
-        provider = connectMetaMask();
-        break;
-    }
-  } catch (err) {
-    alert(err.message);
-    throw err;
-  }
-  return provider;
-}
-
-function WEB_getProvider() {
-  try {
-    if (provider == null) {
-      provider = getWalletProvider(getWallet());
-      changeElementIdColor("connectWallet_BTN", "green");
-    }
-  } catch (err) {
-    alert(err.message);
-    throw err;
-  }
-  return provider;
-}
-
-function WEB_getSigner() {
-  try {
-    if (signer == null) {
-      signer = getProvider().getSigner();
-    }
-  } catch (err) {
-    alert(err.message);
-    throw err;
-  }
-  return signer;
-}
-
 // 1. Connect Metamask with Dapp
-async function WEB_connectWallet() {
+async function GUI_connectWallet() {
   try {
     // MetaMask requires requesting permission to connect users accounts
     var wallet = document.getElementById("connectWallet_TX").value;
@@ -94,7 +27,7 @@ async function WEB_connectWallet() {
 }
 
 // 2. Connect Metamask Account
-async function WEB_getActiveMetaMaskAccount() {
+async function GUI_getActiveMetaMaskAccount() {
   try {
     // MetaMask requires requesting permission to connect users accounts
     accountAddress = await getSigner().getAddress();
@@ -107,7 +40,7 @@ async function WEB_getActiveMetaMaskAccount() {
 }
 
 // 3. Get Ethereum balance
-async function WEB_getEthereumAccountBalance() {
+async function GUI_getEthereumAccountBalance() {
   try {
     const balance = await getSigner().getBalance();
     const convertToEth = 1e18;
@@ -124,30 +57,7 @@ async function WEB_getEthereumAccountBalance() {
 }
 
 // 4. Connect contract
-async function WEB_connectContract() {
-	try {
-	  contractText = document.getElementById("connectContract_TX");
-	  contractAddress = contractText.value;
-	  contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
-	  // do a test call to see if contract is valid.
-	  tokenName = await contract.name();
-	  changeElementIdColor("connectContract_BTN", "green");
-	} catch (err) {
-		console.log(err);
-	  contract = null;
-	  if (contractAddress == null || contractAddress.length == 0)
-		msg = "Error: Contract Address required";
-	  else msg = "Error: Invalid Contract Address " + contractAddress;
-	  alertLogError(
-		{ name: "Bad Contract Address", message: msg },
-		"connectContract_BTN"
-	  );
-	  throw err;
-	}
-	return contract;
-  }
-  
-  async function WEB_connectContract() {
+  async function GUI_connectContract() {
   try {
     contractText = document.getElementById("connectContract_TX");
     contractAddress = contractText.value;
@@ -170,7 +80,7 @@ async function WEB_connectContract() {
   return contract;
 }
 
-async function WEB_readContractName() {
+async function GUI_readContractName() {
   try {
     tokenName = await getContract().name();
     document.getElementById("contractName_TX").value = tokenName;
@@ -187,7 +97,7 @@ async function WEB_readContractName() {
   }
 }
 
-async function WEB_readContractSymbol() {
+async function GUI_readContractSymbol() {
   try {
     symbol = await getContract().symbol();
     document.getElementById("contractSymbol_TX").value = symbol;
@@ -204,7 +114,7 @@ async function WEB_readContractSymbol() {
   }
 }
 
-async function WEB_readContractTotalSupply() {
+async function GUI_readContractTotalSupply() {
   try {
     spCoinTotalSupply = await getContract().totalSupply();
     document.getElementById("contractTotalSupply_TX").value = spCoinTotalSupply;
@@ -221,7 +131,7 @@ async function WEB_readContractTotalSupply() {
   }
 }
 
-async function WEB_readContractDecimals() {
+async function GUI_readContractDecimals() {
   try {
     decimals = await getContract().decimals();
     document.getElementById("contractDecimals_TX").value = decimals;
@@ -238,7 +148,7 @@ async function WEB_readContractDecimals() {
   }
 }
 
-async function WEB_balanceOf() {
+async function GUI_balanceOf() {
   try {
     balance = await getContract().balanceOf(accountAddress);
     document.getElementById("balanceOf_TX").value = balance;
@@ -257,7 +167,7 @@ async function WEB_balanceOf() {
   }
 }
 
-async function WEB_sendToAccount() {
+async function GUI_sendToAccount() {
   try {
     const spCoinContract = new ethers.Contract(
       contractAddress,
@@ -286,16 +196,16 @@ async function WEB_sendToAccount() {
   }
 }
 
-function WEB_alertLogError(err, element) {
+function alertLogError(err, element) {
   console.log(err.message);
   changeElementIdColor(element, "red");
   alert(err.message);
 }
 
-function WEB_changeElementIdColor(name, color) {
+function changeElementIdColor(name, color) {
   document.getElementById(name).style.backgroundColor = color;
 }
-function WEB_toggle(elmtStr) {
+function toggle(elmtStr) {
   elmtObj = document.getElementById(elmtStr);
   if (elmtObj.style.display === "none") {
     elmtObj.style.display = "block";
