@@ -1,14 +1,4 @@
-//const defaultContractAddress = "0x925195d664A8CAdA8Ff90a8948e394B9bd15237B";
-const spCoinContractAddress = "0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A";
-var defaultWallet = "METAMASK";
-var wallet;
-var provider;
-var signer;
-var contractAddress = spCoinContractAddress;
-var accountAddress;
-var contract;
-
-function connectMetaMask() {
+function WEB_connectMetaMask() {
   try {
     // MetaMask requires requesting permission to connect users accounts
     provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -19,7 +9,7 @@ function connectMetaMask() {
   return provider;
 }
 
-function getWallet() {
+function WEB_getWallet() {
   try {
     if (wallet == null) {
       wallet = defaultWallet;
@@ -31,7 +21,7 @@ function getWallet() {
   return wallet;
 }
 
-function getContract() {
+function WEB_getContract() {
   console.log("getContract");
   try {
     if (contract == null) {
@@ -44,7 +34,7 @@ function getContract() {
   return contract;
 }
 
-function getWalletProvider(_wallet) {
+function WEB_getWalletProvider(_wallet) {
   try {
     switch (_wallet) {
       case "METAMASK":
@@ -61,7 +51,7 @@ function getWalletProvider(_wallet) {
   return provider;
 }
 
-function getProvider() {
+function WEB_getProvider() {
   try {
     if (provider == null) {
       provider = getWalletProvider(getWallet());
@@ -74,7 +64,7 @@ function getProvider() {
   return provider;
 }
 
-function getSigner() {
+function WEB_getSigner() {
   try {
     if (signer == null) {
       signer = getProvider().getSigner();
@@ -87,7 +77,7 @@ function getSigner() {
 }
 
 // 1. Connect Metamask with Dapp
-async function connectWallet() {
+async function WEB_connectWallet() {
   try {
     // MetaMask requires requesting permission to connect users accounts
     var wallet = document.getElementById("connectWallet_TX").value;
@@ -104,7 +94,7 @@ async function connectWallet() {
 }
 
 // 2. Connect Metamask Account
-async function getActiveMetaMaskAccount() {
+async function WEB_getActiveMetaMaskAccount() {
   try {
     // MetaMask requires requesting permission to connect users accounts
     accountAddress = await getSigner().getAddress();
@@ -117,7 +107,7 @@ async function getActiveMetaMaskAccount() {
 }
 
 // 3. Get Ethereum balance
-async function getEthereumAccountBalance() {
+async function WEB_getEthereumAccountBalance() {
   try {
     const balance = await getSigner().getBalance();
     const convertToEth = 1e18;
@@ -134,7 +124,7 @@ async function getEthereumAccountBalance() {
 }
 
 // 4. Connect contract
-async function connectContract() {
+async function WEB_connectContract() {
 	try {
 	  contractText = document.getElementById("connectContract_TX");
 	  contractAddress = contractText.value;
@@ -157,7 +147,7 @@ async function connectContract() {
 	return contract;
   }
   
-  async function connectContract() {
+  async function WEB_connectContract() {
   try {
     contractText = document.getElementById("connectContract_TX");
     contractAddress = contractText.value;
@@ -180,27 +170,7 @@ async function connectContract() {
   return contract;
 }
 
-// 5. Read contract data from the contract on the connected account
-/*
-async function readContractData() {
-  try {
-    tokenName = await contract.name();
-    document.getElementById("contractName_TX").value = tokenName;
-    symbol = await contract.symbol();
-    document.getElementById("contractSymbol_TX").value = symbol;
-
-    // decimals = await contract.decimals()
-    // alert("spCoinDecimals = "+decimals);
-    spCoinTotalSupply = await contract.totalSupply();
-    document.getElementById("contractTotalSupply_TX").value = spCoinTotalSupply;
-    changeElementIdColor("contractData_BTN", "green");
-  } catch (err) {
-        alertLogError(err,"contractData_BTN");
-  }
-}
-*/
-
-async function readContractName() {
+async function WEB_readContractName() {
   try {
     tokenName = await getContract().name();
     document.getElementById("contractName_TX").value = tokenName;
@@ -217,7 +187,7 @@ async function readContractName() {
   }
 }
 
-async function readContractSymbol() {
+async function WEB_readContractSymbol() {
   try {
     symbol = await getContract().symbol();
     document.getElementById("contractSymbol_TX").value = symbol;
@@ -234,7 +204,7 @@ async function readContractSymbol() {
   }
 }
 
-async function readContractTotalSupply() {
+async function WEB_readContractTotalSupply() {
   try {
     spCoinTotalSupply = await getContract().totalSupply();
     document.getElementById("contractTotalSupply_TX").value = spCoinTotalSupply;
@@ -251,7 +221,7 @@ async function readContractTotalSupply() {
   }
 }
 
-async function readContractDecimals() {
+async function WEB_readContractDecimals() {
   try {
     decimals = await getContract().decimals();
     document.getElementById("contractDecimals_TX").value = decimals;
@@ -268,7 +238,7 @@ async function readContractDecimals() {
   }
 }
 
-async function balanceOf() {
+async function WEB_balanceOf() {
   try {
     balance = await getContract().balanceOf(accountAddress);
     document.getElementById("balanceOf_TX").value = balance;
@@ -287,7 +257,7 @@ async function balanceOf() {
   }
 }
 
-async function sendToAccount() {
+async function WEB_sendToAccount() {
   try {
     const spCoinContract = new ethers.Contract(
       contractAddress,
@@ -316,17 +286,16 @@ async function sendToAccount() {
   }
 }
 
-function alertLogError(err, element) {
+function WEB_alertLogError(err, element) {
   console.log(err.message);
   changeElementIdColor(element, "red");
   alert(err.message);
 }
 
-function changeElementIdColor(name, color) {
+function WEB_changeElementIdColor(name, color) {
   document.getElementById(name).style.backgroundColor = color;
 }
-
-function toggle(elmtStr) {
+function WEB_toggle(elmtStr) {
   elmtObj = document.getElementById(elmtStr);
   if (elmtObj.style.display === "none") {
     elmtObj.style.display = "block";
@@ -335,7 +304,7 @@ function toggle(elmtStr) {
   }
 }
 
-function isEmptyObj(object) {
+function WEB_isEmptyObj(object) {
   isEmpty = JSON.stringify(object) === "{}";
   return isEmpty;
 }

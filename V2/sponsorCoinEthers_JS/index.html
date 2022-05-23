@@ -44,7 +44,7 @@
               type="button"
               id="connectWallet_BTN"
               class="button"
-              onclick="connectWallet()"
+              onclick="WEB_connectWallet()"
               value="Connect Wallet"
             />
           </td>
@@ -66,7 +66,7 @@
               type="button"
               id="activeMetaMaskAccount_BTN"
               class="button"
-              onclick="getActiveMetaMaskAccount()"
+              onclick="WEB_getActiveMetaMaskAccount()"
               value="get Active Metamask Account"
             />
           </td>
@@ -81,7 +81,7 @@
               type="button"
               id="ethereumAccountBalance_BTN"
               class="button"
-              onclick="getEthereumAccountBalance()"
+              onclick="WEB_getEthereumAccountBalance()"
               value="Ethereum Account Balance"
             />
           </td>
@@ -105,17 +105,17 @@
               type="button"
               id="connectContract_BTN"
               class="button"
-              onclick="connectContract()"
+              onclick="WEB_connectContract()"
               value="Connect Contract Address"
             />
           </td>
-          <td><input type="text" id="connectContract_TX" value ="ZZZZ"/></td>
+          <td><input type="text" id="connectContract_TX" value =""/></td>
           <td>
             <input
               type="button"
               id="contractData_BTN"
               class="button"
-              onclick="toggle('myDIV')"
+              onclick="WEB_toggle('myDIV')"
               value="Read Contract Data"
             />
           </td>
@@ -131,7 +131,7 @@
                 type="button"
                 id="contractName_BTN"
                 class="button"
-                onclick="readContractName()"
+                onclick="WEB_readContractName()"
                 value="Contract Name"
               />
             </td>
@@ -143,7 +143,7 @@
                 type="button"
                 id="contractSymbol_BTN"
                 class="button"
-                onclick="readContractSymbol()"
+                onclick="WEB_readContractSymbol()"
                 value="Contract Symbol"
               />
             </td>
@@ -155,7 +155,7 @@
                 type="button"
                 id="contractTotalSupply_BTN"
                 class="button"
-                onclick="readContractTotalSupply()"
+                onclick="WEB_readContractTotalSupply()"
                 value="Contract Total Supply"
               />
             </td>
@@ -167,7 +167,7 @@
                 type="button"
                 id="contractDecimals_BTN"
                 class="button"
-                onclick="readContractDecimals()"
+                onclick="WEB_readContractDecimals()"
                 value="Contract Decimals"
               />
             </td>
@@ -184,7 +184,7 @@
               type="button"
               id="balanceOf_BTN"
               class="button"
-              onclick="balanceOf()"
+              onclick="WEB_balanceOf()"
               value="Account Token balance"
             />
           </td>
@@ -196,7 +196,7 @@
               type="button"
               id="sendToAccount_BTN"
               class="button"
-              onclick="sendToAccount()"
+              onclick="WEB_sendToAccount()"
               value="send To Account"
             />
           </td>
@@ -211,7 +211,7 @@
               type="button"
               id=""
               class="button"
-              onclick="readFromScConctractStorage()"
+              onclick="WEB_readFromScConctractStorage()"
               value="readFromScConctractStorage"
             />
           </td>
@@ -222,7 +222,7 @@
             <input
               type="button"
               class="button"
-              onclick="clearFields()"
+              onclick="document.location.reload(true)"
               value="Clear Fields"
             />
           </td>
@@ -234,7 +234,7 @@
     <input
       type="button"
       value="Reload Page"
-      onClick="document.location.reload(true);"
+      onclick="WEB_document.location.reload(true);"
     />
 
     <script
@@ -242,7 +242,7 @@
       type="application/javascript"
     ></script>
     <script src="spCoinABI.js" type="application/javascript"></script>
-
     <script src="index.js" type="application/javascript"></script>
-  </body>
+    <script src="indexWeb.js" type="application/javascript"></script>
+   </body>
 </html>

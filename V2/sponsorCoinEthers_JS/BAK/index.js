@@ -1,10 +1,3 @@
-const defaultContractAddress = '0x9BAD613F5DBFd749E7a952Fb4F524cBb03c9F1EA';
-var provider;
-var signer;
-var contractAddress = defaultContractAddress;
-var accountAddress;
-var contract;
-
 // 1. Connect Metamask with Dapp
 async function connectMetaMaskWallet() {
 	try {
