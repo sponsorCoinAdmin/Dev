@@ -1,7 +1,7 @@
 //const defaultContractAddress = "0x925195d664A8CAdA8Ff90a8948e394B9bd15237B";
 const spCoinContractAddress = "0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A";
-var defaultWallet = "METAMASK";
-var wallet;
+var defaultWalletName = "METAMASK";
+var walletName;
 var provider;
 var signer;
 var contractAddress = spCoinContractAddress;
@@ -13,100 +13,137 @@ function connectMetaMask() {
     // MetaMask requires requesting permission to connect users accounts
     provider = new ethers.providers.Web3Provider(window.ethereum);
   } catch (err) {
-	  processError(err);
+    processError(err);
     throw err;
   }
   return provider;
 }
 
-function getWallet() {
-  try {
-    if (wallet == null) {
-      wallet = defaultWallet;
-    }
-  } catch (err) {
-	processError(err);
-}
-  return wallet;
+function getWalletName() {
+  //   try {
+  //     if (walletName == null) {
+  //       walletName = defaultWalletName;
+  //     }
+  //   } catch (err) {
+  //     processError(err);
+  //   }
+  return walletName;
 }
 
 function getContract() {
   try {
     if (contract == null) {
-		contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
+      contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
     }
   } catch (err) {
-	processError(err);
-}
+    processError(err);
+  }
   return contract;
 }
 
-function getWalletProvider(_wallet) {
-	if (_wallet == undefined)
-	  _wallet = defaultWallet;
+function getWalletProvider(_walletName) {
+  //  if (_walletName == undefined) _walletName = defaultWalletName;
   try {
-    switch (_wallet) {
+    switch (_walletName) {
       case "METAMASK":
         provider = connectMetaMask();
         break;
       default:
-        provider = connectMetaMask();
+        provider = undefined;
         break;
     }
   } catch (err) {
-	processError(err);
-}
+    processError(err);
+  }
   return provider;
 }
 
-function getProvider(_wallet) {
-  alert("wallet = " + wallet);
+function getProvider(_walletName) {
   try {
     if (provider == null) {
-      provider = getWalletProvider(getWallet());
+      provider = getWalletProvider(getWalletName());
     }
   } catch (err) {
-	processError(err);
-}
+    processError(err);
+  }
   return provider;
 }
 
 function getSigner() {
   try {
     if (signer == null) {
-      signer = getProvider().getSigner();
+      signer =
+        getProvider() != undefined ? getProvider().getSigner() : undefined;
     }
   } catch (err) {
-	processError(err);
+    processError(err);
+  }
+  return signer;
 }
+
+function getValidatedSigner() {
+  try {
+    if (signer == null) {
+      signer = getSigner();
+      if (signer == undefined)
+        throw {
+          name: "emptyWalletSigner",
+          message: "Error: Valid Wallet Connection Required",
+        };
+    }
+  } catch (err) {
+    processError(err);
+  }
   return signer;
 }
 
 // 1. Connect Metamask with Dapp
-async function connectWallet() {
+async function connectWalletProvider(_walletName) {
   try {
     // MetaMask requires requesting permission to connect users accounts
-     provider = getWalletProvider(wallet);
+    provider = getWalletProvider(_walletName);
 
     /*
-    await getProvider().send("eth_requestAccounts", []);
-    signer = await getSigner();
-    
- 	*/
+	  await getProvider().send("eth_requestAccounts", []);
+	  signer = await getSigner();
+	  
+	   */
+    return provider;
   } catch (err) {
-	processError(err);
+    processError(err);
+  }
 }
+
+async function connectValidWalletProvider(_walletName) {
+  try {
+    // MetaMask requires requesting permission to connect users accounts
+    if (_walletName == undefined || _walletName.length == 0) {
+        msg = "Error: No Wallet Specified";
+	    disconnectWallet();
+        throw { name: "emptyWalletSigner", message: msg };
+    }
+    var provider = getWalletProvider(_walletName);
+	if (provider == undefined || provider.length == 0) {
+		msg = "Error: Cannot connect to wallet <"+_walletName+">";
+		disconnectWallet();
+		throw { name: "emptyWalletSigner", message: msg };
+	  }
+	  this.provider = provider;
+      return provider;
+  } catch (err) {
+    processError(err);
+  }
 }
 
 // 2. Connect Metamask Account
-async function getActiveMetaMaskAccount() {
+async function getActiveAccount(_signer) {
   try {
     // MetaMask requires requesting permission to connect users accounts
-    accountAddress = await getSigner().getAddress();
-	return accountAddress
+    accountAddress = await _signer.getAddress();
+    return accountAddress;
   } catch (err) {
-	processError(err);
-}
+    processError(err);
+  }
 }
 
 // 3. Get Ethereum balance
@@ -120,20 +157,20 @@ async function getEthereumAccountBalance() {
       balance.toString() / convertToEth
     );
   } catch (err) {
-	processError(err);
-}
+    processError(err);
+  }
   return balance;
 }
 
 // 4. Connect contract
-  async function connectContract() {
+async function connectContract() {
   try {
     contract = new ethers.Contract(getAddress(), spCoinABI, getSigner());
     // do a test call to see if contract is valid.
     tokenName = await contract.name();
   } catch (err) {
-	processError(err);
-}
+    processError(err);
+  }
   return contract;
 }
 
@@ -141,8 +178,8 @@ async function readContractName() {
   try {
     tokenName = await getContract().name();
   } catch (err) {
-	processError(err);
-}
+    processError(err);
+  }
   return tokenName;
 }
 
@@ -150,26 +187,26 @@ async function readContractSymbol() {
   try {
     symbol = await getContract().symbol();
   } catch (err) {
-      throw err;
-	}
+    throw err;
+  }
 }
 
 async function readContractTotalSupply() {
   try {
     spCoinTotalSupply = await getContract().totalSupply();
-	return supply;
-   } catch (err) {
-	processError(err);
-}
+    return supply;
+  } catch (err) {
+    processError(err);
+  }
 }
 
 async function readContractDecimals() {
   try {
     decimals = await getContract().decimals();
-	return decimals;
-   } catch (err) {
-	processError(err);
-}
+    return decimals;
+  } catch (err) {
+    processError(err);
+  }
 }
 
 async function balanceOf() {
@@ -177,12 +214,13 @@ async function balanceOf() {
     balance = await getContract().balanceOf(accountAddress);
     return balance;
   } catch (err) {
-	processError(err);
-}
+    processError(err);
+  }
 }
 
 async function sendToAccount(addr) {
   try {
+	var signer = getValidatedSigner();
     const spCoinContract = new ethers.Contract(
       contractAddress,
       spCoinABI,
@@ -199,8 +237,8 @@ async function sendToAccount(addr) {
       }
     }
   } catch (err) {
-	processError(err);
-}
+    processError(err);
+  }
 }
 
 function changeElementIdColor(name, color) {
@@ -213,5 +251,11 @@ function isEmptyObj(object) {
 }
 
 function processError(err) {
-	throw err;
-  }
+  throw err;
+}
+
+function disconnectWallet() {
+	this.walletName = undefined;
+	this.provider = undefined;
+	this.signer = undefined;
+}

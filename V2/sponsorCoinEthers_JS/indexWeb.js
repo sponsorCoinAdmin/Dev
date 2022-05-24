@@ -1,40 +1,34 @@
-function GUI_connectMetaMask() {
-  try {
-    // MetaMask requires requesting permission to connect users accounts
-    connectMetaMask();
-    document.getElementById("connectWallet_TX").value = "Connected to MetaMask";
-  } catch (err) {
-    throw err;
-  }
-  return provider;
-}
-
 // 1. Connect Metamask with Dapp
-async function GUI_connectWallet() {
+async function GUI_connectWallet(_walletName) {
   try {
-    connectWallet();
+    provider = await connectValidWalletProvider(_walletName);
     changeElementIdColor("connectWallet_BTN", "green");
   } catch (err) {
-	alertLogError(err);
-}
+	document.getElementById("activeAccount_TX").value = "";
+	document.getElementById("ethereumAccountBalance_TX").value = "";
+    alertLogError(err, "connectWallet_BTN");
+  }
 }
 
-// 2. Connect Metamask Account
-async function GUI_getActiveMetaMaskAccount() {
+// 2. Connect Active Account
+async function GUI_getActiveAccount() {
   try {
     // MetaMask requires requesting permission to connect users accounts
-    accountAddress = await getActiveMetaMaskAccount();
-	document.getElementById("activeMetaMaskAccount_TX").value = accountAddress;
-    changeElementIdColor("activeMetaMaskAccount_BTN", "green");
+	var signer = getValidatedSigner();
+    accountAddress = await getActiveAccount(signer);
+    document.getElementById("activeAccount_TX").value = accountAddress;
+    changeElementIdColor("activeAccount_BTN", "green");
   } catch (err) {
-    alertLogError(err, "activeMetaMaskAccount_BTN");
+	document.getElementById("activeAccount_TX").value = "";
+    alertLogError(err, "activeAccount_BTN");
   }
 }
 
 // 3. Get Ethereum balance
 async function GUI_getEthereumAccountBalance() {
   try {
-    const balance = await getSigner().getBalance();
+	var signer = getValidatedSigner();
+	const balance = await signer.getBalance();
     const convertToEth = 1e18;
     const ethbalance = balance.toString() / convertToEth;
     document.getElementById("ethereumAccountBalance_TX").value = ethbalance;
@@ -44,31 +38,25 @@ async function GUI_getEthereumAccountBalance() {
     );
     changeElementIdColor("ethereumAccountBalance_BTN", "green");
   } catch (err) {
+    document.getElementById("ethereumAccountBalance_TX").value = "";
     alertLogError(err, "ethereumAccountBalance_BTN");
   }
 }
 
 // 4. Connect contract
-  async function GUI_connectContract() {
+async function GUI_connectContract() {
   try {
-    contractText = document.getElementById("connectContract_TX");
+	var signer = getValidatedSigner();
+	contractText = document.getElementById("connectContract_TX");
     contractAddress = contractText.value;
-    contract = new ethers.Contract(contractAddress, spCoinABI, getSigner());
+    contract = new ethers.Contract(contractAddress, spCoinABI, signer);
     // do a test call to see if contract is valid.
     tokenName = await contract.name();
     changeElementIdColor("connectContract_BTN", "green");
   } catch (err) {
-	  console.log(err);
-    contract = null;
-    if (contractAddress == null || contractAddress.length == 0)
-      msg = "Error: Contract Address required";
-    else msg = "Error: Invalid Contract Address " + contractAddress;
-    alertLogError(
-      { name: "Bad Contract Address", message: msg },
-      "connectContract_BTN"
-    );
-	throw err;
-  }
+	document.getElementById("connectContract_TX").value = "";
+    alertLogError(err, "connectContract_BTN");
+   }
   return contract;
 }
 
@@ -148,7 +136,7 @@ async function GUI_balanceOf() {
     changeElementIdColor("balanceOf_BTN", "green");
   } catch (err) {
     console.log(err);
-	alert(contract)
+    alert(contract);
     if (contract == null || contract.length == 0)
       msg = "Error: Null/Empty Contract";
     else msg = "Error: readContractBalanceOfName() ";
@@ -161,6 +149,7 @@ async function GUI_balanceOf() {
 
 async function GUI_sendToAccount() {
   try {
+	var signer = getValidatedSigner();
     const spCoinContract = new ethers.Contract(
       contractAddress,
       spCoinABI,

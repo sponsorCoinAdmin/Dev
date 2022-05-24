@@ -44,7 +44,7 @@
               type="button"
               id="connectWallet_BTN"
               class="button"
-              onclick="GUI_connectWallet()"
+              onclick="GUI_connectWallet(document.getElementById('connectWallet_TX').value)"
               value="Connect Wallet"
             />
           </td>
@@ -64,13 +64,13 @@
           <td>
             <input
               type="button"
-              id="activeMetaMaskAccount_BTN"
+              id="activeAccount_BTN"
               class="button"
-              onclick="GUI_getActiveMetaMaskAccount()"
-              value="get Active Metamask Account"
+              onclick="GUI_getActiveAccount()"
+              value="Get Active Account"
             />
           </td>
-          <td><input type="text" id="activeMetaMaskAccount_TX" /></td>
+          <td><input type="text" id="activeAccount_TX" /></td>
           <td class="spacer"></td>
           <td>Meta Mask Ledger 1</td>
           <td>0xFAbed8e2f3a29aEE5002087F1140Ef4C6ACa25B4</td>
