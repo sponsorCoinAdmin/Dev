@@ -2,10 +2,12 @@
 async function GUI_connectWallet(_walletName) {
   try {
     provider = await connectValidWalletProvider(_walletName);
+    setWalletName(_walletName);
     changeElementIdColor("connectWallet_BTN", "green");
   } catch (err) {
-	document.getElementById("activeAccount_TX").value = "";
-	document.getElementById("ethereumAccountBalance_TX").value = "";
+    document.getElementById("activeAccount_TX").value = "";
+    document.getElementById("ethereumAccountBalance_TX").value = "";
+    disconnectWallet();
     alertLogError(err, "connectWallet_BTN");
   }
 }
@@ -14,12 +16,12 @@ async function GUI_connectWallet(_walletName) {
 async function GUI_getActiveAccount() {
   try {
     // MetaMask requires requesting permission to connect users accounts
-	var signer = getValidatedSigner();
+    var signer = getValidatedSigner();
     accountAddress = await getActiveAccount(signer);
     document.getElementById("activeAccount_TX").value = accountAddress;
     changeElementIdColor("activeAccount_BTN", "green");
   } catch (err) {
-	document.getElementById("activeAccount_TX").value = "";
+    document.getElementById("activeAccount_TX").value = "";
     alertLogError(err, "activeAccount_BTN");
   }
 }
@@ -27,8 +29,8 @@ async function GUI_getActiveAccount() {
 // 3. Get Ethereum balance
 async function GUI_getEthereumAccountBalance() {
   try {
-	var signer = getValidatedSigner();
-	const balance = await signer.getBalance();
+    var signer = getValidatedSigner();
+    const balance = await signer.getBalance();
     const convertToEth = 1e18;
     const ethbalance = balance.toString() / convertToEth;
     document.getElementById("ethereumAccountBalance_TX").value = ethbalance;
@@ -44,19 +46,18 @@ async function GUI_getEthereumAccountBalance() {
 }
 
 // 4. Connect contract
-async function GUI_connectContract() {
+async function GUI_connectContract(_contractAddress) {
   try {
-	var signer = getValidatedSigner();
-	contractText = document.getElementById("connectContract_TX");
-    contractAddress = contractText.value;
-    contract = new ethers.Contract(contractAddress, spCoinABI, signer);
+    var signer = getValidatedSigner();
+    contract = new ethers.Contract(_contractAddress, spCoinABI, signer);
+    setContractAddress(_contractAddress);
     // do a test call to see if contract is valid.
     tokenName = await contract.name();
     changeElementIdColor("connectContract_BTN", "green");
   } catch (err) {
-	document.getElementById("connectContract_TX").value = "";
+    document.getElementById("connectContract_TX").value = "";
     alertLogError(err, "connectContract_BTN");
-   }
+  }
   return contract;
 }
 
@@ -149,7 +150,7 @@ async function GUI_balanceOf() {
 
 async function GUI_sendToAccount() {
   try {
-	var signer = getValidatedSigner();
+    var signer = getValidatedSigner();
     const spCoinContract = new ethers.Contract(
       contractAddress,
       spCoinABI,

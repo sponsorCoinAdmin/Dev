@@ -105,7 +105,7 @@
               type="button"
               id="connectContract_BTN"
               class="button"
-              onclick="GUI_connectContract()"
+              onclick="GUI_connectContract(document.getElementById('connectContract_TX').value)"
               value="Connect Contract Address"
             />
           </td>
@@ -241,8 +241,10 @@
       src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
       type="application/javascript"
     ></script>
-    <script src="spCoinABI.js" type="application/javascript"></script>
-    <script src="index.js" type="application/javascript"></script>
-    <script src="indexWeb.js" type="application/javascript"></script>
+    <script src="contract/spCoinABI.js" type="application/javascript"></script>
+    <script src="wallet/wallet.js" type="application/javascript"></script>
+    <script src="contract/contract.js" type="application/javascript"></script>
+    <script src="wallet/WEB_Wallet.js" type="application/javascript"></script>
+    <script src="contract/WEB_Contract.js" type="application/javascript"></script>
    </body>
 </html>
