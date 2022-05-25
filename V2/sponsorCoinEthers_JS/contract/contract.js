@@ -3,13 +3,13 @@ const spCoinContractAddress = "0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A";
 var contractAddress;
 var contract;
 
-function setContractAddress(_contractAddress){
+function setContractAddress(_contractAddress) {
   contractAddress = _contractAddress;
 }
 
 function getContract(_contractAddress) {
   try {
-    if (_contractAddress == null) {
+    if (_contractAddress != null) {
       contract = new ethers.Contract(_contractAddress, spCoinABI, getSigner());
     }
   } catch (err) {
@@ -17,7 +17,6 @@ function getContract(_contractAddress) {
   }
   return contract;
 }
-
 
 // 4. Connect contract
 async function connectContract() {
@@ -29,6 +28,30 @@ async function connectContract() {
     processError(err);
   }
   return contract;
+}
+
+async function connectValidContract(_contractAddress) {
+  try {
+    // MetaMask requires requesting permission to connect users accounts
+    if (_contractAddress == undefined || _contractAddress.length == 0) {
+      msg = "Error: Contract Address Required";
+      throw { "name": "missingContractAddress", "message": msg };
+    }
+
+    contract = new ethers.Contract(_contractAddress, spCoinABI, signer);
+
+    if (contract == undefined || contract.length == 0) {
+      msg = "Error: Cannot connect to Contract Address  <" + _contractAddress + ">";
+      throw { "name": "emptyWalletSigner", "message": msg };
+    }
+
+    // do a test call to see if contract is valid.
+    tokenName = await contract.name();
+ 
+    return contract;
+  } catch (err) {
+    processError(err);
+  }
 }
 
 async function readContractName() {
@@ -77,7 +100,7 @@ async function balanceOf() {
 
 async function sendToAccount(addr) {
   try {
-	var signer = getValidatedSigner();
+    var signer = getValidatedSigner();
     const spCoinContract = new ethers.Contract(
       contractAddress,
       spCoinABI,
@@ -96,22 +119,4 @@ async function sendToAccount(addr) {
   } catch (err) {
     processError(err);
   }
-}
-
-function changeElementIdColor(name, color) {
-  document.getElementById(name).style.backgroundColor = color;
-}
-
-function isEmptyObj(object) {
-  isEmpty = JSON.stringify(object) === "{}";
-  return isEmpty;
-}
-
-function processError(err) {
-  throw err;
-}
-
-function disconnectContract() {
-  this.contractAddress = undefined;
-	this.contract = undefined;
 }

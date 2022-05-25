@@ -1,58 +1,8 @@
-// 1. Connect Metamask with Dapp
-async function GUI_connectWallet(_walletName) {
-  try {
-    provider = await connectValidWalletProvider(_walletName);
-    setWalletName(_walletName);
-    changeElementIdColor("connectWallet_BTN", "green");
-  } catch (err) {
-    document.getElementById("activeAccount_TX").value = "";
-    document.getElementById("ethereumAccountBalance_TX").value = "";
-    disconnectWallet();
-    alertLogError(err, "connectWallet_BTN");
-  }
-}
-
-// 2. Connect Active Account
-async function GUI_getActiveAccount() {
-  try {
-    // MetaMask requires requesting permission to connect users accounts
-    var signer = getValidatedSigner();
-    accountAddress = await getActiveAccount(signer);
-    document.getElementById("activeAccount_TX").value = accountAddress;
-    changeElementIdColor("activeAccount_BTN", "green");
-  } catch (err) {
-    document.getElementById("activeAccount_TX").value = "";
-    alertLogError(err, "activeAccount_BTN");
-  }
-}
-
-// 3. Get Ethereum balance
-async function GUI_getEthereumAccountBalance() {
-  try {
-    var signer = getValidatedSigner();
-    const balance = await signer.getBalance();
-    const convertToEth = 1e18;
-    const ethbalance = balance.toString() / convertToEth;
-    document.getElementById("ethereumAccountBalance_TX").value = ethbalance;
-    console.log(
-      "account's balance in ether:",
-      balance.toString() / convertToEth
-    );
-    changeElementIdColor("ethereumAccountBalance_BTN", "green");
-  } catch (err) {
-    document.getElementById("ethereumAccountBalance_TX").value = "";
-    alertLogError(err, "ethereumAccountBalance_BTN");
-  }
-}
-
-// 4. Connect contract
+// Connect contract
 async function GUI_connectContract(_contractAddress) {
   try {
     var signer = getValidatedSigner();
-    contract = new ethers.Contract(_contractAddress, spCoinABI, signer);
-    setContractAddress(_contractAddress);
-    // do a test call to see if contract is valid.
-    tokenName = await contract.name();
+    contract = await connectValidContract(_contractAddress);
     changeElementIdColor("connectContract_BTN", "green");
   } catch (err) {
     document.getElementById("connectContract_TX").value = "";
@@ -176,27 +126,4 @@ async function GUI_sendToAccount() {
   } catch (err) {
     alertLogError(err, "sendToAccount_BTN");
   }
-}
-
-function alertLogError(err, element) {
-  console.log(err.message);
-  changeElementIdColor(element, "red");
-  alert(err.message);
-}
-
-function changeElementIdColor(name, color) {
-  document.getElementById(name).style.backgroundColor = color;
-}
-function toggle(elmtStr) {
-  elmtObj = document.getElementById(elmtStr);
-  if (elmtObj.style.display === "none") {
-    elmtObj.style.display = "block";
-  } else {
-    elmtObj.style.display = "none";
-  }
-}
-
-function WEB_isEmptyObj(object) {
-  isEmpty = JSON.stringify(object) === "{}";
-  return isEmpty;
 }
