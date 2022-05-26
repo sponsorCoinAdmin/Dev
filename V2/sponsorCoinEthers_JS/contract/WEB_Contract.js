@@ -4,8 +4,8 @@ async function GUI_connectContract(_contractAddress) {
     var signer = getValidatedSigner();
     contract = await connectValidContract(_contractAddress);
     changeElementIdColor("connectContract_BTN", "green");
+    clearContractFields();
   } catch (err) {
-    document.getElementById("connectContract_TX").value = "";
     alertLogError(err, "connectContract_BTN");
   }
   return contract;
@@ -19,7 +19,7 @@ async function GUI_readContractName() {
   } catch (err) {
     console.log(err);
     if (contract == null || contract.length == 0)
-      msg = "Error: Null/Empty Contract";
+      msg = "Error: Valid Contract Required";
     else msg = "Error: readContractName() ";
     alertLogError(
       { name: "ReadNameFailure", message: msg },
@@ -126,4 +126,11 @@ async function GUI_sendToAccount() {
   } catch (err) {
     alertLogError(err, "sendToAccount_BTN");
   }
+}
+
+function clearContractFields() {
+  document.getElementById("contractName_TX").value = "";
+  document.getElementById("contractSymbol_TX").value = "";
+  document.getElementById("contractTotalSupply_TX").value = "";
+  document.getElementById("contractDecimals_TX").value = "";
 }

@@ -37,19 +37,18 @@ async function connectValidContract(_contractAddress) {
       msg = "Error: Contract Address Required";
       throw { "name": "missingContractAddress", "message": msg };
     }
-
-    contract = new ethers.Contract(_contractAddress, spCoinABI, signer);
-
-    if (contract == undefined || contract.length == 0) {
+    try {
+      contract = new ethers.Contract(_contractAddress, spCoinABI, signer);
+      // do a test call to see if contract is valid.
+      tokenName = await contract.name();
+    }
+    catch {
       msg = "Error: Cannot connect to Contract Address  <" + _contractAddress + ">";
       throw { "name": "emptyWalletSigner", "message": msg };
     }
-
-    // do a test call to see if contract is valid.
-    tokenName = await contract.name();
- 
     return contract;
   } catch (err) {
+    contract = undefined;
     processError(err);
   }
 }

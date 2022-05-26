@@ -4,13 +4,15 @@ var signer;
 var contractAddress = defaultContractAddress;
 var accountAddress;
 var contract;
+var accountList;
+
 
 // 1. Connect Metamask with Dapp
 async function connectMetaMaskWallet() {
 	try {
 		// MetaMask requires requesting permission to connect users accounts
 		provider = new ethers.providers.Web3Provider(window.ethereum)
-		await provider.send("eth_requestAccounts", []);
+		accountList = await provider.send("eth_requestAccounts", []);
 		signer = await provider.getSigner();
 	}
 	catch(err) {

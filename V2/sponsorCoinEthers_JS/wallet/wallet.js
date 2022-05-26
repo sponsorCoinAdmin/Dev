@@ -4,44 +4,37 @@ var walletName;
 var provider;
 var signer;
 var accountAddress;
+var accountList;
 
-function connectMetaMask() {
+async function connectMetaMask() {
   try {
     // MetaMask requires requesting permission to connect users accounts
     provider = new ethers.providers.Web3Provider(window.ethereum);
+    accountList = provider.send("eth_requestAccounts", []);
+    signer = provider.getSigner();
   } catch (err) {
-    processError(err);
+      processError(err);
     throw err;
   }
   return provider;
 }
 
-function setWalletName(_walletName) 
-{
-    this.walletName = _walletName;
+function setWalletName(_walletName) {
+  this.walletName = _walletName;
 }
 
 function getWalletName() {
-  //   try {
-  //     if (walletName == null) {
-  //       walletName = defaultWalletName;
-  //     }
-  //   } catch (err) {
-  //     processError(err);
-  //   }
   return walletName;
 }
 
-function getWalletProvider(_walletName) {
-  //  if (_walletName == undefined) _walletName = defaultWalletName;
+async function getWalletProvider(_walletName) {
   try {
     switch (_walletName.toUpperCase()) {
       case "METAMASK":
-        provider = connectMetaMask();
+        provider = await connectMetaMask();
         break;
       default:
-        provider = undefined;
-        break;
+        throw {"name":"Unknown Provider", "message":"Cannot connect to Wallet Provider " + provider};
     }
   } catch (err) {
     processError(err);
@@ -50,25 +43,10 @@ function getWalletProvider(_walletName) {
 }
 
 function getProvider(_walletName) {
-  try {
-    if (provider == null) {
-      provider = getWalletProvider(getWalletName());
-    }
-  } catch (err) {
-    processError(err);
-  }
   return provider;
 }
 
 function getSigner() {
-  try {
-    if (signer == null) {
-      signer =
-        getProvider() != undefined ? getProvider().getSigner() : undefined;
-    }
-  } catch (err) {
-    processError(err);
-  }
   return signer;
 }
 
@@ -93,32 +71,26 @@ async function connectWalletProvider(_walletName) {
   try {
     // MetaMask requires requesting permission to connect users accounts
     provider = getWalletProvider(_walletName);
-
-    /*
-	  await getProvider().send("eth_requestAccounts", []);
-	  signer = await getSigner();
-	  
-	   */
-    return provider;
+      return provider;
   } catch (err) {
     processError(err);
   }
 }
 
-async function connectValidWalletProvider(_walletName) {
+function connectValidWalletProvider(_walletName) {
   try {
     // MetaMask requires requesting permission to connect users accounts
     if (_walletName == undefined || _walletName.length == 0) {
-        msg = "Error: No Wallet Specified";
-        throw { name: "emptyWalletSigner", message: msg };
+      msg = "Error: No Wallet Specified";
+      throw { name: "emptyWalletSigner", message: msg };
     }
     var provider = getWalletProvider(_walletName);
-	if (provider == undefined || provider.length == 0) {
-		msg = "Error: Cannot connect to wallet <"+_walletName+">";
-		throw { name: "emptyWalletSigner", message: msg };
-	  }
-	  this.provider = provider;
-      return provider;
+    if (provider == undefined || provider.length == 0) {
+      msg = "Error: Cannot connect to wallet <" + _walletName + ">";
+      throw { name: "emptyWalletSigner", message: msg };
+    }
+    this.provider = provider;
+    return provider;
   } catch (err) {
     processError(err);
   }
@@ -151,10 +123,9 @@ async function getEthereumAccountBalance() {
   return balance;
 }
 
-
 function disconnectWallet() {
   this.walletName = undefined;
   this.accountAddress = undefined;
-	this.provider = undefined;
-	this.signer = undefined;
+  this.provider = undefined;
+  this.signer = undefined;
 }
