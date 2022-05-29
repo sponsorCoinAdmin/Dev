@@ -8,7 +8,7 @@
     <title>SponsorCoin.js</title>
   </head>
 
-  <body> 
+  <body onload="clearContractFields()"> 
     <ul>
       <li><a href="#home">WALLET</a></li>
       <li><a href="#news">ACCOUNTS</a></li>
@@ -171,7 +171,7 @@
                 id="contractTokenSupply_BTN"
                 class="cell_BTN"
                 onclick="GUI_readContractTokenSupply(this.id)">
-                Account Token Supply
+                Contract Token Supply
               </button>
             </td>
             <td><input type="text" id="contractTokenSupply_TX" /></td>
@@ -182,7 +182,7 @@
               id="balanceOf_BTN"
               class="cell_BTN"
               onclick="GUI_balanceOf(this.id)">
-              Account WEI balance
+              Account WEI Balance
             </button>
           </td>
           <td><input type="text" id="balanceOf_TX" /></td>
@@ -193,7 +193,7 @@
               id="AccountTokenBalance_BTN"
               class="cell_BTN"
               onclick="GUI_getAccountTokenBalance(this.id)">
-              Account Token balance
+              Account Token Balance
             </button>
           </td>
           <td><input type="text" id="AccountTokenBalance_TX" /></td>

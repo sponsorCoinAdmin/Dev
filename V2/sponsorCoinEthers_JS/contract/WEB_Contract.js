@@ -159,4 +159,7 @@ function clearContractFields() {
   document.getElementById("contractSymbol_TX").value = "";
   document.getElementById("contractTotalSupply_TX").value = "";
   document.getElementById("contractDecimals_TX").value = "";
+  document.getElementById("balanceOf_TX").value = "";
+  document.getElementById("contractTokenSupply_TX").value = "";
+  document.getElementById("AccountTokenBalance_TX").value = "";
 }
