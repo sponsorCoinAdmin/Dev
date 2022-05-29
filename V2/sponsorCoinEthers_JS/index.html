@@ -104,12 +104,13 @@
             </button>
           </td>
           <td><input type="text" id="connectContract_TX" value="0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A" /></td>
+          <td></td>
           <td>
             <button
               id="contractData_BTN"
               class="cell_BTN"
               onclick="toggle('myDIV')">
-              Read Contract Data
+              Show Contract Data
             </button>
           </td>
         </tr>
@@ -170,28 +171,44 @@
                 id="contractTokenSupply_BTN"
                 class="cell_BTN"
                 onclick="GUI_readContractTokenSupply(this.id)">
-                Account Token Supply>
+                Account Token Supply
               </button>
             </td>
             <td><input type="text" id="contractTokenSupply_TX" /></td>
           </tr>
-        </tbody>
-      </table>
-    </div>
-    <table id="action_TBL">
-      <tbody>
-        <tr>
+         <tr>
           <td>
             <button
               id="balanceOf_BTN"
               class="cell_BTN"
               onclick="GUI_balanceOf(this.id)">
-              Account Token balance
+              Account WEI balance
             </button>
           </td>
           <td><input type="text" id="balanceOf_TX" /></td>
         </tr>
         <tr>
+          <td>
+            <button
+              id="AccountTokenBalance_BTN"
+              class="cell_BTN"
+              onclick="GUI_getAccountTokenBalance(this.id)">
+              Account Token balance
+            </button>
+          </td>
+          <td><input type="text" id="AccountTokenBalance_TX" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <table id="action_TBL">
+    <tbody>
+      <tr>
+        <th>Contract Transaction</th>
+        <td class="addr"></td>
+      </tr>
+
+      <tr>
           <td>
             <button
               id="sendToAccount_BTN"

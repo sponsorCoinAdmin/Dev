@@ -10,6 +10,7 @@ async function GUI_connectContract(id, _contractAddress) {
     GUI_readContractDecimals("contractDecimals_BTN");
     GUI_readContractTokenSupply("contractTokenSupply_BTN");
     GUI_balanceOf("balanceOf_BTN");
+    GUI_getAccountTokenBalance("AccountTokenBalance_BTN");
   } catch (err) {
     alertLogError(err, id);
   }
@@ -87,7 +88,7 @@ async function GUI_readContractTokenSupply(id) {
       msg = "Error: Null/Empty Contract";
     else msg = "Error: readContractTotalSupply() ";
     alertLogError(
-      { namereadContractTotalSupply: "", message: msg },id);
+      { namereadContractTotalSupply: "", message: msg }, id);
   }
 }
 
@@ -104,7 +105,24 @@ async function GUI_balanceOf(id) {
       msg = "Error: Null/Empty Contract";
     else msg = "Error: readContractBalanceOfName() ";
     alertLogError(
-      { name: "GetBalanceOfNameFailure", message: msg }, id);
+      { name: "GetBalanceOfFailure", message: msg }, id);
+  }
+}
+
+async function GUI_getAccountTokenBalance(id) {
+  try {
+    balance = await getContractAccountTokenBalance(accountAddress);
+    document.getElementById(id.replace("_BTN", "_TX")).value = balance;
+    console.log("balanceOf " + accountAddress + " = " + balance);
+    changeElementIdColor(id, "green");
+  } catch (err) {
+    console.log(err);
+    alert(contract);
+    if (contract == null || contract.length == 0)
+      msg = "Error: Null/Empty Contract";
+    else msg = "Error: readContractBalanceOfName() ";
+    alertLogError(
+      { name: "GetAccountTokenFailure", message: msg }, id);
   }
 }
 

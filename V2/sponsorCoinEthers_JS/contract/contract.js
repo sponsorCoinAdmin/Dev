@@ -45,6 +45,12 @@ async function getContractTokenSupply() {
   return tokenSupply
 }
 
+async function getContractAccountTokenBalance() {
+  accountWeiBalance = await  getContract().balanceOf(accountAddress);
+  decimals = await getContractDecimals();
+  accountTokenBalance = weiToToken(accountWeiBalance, decimals);
+  return accountTokenBalance;
+}
 
 // 4. Connect contract
 async function connectContract() {
