@@ -18,10 +18,38 @@ function getContract(_contractAddress) {
   return contract;
 }
 
+async function getContractName() {
+  tokenName = getContract().name();
+  return tokenName;
+}
+
+async function getContractSymbol() {
+  symbol = getContract().symbol();
+  return symbol;
+}
+
+async function getContractTotalSupply() {
+  totalSupply = getContract().totalSupply();
+  return totalSupply;
+}
+
+async function getContractDecimals() {
+  decimals = getContract().decimals();
+  return decimals;
+}
+
+async function getContractTokenSupply() {
+  totalSupply = await getContractTotalSupply();
+  decimals = await getContractDecimals();
+  tokenSupply = weiToToken(totalSupply, decimals);
+  return tokenSupply
+}
+
+
 // 4. Connect contract
 async function connectContract() {
   try {
-    contract = new ethers.Contract(getAddress(), spCoinABI, getSigner());
+    contract = new ethers.Contract(getAddress(), null, getSigner());
     // do a test call to see if contract is valid.
     tokenName = await contract.name();
   } catch (err) {

@@ -8,7 +8,7 @@
     <title>SponsorCoin.js</title>
   </head>
 
-  <body>
+  <body> 
     <ul>
       <li><a href="#home">WALLET</a></li>
       <li><a href="#news">ACCOUNTS</a></li>
@@ -24,8 +24,6 @@
       <li><a href="#news">SPONSORS</a></li>
       <li><a href="#news">SETTINGS</a></li>
       <li><a href="#news">ABOUT</a></li>
-
-
     </ul>
 
     <h3>Sponsor Coin</h3>
@@ -40,15 +38,14 @@
         </tr>
         <tr>
           <td>
-            <input
-              type="button"
+            <button
               id="connectWallet_BTN"
-              class="button"
-              onclick="GUI_connectWallet(document.getElementById('connectWallet_TX').value)"
-              value="Connect Wallet"
-            />
+              class="cell_BTN"
+              onclick="GUI_connectWallet(this.id, document.getElementById('connectWallet_TX').value)">
+              Connect Wallet
+            </button>
           </td>
-          <td><input type="text" id="connectWallet_TX" value="METAMASK"/></td>
+          <td><input type="text" id="connectWallet_TX" value="METAMASK" /></td>
           <td class="spacer"></td>
           <td>SponsorCoin Contract</td>
           <td>0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A</td>
@@ -62,13 +59,12 @@
         </tr>
         <tr>
           <td>
-            <input
-              type="button"
+            <button
               id="activeAccount_BTN"
-              class="button"
-              onclick="GUI_getActiveAccount()"
-              value="Get Active Account"
-            />
+              class="cell_BTN"
+              onclick="GU_getActiveAccount(this.id)">
+              Active Account
+            </button>
           </td>
           <td><input type="text" id="activeAccount_TX" /></td>
           <td class="spacer"></td>
@@ -77,13 +73,12 @@
         </tr>
         <tr>
           <td>
-            <input
-              type="button"
+            <button
               id="ethereumAccountBalance_BTN"
-              class="button"
-              onclick="GUI_getEthereumAccountBalance()"
-              value="Ethereum Account Balance"
-            />
+              class="cell_BTN"
+              onclick="GUI_getEthereumAccountBalance(this.id)">
+              Ethereum Account Balance
+            </button>
           </td>
           <td><input type="text" id="ethereumAccountBalance_TX" /></td>
           <td class="spacer"></td>
@@ -101,23 +96,21 @@
         </tr>
         <tr>
           <td>
-            <input
-              type="button"
+            <button
               id="connectContract_BTN"
-              class="button"
-              onclick="GUI_connectContract(document.getElementById('connectContract_TX').value)"
-              value="Connect Contract Address"
-            />
+              class="cell_BTN"
+              onclick="GUI_connectContract(this.id, document.getElementById('connectContract_TX').value)">
+              Connect Contract Address
+            </button>
           </td>
-          <td><input type="text" id="connectContract_TX" value =""/></td>
+          <td><input type="text" id="connectContract_TX" value="0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A" /></td>
           <td>
-            <input
-              type="button"
+            <button
               id="contractData_BTN"
-              class="button"
-              onclick="toggle('myDIV')"
-              value="Read Contract Data"
-            />
+              class="cell_BTN"
+              onclick="toggle('myDIV')">
+              Read Contract Data
+            </button>
           </td>
         </tr>
       </tbody>
@@ -127,51 +120,60 @@
         <tbody>
           <tr>
             <td>
-              <input
-                type="button"
+              <button
                 id="contractName_BTN"
-                class="button"
-                onclick="GUI_readContractName()"
-                value="Contract Name"
-              />
+                class="cell_BTN"
+                onClick="GUI_readContractName(this.id);">
+                Contract Name
+              </button>
             </td>
             <td><input type="text" id="contractName_TX" /></td>
           </tr>
+
           <tr>
             <td>
-              <input
-                type="button"
+              <button
                 id="contractSymbol_BTN"
-                class="button"
-                onclick="GUI_readContractSymbol()"
-                value="Contract Symbol"
-              />
+                class="cell_BTN"
+                onclick="GUI_readContractSymbol(this.id)">
+                Contract Symbol
+              </button>
             </td>
             <td><input type="text" id="contractSymbol_TX" /></td>
           </tr>
+
           <tr>
             <td>
-              <input
-                type="button"
+              <button
                 id="contractTotalSupply_BTN"
-                class="button"
-                onclick="GUI_readContractTotalSupply()"
-                value="Contract Total Supply"
-              />
+                class="cell_BTN"
+                onclick="GUI_readContractTotalSupply(this.id)">Contract Total Supply
+              </button>
             </td>
             <td><input type="text" id="contractTotalSupply_TX" /></td>
           </tr>
+
           <tr>
             <td>
-              <input
-                type="button"
+              <button
                 id="contractDecimals_BTN"
-                class="button"
-                onclick="GUI_readContractDecimals()"
-                value="Contract Decimals"
-              />
-            </td>
+                class="cell_BTN"
+                onclick="GUI_readContractDecimals(this.id)">
+                Contract Decimals
+              </button>
+             </td>
             <td><input type="text" id="contractDecimals_TX" /></td>
+          </tr>
+          <tr>
+            <td>
+              <button
+                id="contractTokenSupply_BTN"
+                class="cell_BTN"
+                onclick="GUI_readContractTokenSupply(this.id)">
+                Account Token Supply>
+              </button>
+            </td>
+            <td><input type="text" id="contractTokenSupply_TX" /></td>
           </tr>
         </tbody>
       </table>
@@ -180,62 +182,55 @@
       <tbody>
         <tr>
           <td>
-            <input
-              type="button"
+            <button
               id="balanceOf_BTN"
-              class="button"
-              onclick="GUI_balanceOf()"
-              value="Account Token balance"
-            />
+              class="cell_BTN"
+              onclick="GUI_balanceOf(this.id)">
+              Account Token balance
+            </button>
           </td>
           <td><input type="text" id="balanceOf_TX" /></td>
         </tr>
         <tr>
           <td>
-            <input
-              type="button"
+            <button
               id="sendToAccount_BTN"
-              class="button"
-              onclick="GUI_sendToAccount()"
-              value="send To Account"
-            />
+              class="cell_BTN"
+              onclick="GUI_sendToAccount(this.id)">
+              Send To Account
+            </button>
           </td>
           <td><input type="text" id="sendToAccountAddr_TX" /></td>
           <td class="spacer"></td>
           <td>Amount</td>
-          <td width="200px"><input type="text" id="tokenAmount" /></td>
+          <td><input type="text" id="tokenAmount" /></td>
         </tr>
         <tr>
           <td>
-            <input
-              type="button"
-              id=""
-              class="button"
-              onclick="GUI_readFromScConctractStorage()"
-              value="readFromScConctractStorage"
-            />
+            <button
+              id="ReadFromScConctractStorage_BTN"
+              class="cell_BTN"
+              onclick="GUI_readFromScConctractStorage(this.id)">
+              readFromScConctractStorage
+            </button>
           </td>
           <td></td>
         </tr>
         <tr>
           <td>
-            <input
-              type="button"
-              class="button"
-              onclick="document.location.reload(true)"
-              value="Clear Fields"
-            />
+            <button
+              class="cell_BTN"
+              onclick="document.location.reload(true)">
+              Clear Fields
+            </button>
           </td>
           <td></td>
         </tr>
       </tbody>
     </table>
 
-    <input
-      type="button"
-      value="Reload Page"
-      onclick="document.location.reload(true);"
-    />
+    <button
+      onclick="document.location.reload(true);">Reload Page</button>
 
     <script
       src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
@@ -246,6 +241,9 @@
     <script src="wallet/wallet.js" type="application/javascript"></script>
     <script src="contract/contract.js" type="application/javascript"></script>
     <script src="wallet/WEB_Wallet.js" type="application/javascript"></script>
-    <script src="contract/WEB_Contract.js" type="application/javascript"></script>
-   </body>
+    <script
+      src="contract/WEB_Contract.js"
+      type="application/javascript"
+    ></script>
+  </body>
 </html>

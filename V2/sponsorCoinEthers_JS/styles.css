@@ -62,7 +62,7 @@ tr, td {
    border: 5px solid white;
 }
 
-.button {
+.cell_BTN {
    background-color: #5482c7;
    border: none;
    color: white;
@@ -94,7 +94,7 @@ tr {
 th {
    margin-left: 130px;
    margin: 33px;
-   width:200px;
+   width:210px;
    border:80px;
 }
 
@@ -102,12 +102,9 @@ td {
    padding:0px;
 }
 
-input, select {
+input, button {
    margin:0;
    padding:0;
    height:100%;
    width:100%;
 }
-
-#myDIV {
-    }

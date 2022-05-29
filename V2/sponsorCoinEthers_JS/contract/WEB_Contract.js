@@ -1,90 +1,102 @@
 // Connect contract
-async function GUI_connectContract(_contractAddress) {
+async function GUI_connectContract(id, _contractAddress) {
   try {
     var signer = getValidatedSigner();
     contract = await connectValidContract(_contractAddress);
-    changeElementIdColor("connectContract_BTN", "green");
-    clearContractFields();
+    changeElementIdColor(id, "green");
+    GUI_readContractName("contractName_BTN");
+    GUI_readContractSymbol("contractSymbol_BTN");
+    GUI_readContractTotalSupply("contractTotalSupply_BTN");
+    GUI_readContractDecimals("contractDecimals_BTN");
+    GUI_readContractTokenSupply("contractTokenSupply_BTN");
+    GUI_balanceOf("balanceOf_BTN");
   } catch (err) {
-    alertLogError(err, "connectContract_BTN");
+    alertLogError(err, id);
   }
   return contract;
 }
 
-async function GUI_readContractName() {
+async function GUI_readContractName(id) {
   try {
-    tokenName = await getContract().name();
-    document.getElementById("contractName_TX").value = tokenName;
-    changeElementIdColor("contractName_BTN", "green");
+    tokenName = await getContractName();
+    document.getElementById(id.replace("_BTN", "_TX")).value = tokenName;
+    changeElementIdColor(id, "green");
   } catch (err) {
     console.log(err);
     if (contract == null || contract.length == 0)
       msg = "Error: Valid Contract Required";
     else msg = "Error: readContractName() ";
     alertLogError(
-      { name: "ReadNameFailure", message: msg },
-      "contractName_BTN"
-    );
+      { name: "ReadNameFailure", message: msg }, id );
   }
 }
 
-async function GUI_readContractSymbol() {
+async function GUI_readContractSymbol(id) {
   try {
-    symbol = await getContract().symbol();
-    document.getElementById("contractSymbol_TX").value = symbol;
-    changeElementIdColor("contractSymbol_BTN", "green");
+    symbol = await getContractSymbol();
+    document.getElementById(id.replace("_BTN", "_TX")).value = symbol;
+    changeElementIdColor(id, "green");
   } catch (err) {
     console.log(err);
     if (contract == null || contract.length == 0)
       msg = "Error: Null/Empty Contract";
     else msg = "Error: readContracSymbol() ";
     alertLogError(
-      { name: "readContracSymbol", message: msg },
-      "contractSymbol_BTN"
-    );
+      { name: "readContracSymbol", message: msg }, id);
   }
 }
 
-async function GUI_readContractTotalSupply() {
+async function GUI_readContractTotalSupply(id) {
   try {
-    spCoinTotalSupply = await getContract().totalSupply();
-    document.getElementById("contractTotalSupply_TX").value = spCoinTotalSupply;
-    changeElementIdColor("contractTotalSupply_BTN", "green");
+    spCoinWeiSupply = await getContractTotalSupply();
+    document.getElementById(id.replace("_BTN", "_TX")).value = spCoinWeiSupply;
+    changeElementIdColor(id, "green");
   } catch (err) {
     console.log(err);
     if (contract == null || contract.length == 0)
       msg = "Error: Null/Empty Contract";
     else msg = "Error: readContractTotalSupply() ";
     alertLogError(
-      { name: "readContractTotalSupply", message: msg },
-      "contractTotalSupply_BTN"
-    );
+      { name: "readContractTotalSupply", message: msg }, id );
   }
 }
 
-async function GUI_readContractDecimals() {
+async function GUI_readContractDecimals(id) {
   try {
-    decimals = await getContract().decimals();
-    document.getElementById("contractDecimals_TX").value = decimals;
-    changeElementIdColor("contractDecimals_BTN", "green");
+    decimals = await getContractDecimals();
+    document.getElementById(id.replace("_BTN", "_TX")).value = decimals;
+    changeElementIdColor(id, "green");
   } catch (err) {
     console.log(err);
     if (contract == null || contract.length == 0)
       msg = "Error: Null/Empty Contract";
     else msg = "Error: readContractDecimals() ";
     alertLogError(
-      { name: "readContractDecimals", message: msg },
-      "contractDecimals_BTN"
-    );
+      { name: "readContractDecimals", message: msg }, id);
   }
 }
 
-async function GUI_balanceOf() {
+async function GUI_readContractTokenSupply(id) {
+  try {
+    tokenSupply = await getContractTokenSupply();
+    document.getElementById(id.replace("_BTN", "_TX")).value = tokenSupply;
+    changeElementIdColor(id, "green");
+  } catch (err) {
+    console.log(err);
+    if (contract == null || contract.length == 0)
+      msg = "Error: Null/Empty Contract";
+    else msg = "Error: readContractTotalSupply() ";
+    alertLogError(
+      { namereadContractTotalSupply: "", message: msg },id);
+  }
+}
+
+async function GUI_balanceOf(id) {
   try {
     balance = await getContract().balanceOf(accountAddress);
-    document.getElementById("balanceOf_TX").value = balance;
+    document.getElementById(id.replace("_BTN", "_TX")).value = balance;
     console.log("balanceOf " + accountAddress + " = " + balance);
-    changeElementIdColor("balanceOf_BTN", "green");
+    changeElementIdColor(id, "green");
   } catch (err) {
     console.log(err);
     alert(contract);
@@ -92,13 +104,11 @@ async function GUI_balanceOf() {
       msg = "Error: Null/Empty Contract";
     else msg = "Error: readContractBalanceOfName() ";
     alertLogError(
-      { name: "GetBalanceOfNameFailure", message: msg },
-      "balanceOf_BTN"
-    );
+      { name: "GetBalanceOfNameFailure", message: msg }, id);
   }
 }
 
-async function GUI_sendToAccount() {
+async function GUI_sendToAccount(id) {
   try {
     var signer = getValidatedSigner();
     const spCoinContract = new ethers.Contract(
@@ -107,24 +117,22 @@ async function GUI_sendToAccount() {
       getProvider()
     );
     sendToAccountAddr = document.getElementById("sendToAccountAddr_TX");
-    addr = document.getElementById("sendToAccountAddr_TX").value;
+    addr = document.getElementById(id.replace("_BTN", "_TX")).value;
     if (!addr && addr.length == 0) {
       console.log("Address is empty");
       sendToAccountAddr.value = "Address is empty";
-      changeElementIdColor("sendToAccountAddr_TX", "red");
-      changeElementIdColor("sendToAccount_BTN", "red");
+      changeElementIdColor((id), "red");
     } else {
       if (!ethers.utils.isAddress(addr)) {
         alert("Address %s is not valid", addr);
-        changeElementIdColor("sendToAccountAddr_TX", "red");
-        changeElementIdColor("sendToAccount_BTN", "red");
+        changeElementIdColor((id), "red");
       } else {
         spCoinContract.connect(signer).transfer(addr, "500000000");
-        changeElementIdColor("sendToAccount_BTN", "green");
+        changeElementIdColor(id, "green");
       }
     }
   } catch (err) {
-    alertLogError(err, "sendToAccount_BTN");
+    alertLogError(err, id);
   }
 }
 
