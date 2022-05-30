@@ -28,7 +28,7 @@ async function GUI_readContractName(id) {
       msg = "Error: Valid Contract Required";
     else msg = "Error: readContractName() ";
     alertLogError(
-      { name: "ReadNameFailure", message: msg }, id);
+      { name: "ReadNameFailure", message: msg }, id );
   }
 }
 
@@ -58,7 +58,7 @@ async function GUI_readContractTotalSupply(id) {
       msg = "Error: Null/Empty Contract";
     else msg = "Error: readContractTotalSupply() ";
     alertLogError(
-      { name: "readContractTotalSupply", message: msg }, id);
+      { name: "readContractTotalSupply", message: msg }, id );
   }
 }
 
