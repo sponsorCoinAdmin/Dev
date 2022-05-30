@@ -42,11 +42,11 @@ async function getContractTokenSupply() {
   totalSupply = await getContractTotalSupply();
   decimals = await getContractDecimals();
   tokenSupply = weiToToken(totalSupply, decimals);
-  return tokenSupply
+  return tokenSupply;
 }
 
 async function getContractAccountTokenBalance() {
-  accountWeiBalance = await  getContract().balanceOf(accountAddress);
+  accountWeiBalance = await getContract().balanceOf(accountAddress);
   decimals = await getContractDecimals();
   accountTokenBalance = weiToToken(accountWeiBalance, decimals);
   return accountTokenBalance;
@@ -69,16 +69,16 @@ async function connectValidContract(_contractAddress) {
     // MetaMask requires requesting permission to connect users accounts
     if (_contractAddress == undefined || _contractAddress.length == 0) {
       msg = "Error: Contract Address Required";
-      throw { "name": "missingContractAddress", "message": msg };
+      throw { name: "missingContractAddress", message: msg };
     }
     try {
       contract = new ethers.Contract(_contractAddress, spCoinABI, signer);
       // do a test call to see if contract is valid.
       tokenName = await contract.name();
-    }
-    catch {
-      msg = "Error: Cannot connect to Contract Address  <" + _contractAddress + ">";
-      throw { "name": "emptyWalletSigner", "message": msg };
+    } catch {
+      msg =
+        "Error: Cannot connect to Contract Address  <" + _contractAddress + ">";
+      throw { name: "emptyWalletSigner", message: msg };
     }
     return contract;
   } catch (err) {
@@ -131,14 +131,32 @@ async function balanceOf() {
   }
 }
 
-async function sendToAccount(addr) {
+async function sendTokensToAccount(addr, tokenAmount) {
   try {
     var signer = getValidatedSigner();
-    const spCoinContract = new ethers.Contract(
-      contractAddress,
-      spCoinABI,
-      getProvider()
-    );
+    contract = new ethers.Contract(contractAddress, spCoinABI, getProvider());
+    if (!addr && addr.length == 0) {
+      console.log("Address is empty");
+      throw { name: "GUI_sendTokensToAccount", message: "Address is empty" };
+    } else {
+      if (!ethers.utils.isAddress(addr)) {
+        throw {
+          name: "GUI_sendTokensToAccount",
+          message: "Address is not valid",
+        };
+      } else {
+        contract.connect(signer).transfer(addr, tokenAmount);
+      }
+    }
+  } catch (err) {
+    processError(err);
+  }
+}
+
+async function OLD_sendTokensToAccount(addr, tokenAmount) {
+  try {
+    var signer = getValidatedSigner();
+    contract = new ethers.Contract(contractAddress, spCoinABI, getProvider());
     if (!addr && addr.length == 0) {
       console.log("Address is empty");
       sendToAccountAddr.value = "Address is empty";
@@ -146,7 +164,7 @@ async function sendToAccount(addr) {
       if (!ethers.utils.isAddress(addr)) {
         alert("Address %s is not valid", addr);
       } else {
-        spCoinContract.connect(signer).transfer(addr, "500000000");
+        contract.connect(signer).transfer(addr, "500000000");
       }
     }
   } catch (err) {

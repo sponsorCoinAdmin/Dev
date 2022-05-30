@@ -28,7 +28,7 @@ async function GUI_readContractName(id) {
       msg = "Error: Valid Contract Required";
     else msg = "Error: readContractName() ";
     alertLogError(
-      { name: "ReadNameFailure", message: msg }, id );
+      { name: "ReadNameFailure", message: msg }, id);
   }
 }
 
@@ -58,7 +58,7 @@ async function GUI_readContractTotalSupply(id) {
       msg = "Error: Null/Empty Contract";
     else msg = "Error: readContractTotalSupply() ";
     alertLogError(
-      { name: "readContractTotalSupply", message: msg }, id );
+      { name: "readContractTotalSupply", message: msg }, id);
   }
 }
 
@@ -126,7 +126,17 @@ async function GUI_getAccountTokenBalance(id) {
   }
 }
 
-async function GUI_sendToAccount(id) {
+async function GUI_sendTokensToAccount(id, addr, tokkenAmount) {
+  try {
+    await sendTokensToAccount(id, addr, tokkenAmount);
+
+    changeElementIdColor(id, "green");
+  } catch (err) {
+    alertLogError(err, id);
+  }
+}
+
+async function JUNK_OLD_GUI_sendTokensToAccount(id) {
   try {
     var signer = getValidatedSigner();
     const spCoinContract = new ethers.Contract(
