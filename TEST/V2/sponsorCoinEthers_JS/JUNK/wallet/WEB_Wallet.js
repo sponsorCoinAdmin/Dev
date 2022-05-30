@@ -1,3 +1,8 @@
+function myFunc(id)
+{
+    alert("myFunc id = "+id);
+}
+
 // 1. Connect Metamask with Dapp
 async function GUI_connectWallet(id, _walletName) {
   try {

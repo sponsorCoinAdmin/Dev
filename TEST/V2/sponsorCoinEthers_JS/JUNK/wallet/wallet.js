@@ -84,7 +84,7 @@ function connectValidWalletProvider(_walletName) {
       msg = "Error: No Wallet Specified";
       throw { name: "emptyWalletSigner", message: msg };
     }
-     var provider = getWalletProvider(_walletName);
+    var provider = getWalletProvider(_walletName);
     if (provider == undefined || provider.length == 0) {
       msg = "Error: Cannot connect to wallet <" + _walletName + ">";
       throw { name: "emptyWalletSigner", message: msg };
