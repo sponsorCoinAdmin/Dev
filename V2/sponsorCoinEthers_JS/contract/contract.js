@@ -1,6 +1,5 @@
-const { ethers } = require("ethers");
-
 // Contract Vars;
+
 const spCoinContractAddress = "0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A";
 var contractAddress;
 var contract;
