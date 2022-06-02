@@ -22,7 +22,7 @@ async function GUI_getActiveAccount(id) {
     document.getElementById(id.replace("_BTN","_TX")).value = accountAddress;
     changeElementIdColor(id, "green");
   } catch (err) {
-    document.getElementById("activeAccount_TX").value = "";
+    document.getElementById(id.replace("_BTN","_TX")).value = "";
     alertLogError(err, id);
   }
 }
@@ -41,7 +41,7 @@ async function GUI_getEthereumAccountBalance(id) {
     );
     changeElementIdColor(id, "green");
   } catch (err) {
-    document.getElementById("ethereumAccountBalance_TX").value = "";
+    document.getElementById(id.replace("_BTN","_TX")).value = "";
     alertLogError(err, id);
   }
 }

@@ -8,7 +8,7 @@
     <title>SponsorCoin.js</title>
   </head>
 
-  <body> 
+  <body onload="clearContractFields()"> 
     <ul>
       <li><a href="#home">WALLET</a></li>
       <li><a href="#news">ACCOUNTS</a></li>
@@ -108,14 +108,14 @@
             <button
               id="contractData_BTN"
               class="cell_BTN"
-              onclick="toggle('myDIV')">
-              Read Contract Data
+              onclick="toggleData(this, 'contractData')">
+              Show Contract Data
             </button>
           </td>
         </tr>
       </tbody>
     </table>
-    <div id="myDIV">
+    <div id="contractData">
       <table id="contract_TBL">
         <tbody>
           <tr>
@@ -152,7 +152,6 @@
             </td>
             <td><input type="text" id="contractTotalSupply_TX" /></td>
           </tr>
-
           <tr>
             <td>
               <button
@@ -186,7 +185,7 @@
               id="balanceOf_BTN"
               class="cell_BTN"
               onclick="GUI_balanceOf(this.id)">
-              Account Token balance
+              Account Wei balance
             </button>
           </td>
           <td><input type="text" id="balanceOf_TX" /></td>
@@ -196,7 +195,7 @@
             <button
               id="AccountTokenBalance_BTN"
               class="cell_BTN"
-              onclick="GUI_getAccountTokenBalance(this.id)">
+              onclick="GUI_readContractTokenSupply(this.id)">
               Account Token balance
             </button>
           </td>
@@ -236,7 +235,7 @@
       </tr>
       <tr>
         <td>
-          <button class="cell_BTN" onclick="document.location.reload(true)">
+          <button class="cell_BTN" ="document.onclicklocation.reload(true)">
             Clear Fields
           </button>
         </td>
@@ -259,7 +258,6 @@
     <script
       src="contract/WEB_Contract.js"
       type="application/javascript"
-
     ></script>
   </body>
 </html>

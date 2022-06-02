@@ -27,8 +27,21 @@ function changeElementIdColor(name, color) {
   document.getElementById(name).style.backgroundColor = color;
 }
 
-function toggle(elmtStr) {
+function toggleData(btn, elmtStr) {
   elmtObj = document.getElementById(elmtStr);
+  if (btn.innerText == "Show Contract Data")
+  {
+    btn.innerText = "Hide Contract Data";
+    elmtObj.style.display = "block";
+  }  
+  else if (btn.innerText == "Hide Contract Data")
+  {
+    btn.innerText = "Show Contract Data";
+    elmtObj.style.display = "none";
+  }
+}
+
+function toggle(elmtObj) {
   if (elmtObj.style.display === "none") {
     elmtObj.style.display = "block";
   } else {
@@ -75,4 +88,9 @@ function expToString(expNum) {
   mag -= str.length;
   while (mag--) z += "0";
   return str + z;
+}
+
+
+function clearFields() {
+  document.onclicklocation.reload(true);
 }

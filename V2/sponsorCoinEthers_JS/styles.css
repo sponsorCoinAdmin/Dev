@@ -58,6 +58,10 @@ body {
    padding: 3px 8px;
 }
 
+#contractData {
+  display: none;
+}
+
 tr, td {
    border: 5px solid white;
 }

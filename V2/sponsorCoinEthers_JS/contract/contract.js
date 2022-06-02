@@ -40,6 +40,7 @@ async function getContractDecimals() {
 }
 
 async function getContractTokenSupply() {
+  alert("getContractTokenSupply()");
   totalSupply = await getContractTotalSupply();
   decimals = await getContractDecimals();
   tokenSupply = weiToToken(totalSupply, decimals);
