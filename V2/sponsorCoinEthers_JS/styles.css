@@ -58,7 +58,7 @@ body {
    padding: 3px 8px;
 }
 
-#contractData {
+#contractData_DIV {
   display: none;
 }
 
@@ -77,6 +77,9 @@ tr, td {
    font-size: 16px;
    margin: 4px 2px;
    cursor: pointer;
+   height:100%;
+   width:100%;
+
  }
 
 tr {
@@ -106,7 +109,7 @@ td {
    padding:0px;
 }
 
-input, button {
+input {
    margin:0;
    padding:0;
    height:100%;

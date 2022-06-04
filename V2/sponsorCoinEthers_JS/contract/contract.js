@@ -20,22 +20,22 @@ function getContract(_contractAddress) {
 }
 
 async function getContractName() {
-  tokenName = getContract().name();
+  tokenName = await getContract().name();
   return tokenName;
 }
 
 async function getContractSymbol() {
-  symbol = getContract().symbol();
+  symbol = await getContract().symbol();
   return symbol;
 }
 
 async function getContractTotalSupply() {
-  totalSupply = getContract().totalSupply();
+  totalSupply = await getContract().totalSupply();
   return totalSupply;
 }
 
 async function getContractDecimals() {
-  decimals = getContract().decimals();
+  decimals = await getContract().decimals();
   return decimals;
 }
 

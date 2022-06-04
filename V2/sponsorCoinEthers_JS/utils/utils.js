@@ -27,22 +27,9 @@ function changeElementIdColor(name, color) {
   document.getElementById(name).style.backgroundColor = color;
 }
 
-function toggleData(btn, elmtStr) {
+function toggle(elmtStr) {
   elmtObj = document.getElementById(elmtStr);
-  if (btn.innerText == "Show Contract Data")
-  {
-    btn.innerText = "Hide Contract Data";
-    elmtObj.style.display = "block";
-  }  
-  else if (btn.innerText == "Hide Contract Data")
-  {
-    btn.innerText = "Show Contract Data";
-    elmtObj.style.display = "none";
-  }
-}
-
-function toggle(elmtObj) {
-  if (elmtObj.style.display === "none") {
+   if (elmtObj.style.display === "none") {
     elmtObj.style.display = "block";
   } else {
     elmtObj.style.display = "none";
@@ -62,34 +49,12 @@ function weiToToken(wei, decimals) {
   return tokens;
 }
 
-function c(tokens, decimals) {
+function tokensToWei(tokens, decimals) {
   mod = 10 ** decimals;
   wei = tokens * mod;
   //    alert ("\ntokens = " + tokens + "\n wei = " + wei + "\nwei = " + wei);
-
-  strNum = expToString(wei);
   return wei;
 }
-
-function expToString(expNum) {
-  var data = String(expNum).split(/[eE]/);
-  if (data.length == 1) return data[0];
-
-  var z = "",
-    sign = this < 0 ? "-" : "",
-    str = data[0].replace(".", ""),
-    mag = Number(data[1]) + 1;
-
-  if (mag < 0) {
-    z = sign + "0.";
-    while (mag++) z += "0";
-    return z + str.replace(/^\-/, "");
-  }
-  mag -= str.length;
-  while (mag--) z += "0";
-  return str + z;
-}
-
 
 function clearFields() {
   document.onclicklocation.reload(true);

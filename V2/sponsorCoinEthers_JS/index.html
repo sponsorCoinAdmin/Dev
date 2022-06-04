@@ -73,17 +73,29 @@
         </tr>
         <tr>
           <td>
-            <button
-              id="ethereumAccountBalance_BTN"
+           <select
+              id="tokenContract_SEL"
               class="cell_BTN"
               onclick="GUI_getEthereumAccountBalance(this.id)">
-              Ethereum Account Balance
-            </button>
+              <option value="" selected="selected">Ethereum Balance</option>
+            </select>
           </td>
-          <td><input type="text" id="ethereumAccountBalance_TX" /></td>
+          <td><input type="text" id="tokenContract_TX" /></td>
           <td class="spacer"></td>
           <td>Meta Mask Ledger 2</td>
           <td>0x1EFFDE4A0e5eEcF79810Dd39f954A515ab962D63</td>
+        </tr>
+        <tr>
+          <td>
+            <button
+            id="tokenContract_BTN"
+            class="cell_BTN"
+            onclick="AddToken(this.id, 'token_SEL')">
+            Add Token Address
+            </button>
+            </td>
+          <td><input type="text" id="tokenContract_TX" /></td>
+          <td class="spacer"></td>
         </tr>
       </tbody>
     </table>
@@ -99,7 +111,7 @@
             <button
               id="connectContract_BTN"
               class="cell_BTN"
-              onclick="GUI_connectContract(this.id, document.getElementById('connectContract_TX').value)">
+              onclick="GUI_connectContract(this, document.getElementById('connectContract_TX').value)">
               Connect Contract Address
             </button>
           </td>
@@ -108,14 +120,14 @@
             <button
               id="contractData_BTN"
               class="cell_BTN"
-              onclick="toggleData(this, 'contractData')">
+              onclick="GUI_contractToggleData(this)">
               Show Contract Data
             </button>
           </td>
         </tr>
       </tbody>
     </table>
-    <div id="contractData">
+    <div id="contractData_DIV">
       <table id="contract_TBL">
         <tbody>
           <tr>
@@ -169,7 +181,7 @@
                 id="contractTokenSupply_BTN"
                 class="cell_BTN"
                 onclick="GUI_readContractTokenSupply(this.id)">
-                Account Token Supply>
+                Contract Token Supply
               </button>
             </td>
             <td><input type="text" id="contractTokenSupply_TX" /></td>

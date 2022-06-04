@@ -118,9 +118,35 @@ async function GUI_sendTokensToAccount(id, addr, tokkenAmount) {
   }
 }
 
+async function GUI_contractToggleData(btn) {
+  elmtStr_DIV = btn.id.replace("_BTN", "_DIV")
+  elmtObj_DIV = document.getElementById(elmtStr_DIV);
+  if (btn.innerText == "Show Contract Data")
+  {
+    btn.innerText = "Hide Contract Data";
+    elmtObj_DIV.style.display = "block";
+    loadContractFields();
+  }  
+  else
+  if (btn.innerText == "Hide Contract Data") {
+    btn.innerText = "Show Contract Data";
+    elmtObj_DIV.style.display = "none";
+    clearContractFields();
+  }
+}
+
+function loadContractFields() {
+  GUI_readContractName("contractName_BTN");
+  GUI_readContractSymbol("contractSymbol_BTN");
+  GUI_readContractTotalSupply("contractTotalSupply_BTN");
+  GUI_readContractDecimals("contractDecimals_BTN");
+  GUI_balanceOf("balanceOf_BTN");
+}
+
 function clearContractFields() {
   document.getElementById("contractName_TX").value = "";
   document.getElementById("contractSymbol_TX").value = "";
   document.getElementById("contractTotalSupply_TX").value = "";
   document.getElementById("contractDecimals_TX").value = "";
+  document.getElementById("balanceOf_TX").value = "";
 }
