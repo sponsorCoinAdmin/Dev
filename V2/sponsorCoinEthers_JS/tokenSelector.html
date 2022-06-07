@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+
+window.onload = function() {
+  function preloadTestTokenSelector(id) {
+    var tokenList = {
+      "ETH": "dasdfafaf",
+      "SPCOIN": "hgf",
+      "LINK":"dsfasdasdfasd",
+      "AMPL":"asdadadfrgrvevvr"
+    }
+    var subjectSel = document.getElementById(id);
+    for (var x in tokenList) {
+       subjectSel.options[subjectSel.options.length] = new Option(x, x);
+    }
+  }
+
+  preloadTestTokenSelector("tokenContract_SEL");
+}
+
+function processSelectedToken(id) {
+    var tokenContract = document.getElementById(tokenContract_TX);
+    tokenContract.value = this.value;
+}
+
+
+</script>
+</head>   
+<body>
+
+<h1>Token Dropdown Selector Example</h1>
+
+<select id="testContract_SEL"">
+    <option value="" selected="selected">Token Selector</option>
+  </select>
+  <br><br>
+
+  Tokens: <select
+  id="tokenContract_SEL"
+  class="cell_BTN"
+  onclick="processSelectedToken(this.id)">
+  <option value="" selected="selected">Token Selector</option>
+  <td><input type="text" id="tokenContract_TX"/></td>
+
+  <br><br>
+</select>
+
+</form>
+</body>
+</html>

@@ -71,6 +71,10 @@
           <td>Meta Mask Ledger 1</td>
           <td>0xFAbed8e2f3a29aEE5002087F1140Ef4C6ACa25B4</td>
         </tr>
+
+
+
+
         <tr>
           <td>
            <select
@@ -78,9 +82,10 @@
               class="cell_BTN"
               onclick="GUI_getEthereumAccountBalance(this.id)">
               <option value="" selected="selected">Ethereum Balance</option>
+              <option value="" selected="selected">BLA BLA BLA</option>
             </select>
           </td>
-          <td><input type="text" id="tokenContract_TX" /></td>
+          <td><input type="text" id="tokenContract_TX"/></td>
           <td class="spacer"></td>
           <td>Meta Mask Ledger 2</td>
           <td>0x1EFFDE4A0e5eEcF79810Dd39f954A515ab962D63</td>
@@ -90,16 +95,19 @@
             <button
             id="tokenContract_BTN"
             class="cell_BTN"
-            onclick="AddToken(this.id, 'token_SEL')">
-            Add Token Address
+            onclick="GUI_AddTokenContract(this.id)">
+            Add Token Contract
             </button>
-            </td>
-          <td><input type="text" id="tokenContract_TX" /></td>
+          </td>
+          <td><input type="text" id="tokenContract_ADR" /></td>
           <td class="spacer"></td>
         </tr>
+
+
+
+        
       </tbody>
     </table>
-
     <table id="account_TBL">
       <tbody>
         <tr>
@@ -111,11 +119,11 @@
             <button
               id="connectContract_BTN"
               class="cell_BTN"
-              onclick="GUI_connectContract(this, document.getElementById('connectContract_TX').value)">
+              onclick="GUI_connectContract(this.id, document.getElementById('connectContract_TX').value)">
               Connect Contract Address
             </button>
           </td>
-          <td><input type="text" id="connectContract_TX" value="0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A" /></td>
+          <td><input type="text" id="connectContract_TX" value="0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A"/></td>
           <td>
             <button
               id="contractData_BTN"
