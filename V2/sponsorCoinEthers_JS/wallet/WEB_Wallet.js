@@ -4,9 +4,7 @@ async function GUI_connectWallet(id, _walletName) {
     provider = await connectValidWalletProvider(_walletName);
     setWalletName(_walletName);
     changeElementIdColor(id, "green");
-    GUI_getActiveAccount("activeAccount_BTN");
   } catch (err) {
-    document.getElementById("activeAccount_TX").value = "";
     document.getElementById("ethereumAccountBalance_TX").value = "";
     disconnectWallet();
     alertLogError(err, id);
@@ -28,6 +26,7 @@ async function GUI_getActiveAccount(id) {
 }
 
 // 3. Get Ethereum balance
+/*
 async function GUI_getEthereumAccountBalance(id) {
   try {
     var signer = getValidatedSigner();
@@ -45,6 +44,7 @@ async function GUI_getEthereumAccountBalance(id) {
     alertLogError(err, id);
   }
 }
+*/
 
 async function GUI_AddTokenContract(id) {
   try {

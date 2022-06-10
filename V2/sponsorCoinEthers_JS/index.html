@@ -8,7 +8,7 @@
     <title>SponsorCoin.js</title>
   </head>
 
-  <body onload="clearContractFields()"> 
+  <body onload="clearContractFields();loadSelectorFromJSONList('tokenContract_SEL', tokenList)"> 
     <ul>
       <li><a href="#home">WALLET</a></li>
       <li><a href="#news">ACCOUNTS</a></li>
@@ -33,8 +33,6 @@
           <th>Wallet Calls</th>
           <th class="addr">Parameters</th>
           <td class="spacer"></td>
-          <th>Test Account</th>
-          <th class="addr">Test Address</th>
         </tr>
         <tr>
           <td>
@@ -47,16 +45,12 @@
           </td>
           <td><input type="text" id="connectWallet_TX" value="METAMASK" /></td>
           <td class="spacer"></td>
-          <td>SponsorCoin Contract</td>
-          <td>0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A</td>
         </tr>
         <tr>
           <th>Account Calls</th>
           <td class="addr"></td>
           <td class="spacer"></td>
-          <td>Meta Mask Account 1</td>
-          <td>0x4F75f07232a56c2b98FC9878F496bFc32e317Ace</td>
-        </tr>
+         </tr>
         <tr>
           <td>
             <button
@@ -68,8 +62,6 @@
           </td>
           <td><input type="text" id="activeAccount_TX" /></td>
           <td class="spacer"></td>
-          <td>Meta Mask Ledger 1</td>
-          <td>0xFAbed8e2f3a29aEE5002087F1140Ef4C6ACa25B4</td>
         </tr>
 
 
@@ -80,15 +72,12 @@
            <select
               id="tokenContract_SEL"
               class="cell_BTN"
-              onclick="GUI_getEthereumAccountBalance(this.id)">
-              <option value="" selected="selected">Ethereum Balance</option>
-              <option value="" selected="selected">BLA BLA BLA</option>
+              onclick="processSelectedToken(this.id)">
+              <option value="" selected="selected">Add Token Contract</option>
             </select>
           </td>
           <td><input type="text" id="tokenContract_TX"/></td>
           <td class="spacer"></td>
-          <td>Meta Mask Ledger 2</td>
-          <td>0x1EFFDE4A0e5eEcF79810Dd39f954A515ab962D63</td>
         </tr>
         <tr>
           <td>
@@ -267,17 +256,15 @@
     <button
       onclick="document.location.reload(true);">Reload Page</button>
 
-    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 <!---->
-   <script src="utils/utils.js" type="application/javascript"></script>
+  <script src="utils/utils.js" type="application/javascript"></script>
 <!---->
-   <script src="contract/spCoinABI.js" type="application/javascript"></script>
-   <script src="contract/contract.js" type="application/javascript"></script>
-   <script src="wallet/wallet.js" type="application/javascript"></script>
-   <script src="wallet/WEB_Wallet.js" type="application/javascript"></script>
-    <script
-      src="contract/WEB_Contract.js"
-      type="application/javascript"
-    ></script>
+  <script src="contract/spCoinABI.js"    type="application/javascript"></script>
+  <script src="contract/contract.js"     type="application/javascript"></script>
+  <script src="account/account.js"     type="application/javascript"></script>
+  <script src="wallet/wallet.js"         type="application/javascript"></script>
+  <script src="wallet/WEB_Wallet.js"     type="application/javascript"></script>
+  <script src="contract/WEB_Contract.js" type="application/javascript"></script>
   </body>
 </html>
