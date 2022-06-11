@@ -2,8 +2,12 @@ function changeElementIdColor(name, color) {
   document.getElementById(name).style.backgroundColor = color;
 }
 
-function isEmptyObj(object) {
-  isEmpty = JSON.stringify(object) === "{}";
+function isEmpty(obj) {
+  var isEmpty = false;
+  if (obj == null || obj == undefined || obj == "")
+    isEmpty = true;
+  else
+    isEmpty = JSON.stringify(obj) === "{}";
   return isEmpty;
 }
 
@@ -28,30 +32,25 @@ function changeElementIdColor(name, color) {
 }
 
 function toggle(elmtStr) {
-  elmtObj = document.getElementById(elmtStr);
-   if (elmtObj.style.display === "none") {
+  var elmtObj = document.getElementById(elmtStr);
+  if (elmtObj.style.display === "none") {
     elmtObj.style.display = "block";
   } else {
     elmtObj.style.display = "none";
   }
 }
 
-function WEB_isEmptyObj(object) {
-  isEmpty = JSON.stringify(object) === "{}";
-  return isEmpty;
-}
-
 function weiToToken(wei, decimals) {
-  mod = 10 ** decimals;
-  tokens = wei / mod;
+  var mod = 10 ** decimals;
+  var tokens = wei / mod;
   //    alert ("\nwei = " + wei + "\n mod = " + mod + "\ntokens = " + tokens);
 
   return tokens;
 }
 
 function tokensToWei(tokens, decimals) {
-  mod = 10 ** decimals;
-  wei = tokens * mod;
+  var mod = 10 ** decimals;
+  var wei = tokens * mod;
   //    alert ("\ntokens = " + tokens + "\n wei = " + wei + "\nwei = " + wei);
   return wei;
 }

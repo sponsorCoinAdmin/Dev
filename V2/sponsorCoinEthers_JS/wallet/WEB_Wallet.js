@@ -1,3 +1,9 @@
+function GUI_initPage() {
+  clearContractFields();
+  initTokenMap();
+  mapTokensToSelector("tokenContract_SEL",tokens);
+}
+
 // 1. Connect Metamask with Dapp
 async function GUI_connectWallet(id, _walletName) {
   try {

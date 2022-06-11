@@ -8,7 +8,7 @@
     <title>SponsorCoin.js</title>
   </head>
 
-  <body onload="clearContractFields();loadSelectorFromJSONList('tokenContract_SEL', tokenList)"> 
+  <body onload="GUI_initPage()"> 
     <ul>
       <li><a href="#home">WALLET</a></li>
       <li><a href="#news">ACCOUNTS</a></li>
@@ -72,7 +72,7 @@
            <select
               id="tokenContract_SEL"
               class="cell_BTN"
-              onclick="processSelectedToken(this.id)">
+              onclick="processSelectedToken(this.id, 'address')">
               <option value="" selected="selected">Add Token Contract</option>
             </select>
           </td>
