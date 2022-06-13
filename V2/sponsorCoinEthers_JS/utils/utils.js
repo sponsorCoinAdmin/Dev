@@ -16,9 +16,11 @@ function processError(err) {
   throw err;
 }
 
-function disconnectContract() {
-  this.contractAddress = undefined;
-  this.contract = undefined;
+class disconnectContract {
+  constructor() {
+    this.contractAddress = undefined;
+    this.contract = undefined;
+  }
 }
 
 function alertLogError(err, element) {
@@ -43,15 +45,12 @@ function toggle(elmtStr) {
 function weiToToken(wei, decimals) {
   var mod = 10 ** decimals;
   var tokens = wei / mod;
-  //    alert ("\nwei = " + wei + "\n mod = " + mod + "\ntokens = " + tokens);
-
   return tokens;
 }
 
 function tokensToWei(tokens, decimals) {
   var mod = 10 ** decimals;
   var wei = tokens * mod;
-  //    alert ("\ntokens = " + tokens + "\n wei = " + wei + "\nwei = " + wei);
   return wei;
 }
 

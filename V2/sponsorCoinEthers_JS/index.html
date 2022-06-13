@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/menu.css" />
+    <link rel="stylesheet" href="./styles/popup.css" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -72,7 +74,7 @@
            <select
               id="tokenContract_SEL"
               class="cell_BTN"
-              onclick="processSelectedToken(this.id, 'address')">
+              onchange="processSelectedToken(this.id, 'address')">
               <option value="" selected="selected">Add Token Contract</option>
             </select>
           </td>
@@ -256,13 +258,35 @@
     <button
       onclick="document.location.reload(true);">Reload Page</button>
 
+      <h2>Popup Form</h2>
+<p>Click on the button at the bottom of this page to open the login form.</p>
+<p>Note that the button and the form is fixed - they will always be positioned to the bottom of the browser window.</p>
+
+<!--button class="open-button" onclick="GUI_OpenAddCryptoForm()">Open Form</button-->
+
+<div class="form-popup" id="addContractDiv">
+  <form action="/action_page.php" class="form-container" id = "form-container-id">
+    <h1>Login</h1>
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" class="btn">Login</button>
+    <button type="button" class="btn cancel" onclick="GUI_CloseAddCryptoForm()">Close</button>
+  </form>
+</div>
+
+
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 <!---->
   <script src="utils/utils.js" type="application/javascript"></script>
 <!---->
   <script src="contract/spCoinABI.js"    type="application/javascript"></script>
   <script src="contract/contract.js"     type="application/javascript"></script>
-  <script src="account/account.js"     type="application/javascript"></script>
+  <script src="utils/tokenAdmin.js"     type="application/javascript"></script>
   <script src="wallet/wallet.js"         type="application/javascript"></script>
   <script src="wallet/WEB_Wallet.js"     type="application/javascript"></script>
   <script src="contract/WEB_Contract.js" type="application/javascript"></script>

@@ -2,6 +2,7 @@ function GUI_initPage() {
   clearContractFields();
   initTokenMap();
   mapTokensToSelector("tokenContract_SEL",tokens);
+  setSelected("tokenContract_SEL", "ETH");
 }
 
 // 1. Connect Metamask with Dapp
@@ -72,4 +73,14 @@ async function GUI_AddTokenContract(id) {
     document.getElementById(id.replace("_BTN","_TX")).value = "";
     alertLogError(err, id);
   }
+}
+
+function GUI_OpenAddCryptoForm() {
+
+  document.getElementById("addContractDiv").style.display = "block";
+  setWindowCentre();
+}
+
+function GUI_CloseAddCryptoForm() {
+  document.getElementById("addContractDiv").style.display = "none";
 }
