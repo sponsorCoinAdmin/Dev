@@ -56,7 +56,7 @@ function processSelectedToken(selectorId, propertyKey) {
   tokenSelect = document.getElementById(selectorId);
   selIdx = tokenSelect.selectedIndex;
   if (selIdx == 0) {
-    popupAddTokenForm(tokenSelect);
+    GUI_OpenAddCryptoForm(tokenSelect);
   }
   else {
     selOption = tokenSelect.options[selIdx];
@@ -74,13 +74,17 @@ function processSelectedToken(selectorId, propertyKey) {
   }
 }
 
-function setSelected(tokenSelect, token) {
-  GUI_OpenAddCryptoForm();
+function setSelected(selectId, token) {
+  tokenSelect = document.getElementById(selectId);
   for (let idx = 0; idx < tokenSelect.options.length; idx++) {
     var tokenText = tokenSelect.options[idx].text;
     if (tokenText == token)
     {
       tokenSelect.selectedIndex = idx;
+      if (tokenText = 1)
+      {
+        GUI_OpenAddCryptoForm();
+      }
 //      alert ("Found Token = " + tokenText);
       break;
     }
