@@ -79,12 +79,36 @@ async function GUI_AddTokenContract(id) {
   }
 }
 
+function GUI_processSelectedToken(selectorId, propertyKey) {
+  var tokenSelect = document.getElementById(selectorId);
+  var selIdx = tokenSelect.selectedIndex;
+  if (selIdx == 0) {
+    GUI_OpenAddCryptoForm(tokenSelect);
+  }
+  else {
+    activeTokenIndex = selIdx;
+    selOption = tokenSelect.options[selIdx];
+    tokenText = selOption.text;
+    address = selOption.value;
+    tokenValue = getTokenProperty(address, propertyKey);
+
+    if (isEmpty(tokenValue))
+      tokenValue = address;
+
+    // Populate Address Text Field
+    textFld_Id = selectorId.replace("_SEL", "_TX")
+    txtFldObj = document.getElementById(textFld_Id);
+    txtFldObj.value = tokenValue;
+  }
+}
+
 function GUI_OpenAddCryptoForm() {
 
   document.getElementById("addContractDiv").style.display = "block";
   setWindowCentre();
 }
 
-function GUI_CloseAddCryptoForm() {
+function GUI_CloseAddCryptoForm(selectorId) {
   document.getElementById("addContractDiv").style.display = "none";
+  document.getElementById(selectorId).selectedIndex = activeTokenIndex;
 }

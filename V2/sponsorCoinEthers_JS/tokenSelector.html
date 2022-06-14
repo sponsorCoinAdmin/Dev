@@ -21,7 +21,7 @@ window.onload = function() {
   preloadTestTokenSelector("tokenContract_SEL");
 }
 
-function processSelectedToken(id) {
+function GUI_processSelectedToken(id) {
     var contractSelection = document.getElementById(id);
     var contractAddress = document.getElementById(id.replace("_SEL","_TX"));
     var x = contractSelection.options[0];
@@ -39,7 +39,7 @@ function processSelectedToken(id) {
 Tokens: <select
   id="tokenContract_SEL"
   class="cell_BTN"
-  onchange="processSelectedToken(this.id)">
+  onchange="GUI_processSelectedToken(this.id)">
   <option value="" selected="selected">Token Selector</option>
   <td><input type="text" id="tokenContract_TX"/></td>
 

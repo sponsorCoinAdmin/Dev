@@ -1,3 +1,4 @@
+activeTokenIndex = -1;
 const tokens = new Map([]);
 
 function initTokenMap() {
@@ -52,28 +53,6 @@ function mapTokensToSelector(selectorId, tokenMap) {
   }
 }
 
-function processSelectedToken(selectorId, propertyKey) {
-  tokenSelect = document.getElementById(selectorId);
-  selIdx = tokenSelect.selectedIndex;
-  if (selIdx == 0) {
-    GUI_OpenAddCryptoForm(tokenSelect);
-  }
-  else {
-    selOption = tokenSelect.options[selIdx];
-    tokenText = selOption.text;
-    address = selOption.value;
-    tokenValue = getTokenProperty(address, propertyKey);
-
-    if (isEmpty(tokenValue))
-      tokenValue = address;
-
-    // Populate Address Text Field
-    textFld_Id = selectorId.replace("_SEL", "_TX")
-    txtFldObj = document.getElementById(textFld_Id);
-    txtFldObj.value = tokenValue;
-  }
-}
-
 function setSelected(selectId, token) {
   tokenSelect = document.getElementById(selectId);
   for (let idx = 0; idx < tokenSelect.options.length; idx++) {
@@ -81,9 +60,12 @@ function setSelected(selectId, token) {
     if (tokenText == token)
     {
       tokenSelect.selectedIndex = idx;
-      if (tokenText = 1)
+      if (idx == 0 && activeTokenIndex != -1)
       {
         GUI_OpenAddCryptoForm();
+      }
+      else {
+         activeTokenIndex = idx;
       }
 //      alert ("Found Token = " + tokenText);
       break;

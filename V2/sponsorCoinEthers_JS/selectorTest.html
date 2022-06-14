@@ -19,7 +19,7 @@ function loadSelectorFromJSONList(selectorId, jSONList) {
     }
   }
 
-function processSelectedToken(selectorId) {
+function GUI_processSelectedToken(selectorId) {
   tokenSelect = document.getElementById(selectorId);
   selIdx = tokenSelect.selectedIndex;
   selOption = tokenSelect.options[selIdx];
@@ -41,13 +41,11 @@ function processSelectedToken(selectorId) {
   Select Token: <select
   id="tokenContract_SEL"
   class="cell_BTN"
-  onchange="processSelectedToken(this.id)">
+  onchange="GUI_processSelectedToken(this.id)">
   <option value="" selected="selected">Token Selector</option>
   <td><input type="text" id="tokenContract_TX"/></td>
 
   <br><br>
 </select>
-
-
 </body>
 </html>
