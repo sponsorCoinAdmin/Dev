@@ -258,24 +258,23 @@
     <button
       onclick="document.location.reload(true);">Reload Page</button>
 
-      <h2>Popup Form</h2>
-<p>Click on the button at the bottom of this page to open the login form.</p>
-<p>Note that the button and the form is fixed - they will always be positioned to the bottom of the browser window.</p>
-
 <!--button class="open-button" onclick="GUI_OpenAddCryptoForm()">Open Form</button-->
 
 <div class="form-popup" id="addContractDiv">
   <form action="/action_page.php" class="form-container" id = "form-container-id">
-    <h1>Login</h1>
+    <h1>Select a Token</h1>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
+    <label for="email"><b>Token Contract Address</b></label>
+    <input type="text" placeholder="Enter Contract Address" name="email" required>
 
-    <label for="psw"><b>Password</b></label>
+    <label for="psw"><b>Contract Name</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
 
-    <button type="submit" class="btn">Login</button>
-    <button type="button" class="btn cancel" onclick="GUI_CloseAddCryptoForm('tokenContract_SEL')">Close</button>
+    <label for="psw"><b>Contract Symbol</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" class="btn">Validate Token Contract</button>
+    <button type="button" class="btn cancel" onclick="GUI_CloseAddCryptoForm('tokenContract_SEL')">Save Token</button>
   </form>
 </div>
 
