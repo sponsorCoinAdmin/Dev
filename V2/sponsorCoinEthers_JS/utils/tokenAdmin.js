@@ -53,27 +53,6 @@ function mapTokensToSelector(selectorId, tokenMap) {
   }
 }
 
-function setSelected(selectId, token) {
-  tokenSelect = document.getElementById(selectId);
-  for (let idx = 0; idx < tokenSelect.options.length; idx++) {
-    var tokenText = tokenSelect.options[idx].text;
-    if (tokenText == token)
-    {
-      tokenSelect.selectedIndex = idx;
-      if (idx == 0 && activeTokenIndex != -1)
-      {
-        GUI_OpenAddCryptoForm();
-      }
-      else {
-         activeTokenIndex = idx;
-      }
-//      alert ("Found Token = " + tokenText);
-      break;
-    }
-//    alert ("Current Token = " + tokenText)
-  }
-}
-
 function popupAddTokenForm(tokenSelect) {
   // alert("Add Token Form To Go Here");
   setWindowCentre();
