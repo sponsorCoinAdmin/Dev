@@ -10,4 +10,3 @@ async function connectMetamask() {
 
     console.log("Account address s:", await signer.getAddress());
 }
-

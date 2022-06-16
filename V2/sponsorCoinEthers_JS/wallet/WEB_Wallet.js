@@ -1,4 +1,7 @@
 function GUI_initPage() {
+  ts = new TokenSelector("tokenContract_SEL");
+  ts.buttonPressed();
+
   clearContractFields();
   SelectorPropertyKey = "address";
   initTokenMap();
