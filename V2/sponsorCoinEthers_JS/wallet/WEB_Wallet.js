@@ -89,38 +89,9 @@ function GUI_processSelectedText(selectId, token) {
     var tokenText = tokenSelect.options[idx].text;
     if (tokenText == token)
     {
-      GUI_processSelectedTokenIndex(selectId, idx);
+      processSelectedTokenIndex(selectId, idx);
       break;
     }
-  }
-}
-
-function GUI_processSelectedToken(selectId) {
-  var tokenSelect = document.getElementById(selectId);
-  var selIdx = tokenSelect.selectedIndex;
-  GUI_processSelectedTokenIndex(selectId, selIdx);
-}
-
-function GUI_processSelectedTokenIndex(selectId, selIdx) {
-  textFld_Id = selectId.replace("_SEL", "_TX")
-  var txtFldObj = document.getElementById(textFld_Id);
-  var tokenSelect = document.getElementById(selectId);
-  if (selIdx == 0) {
-    GUI_OpenAddCryptoForm(tokenSelect);
-    txtFldObj.value = "";
-  }
-  else {
-    activeTokenIndex = tokenSelect.selectedIndex = selIdx;
-    selOption = tokenSelect.options[selIdx];
-    tokenText = selOption.text;
-    address = selOption.value;
-    tokenValue = getTokenProperty(address, SelectorPropertyKey);
-
-    if (isEmpty(tokenValue))
-      tokenValue = address;
-
-    // Populate Address Text Field
-    txtFldObj.value = tokenValue;
   }
 }
 
@@ -132,5 +103,5 @@ function GUI_OpenAddCryptoForm() {
 
 function GUI_CloseAddCryptoForm(selectId) {
   document.getElementById("addContractDiv").style.display = "none";
-  GUI_processSelectedTokenIndex("tokenContract_SEL", activeTokenIndex)
+  processSelectedTokenIndex("tokenContract_SEL", activeTokenIndex)
 }
