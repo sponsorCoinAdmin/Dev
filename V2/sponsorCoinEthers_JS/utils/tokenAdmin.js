@@ -1,6 +1,12 @@
-const tokens = new Map([]);
+var tm;
+
+class tokenMap {
+  tokens = new Map([]);
+}
+
 
 function initTokenMap() {
+  tm = new tokenMap();
   var token;
   token = setTokenProperty("aaaa", "Symbol", "ETH")
   token = setTokenProperty("0xa36085F69e2889c224210F603D836748e7dC0088", "Symbol", "LINK")
@@ -11,14 +17,14 @@ function initTokenMap() {
 function addTokenContract(address) {
   var token = new Map();
   token.set("address", address)
-  tokens.set(address, token);
+  tm.tokens.set(address, token);
   return token;
 }
 
 function getTokenProperty(address, propertyKey) {
   var propertyValue = null;
   if (!isEmpty(address) && !isEmpty(propertyKey)) {
-    var token = tokens.get(address);
+    var token = tm.tokens.get(address);
     if (token instanceof Map)
       propertyValue = token.get(propertyKey);
   }
@@ -27,7 +33,7 @@ function getTokenProperty(address, propertyKey) {
 
 function setTokenProperty(address, propertyKey, propertyValue) {
   if (!isEmpty(address) && !isEmpty(propertyKey)) {
-    var token = tokens.get(address);
+    var token = tm.tokens.get(address);
     if (isEmpty(token))
       token = addTokenContract(address);
     if (token instanceof Map) {
@@ -39,7 +45,7 @@ function setTokenProperty(address, propertyKey, propertyValue) {
 }
 
 function getTokenKeys() {
-  var tokenKeys = [...tokens.keys()];
+  var tokenKeys = [...tm.tokens.keys()];
   return tokenKeys;
 }
 

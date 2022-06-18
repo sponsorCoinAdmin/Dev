@@ -3,8 +3,8 @@ var ts;
 function initTokenDropDown(selectedToken) {
     ts = new TokenSelector("tokenContract_SEL", "tokenContract_TX");
     initTokenMap();
-    // mapTokensToSelector("tokenContract_SEL", tokens);
-    ts.mapTokensToSelector(tokens);
+    // mapTokensToSelector("tokenContract_SEL", tm.tokens);
+    ts.mapTokensToSelector(tm.tokens);
     ts.setSelectedTokenText(selectedToken);    
 }
 
@@ -64,7 +64,7 @@ class TokenSelector {
 
     mapTokensToSelector(tokenMap) {
         var selector = this.selector;
-        for (let [key] of tokens) {
+        for (let [key] of tm.tokens) {
           var tokenSymbol = getTokenProperty(key, "Symbol");
           selector.options[selector.options.length] = new Option(tokenSymbol, key);
         }
