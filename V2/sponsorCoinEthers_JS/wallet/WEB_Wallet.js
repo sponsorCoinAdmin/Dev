@@ -2,7 +2,6 @@ ts = new TokenSelector("tokenContract_SEL", "tokenContract_TX");
 
 function GUI_initPage() {
   clearContractFields();
-  SelectorPropertyKey = "address";
   initTokenMap();
   mapTokensToSelector("tokenContract_SEL", tokens);
   GUI_processSelectedText("tokenContract_SEL", "ETH");

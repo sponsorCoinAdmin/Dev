@@ -2,6 +2,7 @@ class TokenSelector {
     constructor(selector_ID, selector_TX) {
         this.selector = document.getElementById(selector_ID);
         this.selector_TX = document.getElementById(selector_TX);
+        this.SelectorPropertyKey = "address";
         this.lastTokenIndex = -1;
     }
 
@@ -20,7 +21,7 @@ class TokenSelector {
         var selOption = this.selector.options[selIdx];
         var tokenText = selOption.text;
         var address = selOption.value;
-        var tokenValue = getTokenProperty(address, "address");
+        var tokenValue = getTokenProperty(address, this.SelectorPropertyKey);
 
         if (isEmpty(tokenValue))
             tokenValue = address;
