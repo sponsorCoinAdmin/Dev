@@ -43,15 +43,6 @@ function getTokenKeys() {
   return tokenKeys;
 }
 
-function mapTokensToSelector(selectorId, tokenMap) {
-  var selector = document.getElementById(selectorId);
-  for (let [key] of tokens) {
-    tokenSymbol = getTokenProperty(key, "Symbol");
-    selector.options[selector.options.length] = new Option(tokenSymbol, key);
-    //    alert (key + " = " + tokenSymbol);
-  }
-}
-
 function popupAddTokenForm(tokenSelect) {
   // alert("Add Token Form To Go Here");
   setWindowCentre();

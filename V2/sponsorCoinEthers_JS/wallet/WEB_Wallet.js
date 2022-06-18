@@ -1,10 +1,6 @@
-ts = new TokenSelector("tokenContract_SEL", "tokenContract_TX");
-
 function GUI_initPage() {
   clearContractFields();
-  initTokenMap();
-  mapTokensToSelector("tokenContract_SEL", tokens);
-  GUI_processSelectedText("tokenContract_SEL", "ETH");
+  initTokenDropDown("ETH");
   document.getElementById("addContractDiv").style.display = "none";
   window.addEventListener('resize', function (event) {
     setWindowCentre();
@@ -78,18 +74,6 @@ async function GUI_AddTokenContract(id) {
   } catch (err) {
     document.getElementById(id.replace("_BTN", "_TX")).value = "";
     alertLogError(err, id);
-  }
-}
-
-function GUI_processSelectedText(selectId, token) {
-  tokenSelect = document.getElementById(selectId);
-  for (let idx = 0; idx < tokenSelect.options.length; idx++) {
-    var tokenText = tokenSelect.options[idx].text;
-    if (tokenText == token)
-    {
-      ts.setSelectedTokenIndex(idx);
-      break;
-    }
   }
 }
 
