@@ -29,7 +29,7 @@ class TokenSelector {
 
     setSelectedTokenIndex(idx) {
         var size = this.selector.options.length;
-        if (idx < size) {
+        if (idx < size && idx > 0) {
             this.selector.selectedIndex = this.lastTokenIndex = idx;
             var selOption = this.selector.options[idx];
             var tokenText = selOption.text;
@@ -43,7 +43,7 @@ class TokenSelector {
             this.selector_TX.value = tokenValue;
         }
         else
-            alert("token Selector Index" + idx + " Out of Range")
+            alert("token Selector Index " + idx + " Out of Range")
     }
 
     setSelectedTokenText(tokenText) {
@@ -56,6 +56,10 @@ class TokenSelector {
             }
         }
         alert("token " + token + " Not Found In Drop Down List")
+    }
+
+    setLastSelected() {
+        this.setSelectedTokenIndex(this.lastTokenIndex);
     }
 
     mapTokensToSelector(tokenMap) {

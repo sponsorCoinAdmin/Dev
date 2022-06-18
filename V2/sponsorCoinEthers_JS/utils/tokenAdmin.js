@@ -46,7 +46,7 @@ function getTokenKeys() {
 function popupAddTokenForm(tokenSelect) {
   // alert("Add Token Form To Go Here");
   setWindowCentre();
-  setSelected(tokenSelect, "ETH");
+  ts.setLastSelected();
 }
 
 function setWindowCentre() {

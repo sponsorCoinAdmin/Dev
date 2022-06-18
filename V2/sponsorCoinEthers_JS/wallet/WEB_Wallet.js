@@ -85,5 +85,5 @@ function GUI_OpenAddCryptoForm() {
 
 function GUI_CloseAddCryptoForm(selectId) {
   document.getElementById("addContractDiv").style.display = "none";
-  ts.setSelectedTokenIndex(1)
+  ts.setLastSelected();
 }
