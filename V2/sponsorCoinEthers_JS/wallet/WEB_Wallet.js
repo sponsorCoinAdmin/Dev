@@ -1,7 +1,6 @@
-function GUI_initPage() {
-  ts = new TokenSelector("tokenContract_SEL");
-  ts.buttonPressed();
+ts = new TokenSelector("tokenContract_SEL", "tokenContract_TX");
 
+function GUI_initPage() {
   clearContractFields();
   SelectorPropertyKey = "address";
   initTokenMap();
@@ -89,7 +88,7 @@ function GUI_processSelectedText(selectId, token) {
     var tokenText = tokenSelect.options[idx].text;
     if (tokenText == token)
     {
-      processSelectedTokenIndex(selectId, idx);
+      ts.setSelectedTokenIndex(idx);
       break;
     }
   }
@@ -103,5 +102,5 @@ function GUI_OpenAddCryptoForm() {
 
 function GUI_CloseAddCryptoForm(selectId) {
   document.getElementById("addContractDiv").style.display = "none";
-  processSelectedTokenIndex("tokenContract_SEL", activeTokenIndex)
+  ts.setSelectedTokenIndex(1)
 }

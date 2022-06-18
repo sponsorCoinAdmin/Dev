@@ -1,63 +1,31 @@
 class TokenSelector {
-  constructor (select_ID) {
-    this.selector = document.getElementById(select_ID);
-    this.selector_TX = document.getElementById(select_ID.replace("_SEL", "_TX"));
-  }
+    constructor(selector_ID, selector_TX) {
+        this.selector = document.getElementById(selector_ID);
+        this.selector_TX = document.getElementById(selector_TX);
+        this.lastTokenIndex = -1;
+    }
 
-  buttonPressed() {
-    this.processSelectedToken1();
-  }
+    buttonPressed() {
+        var selIdx = this.selector.selectedIndex;
+        if (selIdx == 0) {
+            GUI_OpenAddCryptoForm();
+            this.selector_TX.value = "";
+        }
+        else {
+            this.setSelectedTokenIndex(selIdx);
+        }
+    }
 
-  processSelectedToken1() {
-    var selIdx = this.selector.selectedIndex;
-    this.processSelectedTokenIndex1(this.selector.id, selIdx);
-    processSelectedTokenIndex(this.selector.id, selIdx);
-  }
+    setSelectedTokenIndex(selIdx) {
+        var selOption = this.selector.options[selIdx];
+        var tokenText = selOption.text;
+        var address = selOption.value;
+        var tokenValue = getTokenProperty(address, "address");
 
-  processSelectedTokenIndex1(selectId, selIdx) {
-    // var tokenSelect = document.getElementById(selectId);
-    // if (selIdx == 0) {
-    //   GUI_OpenAddCryptoForm(tokenSelect);
-    //   this.selector_TX.value = "";
-    // }
-    // else {
-    //   activeTokenIndex = tokenSelect.selectedIndex = selIdx;
-    //   selOption = tokenSelect.options[selIdx];
-    //   tokenText = selOption.text;
-    //   address = selOption.value;
-    //   tokenValue = getTokenProperty(address, SelectorPropertyKey);
-  
-    //   if (isEmpty(tokenValue))
-    //     tokenValue = address;
-  
-    //   // Populate Address Text Field
-    //   this.selector_TX.value = tokenValue;
-    // }
-  }
- 
+        if (isEmpty(tokenValue))
+            tokenValue = address;
 
+        // Populate Address Text Field
+        this.selector_TX.value = tokenValue;
+    }
 }
-
-  function processSelectedTokenIndex(selectId, selIdx) {
-    textFld_Id = selectId.replace("_SEL", "_TX")
-    var txtFldObj = document.getElementById(textFld_Id);
-    var tokenSelect = document.getElementById(selectId);
-    if (selIdx == 0) {
-      GUI_OpenAddCryptoForm(tokenSelect);
-      txtFldObj.value = "";
-    }
-    else {
-      activeTokenIndex = tokenSelect.selectedIndex = selIdx;
-      selOption = tokenSelect.options[selIdx];
-      tokenText = selOption.text;
-      address = selOption.value;
-      tokenValue = getTokenProperty(address, SelectorPropertyKey);
-  
-      if (isEmpty(tokenValue))
-        tokenValue = address;
-  
-      // Populate Address Text Field
-      txtFldObj.value = tokenValue;
-    }
-  }
-  

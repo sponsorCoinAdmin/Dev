@@ -1,4 +1,3 @@
-activeTokenIndex = -1;
 const tokens = new Map([]);
 
 function initTokenMap() {
