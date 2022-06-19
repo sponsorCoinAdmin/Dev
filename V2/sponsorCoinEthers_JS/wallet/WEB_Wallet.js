@@ -1,6 +1,6 @@
 function GUI_initPage() {
   clearContractFields();
-  initTokenDropDown("ETH");
+  initTokenSelector("ETH");
   document.getElementById("addContractDiv").style.display = "none";
   window.addEventListener('resize', function (event) {
     setWindowCentre();
@@ -85,5 +85,5 @@ function GUI_OpenAddCryptoForm() {
 
 function GUI_CloseAddCryptoForm(selectId) {
   document.getElementById("addContractDiv").style.display = "none";
-  ts.setLastSelected();
+  ts.rebaseSelected();
 }

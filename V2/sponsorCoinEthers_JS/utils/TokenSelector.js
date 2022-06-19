@@ -1,10 +1,9 @@
 var ts;
 
-function initTokenDropDown(selectedToken) {
+function initTokenSelector(selectedToken) {
     ts = new TokenSelector("tokenContract_SEL", "tokenContract_TX");
-    initTokenMap();
-    // mapTokensToSelector("tokenContract_SEL", tm.tokens);
-    ts.mapTokensToSelector(tm.tokens);
+    tm = initTokenMap();
+    tm.mapTokensToSelector(ts);
     ts.setSelectedTokenText(selectedToken);    
 }
 
@@ -34,7 +33,7 @@ class TokenSelector {
             var selOption = this.selector.options[idx];
             var tokenText = selOption.text;
             var address = selOption.value;
-            var tokenValue = getTokenProperty(address, this.SelectorPropertyKey);
+            var tokenValue = tm.getTokenProperty(address, this.SelectorPropertyKey);
 
             if (isEmpty(tokenValue))
                 tokenValue = address;
@@ -58,15 +57,12 @@ class TokenSelector {
         alert("token " + token + " Not Found In Drop Down List")
     }
 
-    setLastSelected() {
+    rebaseSelected() {
         this.setSelectedTokenIndex(this.lastTokenIndex);
     }
 
-    mapTokensToSelector(tokenMap) {
+    addTokenKeyToSelector(tokenSymbol, tokenKey) {
         var selector = this.selector;
-        for (let [key] of tm.tokens) {
-          var tokenSymbol = getTokenProperty(key, "Symbol");
-          selector.options[selector.options.length] = new Option(tokenSymbol, key);
-        }
-      }
+        selector.options[selector.options.length] = new Option(tokenSymbol, tokenKey);
+    }
 }
