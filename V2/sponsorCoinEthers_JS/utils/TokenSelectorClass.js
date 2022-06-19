@@ -1,13 +1,13 @@
 var ts;
 
-function initTokenSelector(selectedToken) {
-    ts = new TokenSelector("tokenContract_SEL", "tokenContract_TX");
+function initTokenSelectorClass(selectedToken) {
+    ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX");
     tm = initTokenMap();
     tm.mapTokensToSelector(ts);
     ts.setSelectedTokenText(selectedToken);    
 }
 
-class TokenSelector {
+class TokenSelectorClass {
     constructor(selector_ID, selector_TX) {
         this.selector = document.getElementById(selector_ID);
         this.selector_TX = document.getElementById(selector_TX);

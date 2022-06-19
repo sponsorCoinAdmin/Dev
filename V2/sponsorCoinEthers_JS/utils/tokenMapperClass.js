@@ -1,7 +1,7 @@
 var tm;
 
 function initTokenMap() {
-  tm = new tokenMap();
+  tm = new TokenMap();
   var token;
   token = tm.setTokenProperty("aaaa", "Symbol", "ETH")
   token = tm.setTokenProperty("0xa36085F69e2889c224210F603D836748e7dC0088", "Symbol", "LINK")
@@ -10,10 +10,9 @@ function initTokenMap() {
   return tm;
 }
 
-class tokenMap {
-  constructor (){
+class TokenMap {
+  constructor () {
     this.tokens = new Map([]);
-
   }
 
   getTokenKeys() {

@@ -1,6 +1,6 @@
 function GUI_initPage() {
   clearContractFields();
-  initTokenSelector("ETH");
+  initTokenSelectorClass("ETH");
   document.getElementById("addContractDiv").style.display = "none";
   window.addEventListener('resize', function (event) {
     setWindowCentre();
