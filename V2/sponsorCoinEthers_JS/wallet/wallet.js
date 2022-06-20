@@ -10,8 +10,6 @@ async function connectMetaMask() {
   try {
     // MetaMask requires requesting permission to connect users accounts
     provider = new ethers.providers.Web3Provider(window.ethereum);
-    accountList = provider.send("eth_requestAccounts", []);
-    signer = provider.getSigner();
   } catch (err) {
       processError(err);
     throw err;
@@ -36,6 +34,8 @@ async function getWalletProvider(_walletName) {
       default:
         throw {"name":"Unknown Provider", "message":"Cannot connect to Wallet Provider " + provider};
     }
+    accountList = provider.send("eth_requestAccounts", []);
+    signer = provider.getSigner();
   } catch (err) {
     processError(err);
   }

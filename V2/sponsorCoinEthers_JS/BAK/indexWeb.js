@@ -195,8 +195,3 @@ function toggle(elmtStr) {
     elmtObj.style.display = "none";
   }
 }
-
-function WEB_isEmptyObj(object) {
-  isEmpty = JSON.stringify(object) === "{}";
-  return isEmpty;
-}

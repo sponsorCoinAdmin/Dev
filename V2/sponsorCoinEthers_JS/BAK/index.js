@@ -245,11 +245,6 @@ function changeElementIdColor(name, color) {
   document.getElementById(name).style.backgroundColor = color;
 }
 
-function isEmptyObj(object) {
-  isEmpty = JSON.stringify(object) === "{}";
-  return isEmpty;
-}
-
 function processError(err) {
   throw err;
 }
