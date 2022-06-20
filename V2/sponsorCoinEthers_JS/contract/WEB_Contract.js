@@ -1,7 +1,6 @@
 // Connect contract
 async function GUI_connectContract(id, _contractAddress) {
   try {
-    var signer = getValidatedSigner();
     contract = await connectValidContract(_contractAddress);
     changeElementIdColor(id, "green");
   } catch (err) {

@@ -10,12 +10,12 @@ function GUI_initPage() {
 // 1. Connect Metamask with Dapp
 async function GUI_connectWallet(id, _walletName) {
   try {
-    provider = await connectValidWalletProvider(_walletName);
-    setWalletName(_walletName);
+    wallet  = connectWallet(_walletName);
+//    wallet  = new Wallet(_walletName);
+    acct = wallet.getActiveAccount();
     changeElementIdColor(id, "green");
-  } catch (err) {
+  } catch (err) {                                                                                                                                                                                                               
     document.getElementById("ethereumAccountBalance_TX").value = "";
-    disconnectWallet();
     alertLogError(err, id);
   }
 }
@@ -24,8 +24,8 @@ async function GUI_connectWallet(id, _walletName) {
 async function GUI_getActiveAccount(id) {
   try {
     // MetaMask requires requesting permission to connect users accounts
-    var signer = getValidatedSigner();
-    accountAddress = await getActiveAccount(signer);
+    accountAddress = await wallet.getActiveAccount();
+//    accountAddress = await getActiveAccount(signer);
     document.getElementById(id.replace("_BTN", "_TX")).value = accountAddress;
     changeElementIdColor(id, "green");
   } catch (err) {
@@ -38,7 +38,6 @@ async function GUI_getActiveAccount(id) {
 /*
 async function GUI_getEthereumAccountBalance(id) {
   try {
-    var signer = getValidatedSigner();
     const balance = await signer.getBalance();
     const convertToEth = 1e18;
     const ethbalance = balance.toString() / convertToEth;
@@ -57,7 +56,6 @@ async function GUI_getEthereumAccountBalance(id) {
 
 async function GUI_AddTokenContract(id) {
   try {
-    var signer = getValidatedSigner();
     tokenContractAddress = document.getElementById(id.replace("_BTN", "_ADR")).value;
     tokenSelectorStr = id.replace("_BTN", "_SEL");
     tokenSelector = document.getElementById(id.replace("_BTN", "_SEL"));
@@ -78,7 +76,6 @@ async function GUI_AddTokenContract(id) {
 }
 
 function GUI_OpenAddCryptoForm() {
-
   document.getElementById("addContractDiv").style.display = "block";
   setWindowCentre();
 }
