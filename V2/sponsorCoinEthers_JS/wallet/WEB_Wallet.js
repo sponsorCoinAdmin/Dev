@@ -11,7 +11,7 @@ function GUI_initPage() {
 async function GUI_connectWallet(id, _walletName) {
   try {
     wallet  = connectWallet(_walletName);
-//    wallet  = new Wallet(_walletName);
+//    wallet = new Wallet(_walletName);
     acct = wallet.getActiveAccount();
     changeElementIdColor(id, "green");
   } catch (err) {                                                                                                                                                                                                               

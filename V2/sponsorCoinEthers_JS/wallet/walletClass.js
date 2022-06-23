@@ -85,17 +85,6 @@ function connectMetaMask() {
   return provider;
 }
 
-// 2. Connect Metamask Account
-async function getActiveAccount(_signer) {
-  try {
-    // MetaMask requires requesting permission to connect users accounts
-    accountAddress = await _signer.getAddress();
-    return accountAddress;
-  } catch (err) {
-    processError(err);
-  }
-}
-
 // 3. Get Ethereum balance
 async function getEthereumAccountBalance() {
   try {
