@@ -2,21 +2,47 @@
 const spCoinContractAddress = "0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A";
 const abi = spCoinABI;
 
+async function init(contract) {
+  contract.name = await contract.name();
+  contract.symbol = await contract.symbol();
+  contract.totalSupply = await contract.totalSupply();
+}
+
+
 class Contract {
   constructor(_contractAddress, _ABI, _signer) {
+    this.loaded = false;
     this.contractAddress = _contractAddress;
     this.ABI = _ABI;
     this.signer = _signer;
     this.contract = this.getContract(_contractAddress, _ABI, _signer);
-    this.name = this.getName();
-    this.name = this.contract.name();
-    this.symbol = this.contract.symbol();
-    this.totalSupply = this.contract.totalSupply();
-    this.decimals = this.contract.decimals();
-    this.tokenSupply = weiToToken(this.totalSupply, this.decimals);
+    this.name;
+    this.symbol;
+    this.totalSupply;
+    this.decimals;
+    // this.init();
+    // this.alertVals();
+    // setTimeout(this.alertVals, 3000);
   }
 
-  getName() {
+  async init() {
+    this.name = await this.contract.name();
+    this.symbol = await this.contract.symbol();
+    this.totalSupply = await this.contract.totalSupply();
+    this.decimals = await this.contract.decimals();
+    this.tokenSupply = weiToToken(this.totalSupply, this.decimals);
+    return true;
+  }
+
+  alertVals() {
+    var vals = "\nName = " + this.name;
+    vals += "\nSymbol = " + this.symbol;
+    vals += "\ntotalSupply" + this.totalSupply;
+    vals += "\ndecimals" + this.decimals;
+    alert ("Contract Values" + vals);
+  }
+
+  getNamePromise() {
     var name = this.contract.name();
     return name;
   }

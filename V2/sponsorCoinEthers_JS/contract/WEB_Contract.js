@@ -1,12 +1,21 @@
 // Connect contract
 async function GUI_connectContract(id, _contractAddress) {
   try {
-    var x = abi;
+    var abi = spCoinABI;
     wallet  = connectWallet("METAMASK");
+   // wallet.init();
 
     contract = new Contract(_contractAddress, spCoinABI, wallet.signer);
+    await contract.init();
+
     var name = await contract.name;
     var name2 = contract.name;
+    var name = contract.name;
+    var symbol = contract.symbol;
+    var totalSupply = contract.totalSupply;
+    var decimals = contract.decimals;
+    var tokenSupply = contract.tokenSupply;
+
     changeElementIdColor(id, "green");
   } catch (err) {
     alertLogError(err, id);

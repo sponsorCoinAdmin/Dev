@@ -3,8 +3,15 @@ var wallet;
 function connectWallet(_walletName) {
   var wallet  = new Wallet(_walletName);
   addr = wallet.getActiveAccount();
+  wallet.setActiveAccount(addr);
+  wallet.addr = addr;
   return wallet;
 }
+
+// async function initWallet(_walletName) {
+//   addr = await wallet.getActiveAccount();
+//   wallet.setActiveAccount(addr);
+// }
 
 class Wallet {
   constructor(_walletName) {
@@ -20,6 +27,11 @@ class Wallet {
       processError(err);
     }
   }
+
+  async init() {
+    addr = await wallet.getActiveAccount();
+    this.accountAddress = this.signer.getAddress();;
+    }
 
   connectValidWalletProvider(_walletName) {
     try {
@@ -57,11 +69,15 @@ class Wallet {
     return provider;
   }
 
+    setActiveAccount(_accountAddress) {
+      this.accountAddress = accountAddress;
+
+    }
+
     getActiveAccount() {
       try {
         // MetaMask requires requesting permission to connect users accounts
-        this.accountAddress = this.signer.getAddress();
-        return this.accountAddress;
+        return this.signer.getAddress();
       } catch (err) {
         processError(err);
       }
