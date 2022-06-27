@@ -8,6 +8,7 @@ async function init(contract) {
   contract.totalSupply = await contract.totalSupply();
 }
 
+
 class Contract {
   constructor(_contractAddress, _ABI, _signer) {
     this.loaded = false;

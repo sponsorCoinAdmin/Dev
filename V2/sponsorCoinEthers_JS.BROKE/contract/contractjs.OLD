@@ -1,72 +1,60 @@
 // Contract Vars;
 const spCoinContractAddress = "0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A";
-const abi = spCoinABI;
+var contractAddress;
+var contract;
 
-async function init(contract) {
-  contract.name = await contract.name();
-  contract.symbol = await contract.symbol();
-  contract.totalSupply = await contract.totalSupply();
+function setContractAddress(_contractAddress) {
+  contractAddress = _contractAddress;
 }
 
-class Contract {
-  constructor(_contractAddress, _ABI, _signer) {
-    this.loaded = false;
-    this.contractAddress = _contractAddress;
-    this.ABI = _ABI;
-    this.signer = _signer;
-    this.contract = this.getContract(_contractAddress, _ABI, _signer);
-    this.name;
-    this.symbol;
-    this.totalSupply;
-    this.decimals;
-    // this.init();
-    // this.alertVals();
-    // setTimeout(this.alertVals, 3000);
-  }
-
-  async init() {
-    this.name = await this.contract.name();
-    this.symbol = await this.contract.symbol();
-    this.totalSupply = await this.contract.totalSupply();
-    this.decimals = await this.contract.decimals();
-    this.tokenSupply = weiToToken(this.totalSupply, this.decimals);
-    return true;
-  }
-
-  alertVals() {
-    var vals = "\nName = " + this.name;
-    vals += "\nSymbol = " + this.symbol;
-    vals += "\ntotalSupply" + this.totalSupply;
-    vals += "\ndecimals" + this.decimals;
-    alert ("Contract Values" + vals);
-  }
-
-  getNamePromise() {
-    var name = this.contract.name();
-    return name;
-  }
-
-  getContract(_contractAddress, _ABI, _signer) {
-    var contract;
-    try {
-      if (_contractAddress != null) {
-        contract = new ethers.Contract(_contractAddress, _ABI, _signer);
-      }
-    } catch (err) {
-      processError(err);
+function getContract(_contractAddress) {
+  try {
+    if (_contractAddress != null) {
+      contract = new ethers.Contract(_contractAddress, spCoinABI, getSigner());
     }
-    return contract;
+  } catch (err) {
+    processError(err);
   }
-/*
-  balanceOf(accountAddress) {
-    try {
-      balance = await getContract().balanceOf(accountAddress);
-      return balance;
-    } catch (err) {
-      processError(err);
-    }
+  return contract;
+}
+
+async function getContractName() {
+  tokenName = getContract().name();
+  return tokenName;
+}
+
+async function getContractSymbol() {
+  symbol = getContract().symbol();
+  return symbol;
+}
+
+async function getContractTotalSupply() {
+  totalSupply = getContract().totalSupply();
+  return totalSupply;
+}
+
+async function getContractDecimals() {
+  decimals = getContract().decimals();
+  return decimals;
+}
+
+async function getContractTokenSupply() {
+  totalSupply = await getContractTotalSupply();
+  decimals = await getContractDecimals();
+  tokenSupply = weiToToken(totalSupply, decimals);
+  return tokenSupply
+}
+
+// 4. Connect contract
+async function connectContract() {
+  try {
+    contract = new ethers.Contract(getAddress(), null, getSigner());
+    // do a test call to see if contract is valid.
+    tokenName = await contract.name();
+  } catch (err) {
+    processError(err);
   }
-  */
+  return contract;
 }
 
 async function connectValidContract(_contractAddress) {
@@ -88,6 +76,50 @@ async function connectValidContract(_contractAddress) {
     return contract;
   } catch (err) {
     contract = undefined;
+    processError(err);
+  }
+}
+
+async function readContractName() {
+  try {
+    tokenName = await getContract().name();
+  } catch (err) {
+    processError(err);
+  }
+  return tokenName;
+}
+
+async function readContractSymbol() {
+  try {
+    symbol = await getContract().symbol();
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function readContractTotalSupply() {
+  try {
+    spCoinTotalSupply = await getContract().totalSupply();
+    return supply;
+  } catch (err) {
+    processError(err);
+  }
+}
+
+async function readContractDecimals() {
+  try {
+    decimals = await getContract().decimals();
+    return decimals;
+  } catch (err) {
+    processError(err);
+  }
+}
+
+async function balanceOf() {
+  try {
+    balance = await getContract().balanceOf(accountAddress);
+    return balance;
+  } catch (err) {
     processError(err);
   }
 }
