@@ -9,6 +9,12 @@ function isEmpty(obj) {
   else
     isEmpty = JSON.stringify(obj) === "{}";
   return isEmpty;
+
+//   if (obj == null || obj == undefined || obj == "")
+//   return true;
+// else
+//   return false;
+
 }
 
 function processError(err) {

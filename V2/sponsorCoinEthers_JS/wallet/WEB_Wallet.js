@@ -56,19 +56,16 @@ async function GUI_getEthereumAccountBalance(id) {
 
 async function GUI_AddTokenContract(id) {
   try {
-    tokenSelectorStr = id.replace("_BTN", "_SEL");
-    tokenSelector = document.getElementById(id.replace("_BTN", "_SEL"));
-    tokenSelector.options[tokenSelector.options.length] = new Option("IT WORKS",);
-    tokenContractAddress = document.getElementById(id.replace("_BTN", "_ADR")).value;
+    var tokenSelectorStr = id.replace("_BTN", "_SEL");
+    var tokenSelector = document.getElementById(id.replace("_BTN", "_SEL"));
+    var tokenContractAddress = document.getElementById(id.replace("_BTN", "_ADR")).value;
 
-    await tm.addValidTokenContract(tokenContractAddress, spCoinABI, wallet.signer);
+    var newContract = await tm.addValidTokenContract(tokenContractAddress, spCoinABI, wallet.signer);
 
-    opt = tokenSelector.options;
-    opt0 = opt[0];
-    opt00 = opt[0, 0];
-    optionLength = opt.length;
-    alert("tokenSelector.options = " + tokenSelector.options[0]);
-    tokenSelector.options[tokenSelector.options.length] = tokenContractAddress;
+    var opt = tokenSelector.options;
+    var optionLength = opt.length;
+    var tokenSymbol = newContract.get("symbol");
+    tokenSelector.options[tokenSelector.options.length] = new Option(tokenSymbol, tokenContractAddress)
     alert("Validating Token Contract " + tokenContractAddress);
 
     changeElementIdColor(id, "green");

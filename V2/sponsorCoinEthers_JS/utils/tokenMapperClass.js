@@ -15,22 +15,27 @@ class TokenMap {
     this.tokens = new Map([]);
   }
 
+  get(_address) {
+    var contract = this.tokens.get(_address)
+    return contract;
+  }
+
   getTokenKeys() {
     var tokenKeys = [...this.tokens.keys()];
     return tokenKeys;
   }
 
-  addTokenContract(address) {
+  addTokenContract(_address) {
     var token = new Map();
-    token.set("address", address)
-    this.tokens.set(address, token);
+    token.set("address", _address)
+    this.tokens.set(_address, token);
     return token;
   }
 
   setTokenProperty(address, propertyKey, propertyValue) {
     if (!isEmpty(address) && !isEmpty(propertyKey)) {
       var token = this.tokens.get(address);
-      if (isEmpty(token))
+      if (token == null || token == undefined || token == "")
         token = this.addTokenContract(address);
       if (token instanceof Map) {
         token.set(propertyKey, propertyValue)
@@ -50,12 +55,14 @@ class TokenMap {
     var decimals = contract.decimals;
     var tokenSupply = contract.tokenSupply;
 
-    setTokenProperty(_contractAddress, "contract", contract)
-    setTokenProperty(_contractAddress, "name", name)
-    setTokenProperty(_contractAddress, "symbol", symbol)
-    setTokenProperty(_contractAddress, "totalSupply", totalSupply)
-    setTokenProperty(_contractAddress, "decimals", decimals)
-    setTokenProperty(_contractAddress, "tokenSupply", tokenSupply)
+    tm.setTokenProperty(_contractAddress, "contract", contract)
+    tm.setTokenProperty(_contractAddress, "name", name)
+    tm.setTokenProperty(_contractAddress, "symbol", symbol)
+    tm.setTokenProperty(_contractAddress, "totalSupply", totalSupply)
+    tm.setTokenProperty(_contractAddress, "decimals", decimals)
+    tm.setTokenProperty(_contractAddress, "tokenSupply", tokenSupply)
+    var contractMap = tm.get(_contractAddress);
+    return contractMap;
   }
 
   getTokenProperty(address, propertyKey) {
