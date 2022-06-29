@@ -8,8 +8,6 @@ async function GUI_connectContract(id, _contractAddress) {
     contract = new Contract(_contractAddress, spCoinABI, wallet.signer);
     await contract.init();
 
-    var name = await contract.name;
-    var name2 = contract.name;
     var name = contract.name;
     var symbol = contract.symbol;
     var totalSupply = contract.totalSupply;

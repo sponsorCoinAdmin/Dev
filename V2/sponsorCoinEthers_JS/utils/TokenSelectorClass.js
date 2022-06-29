@@ -4,15 +4,22 @@ function initTokenSelectorClass(selectedToken) {
     ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX");
     tm = initTokenMap();
     tm.mapTokensToSelector(ts);
-    ts.setSelectedTokenText(selectedToken);    
+    ts.setSelectedTokenText(selectedToken);
 }
 
 class TokenSelectorClass {
     constructor(selector_ID, selector_TX) {
+        this.tm = initTokenMap();;
         this.selector = document.getElementById(selector_ID);
         this.selector_TX = document.getElementById(selector_TX);
         this.SelectorPropertyKey = "address";
         this.lastTokenIndex = -1;
+    }
+
+    init() {
+        this.tm = initTokenMap();
+        this.tm.mapTokensToSelector(ts);
+        this.ts.setSelectedTokenText(selectedToken); 
     }
 
     buttonPressed() {
@@ -65,4 +72,18 @@ class TokenSelectorClass {
         var selector = this.selector;
         selector.options[selector.options.length] = new Option(tokenSymbol, tokenKey);
     }
+
+    AddTokenContract(_address) {
+        var x = this.tm;
+        var a = _address
+        var abi = spCoinABI;
+ //       var w = wallet;
+        // var newContract = await this.tm.addValidTokenContract(_address, spCoinABI, wallet.signer);
+        // var opt = tokenSelector.options;
+        // var optionLength = opt.length;
+        // var tokenSymbol = newContract.get("symbol");
+        // tokenSelector.options[tokenSelector.options.length] = new Option(tokenSymbol, tokenContractAddress)
+        // alert("Validating Token Contract " + tokenContractAddress);
+    }
+
 }

@@ -1,6 +1,6 @@
 function GUI_initPage() {
   clearContractFields();
-  initTokenSelectorClass("ETH");
+  ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX");
   document.getElementById("addContractDiv").style.display = "none";
   window.addEventListener('resize', function (event) {
     setWindowCentre();
@@ -59,6 +59,8 @@ async function GUI_AddTokenContract(id) {
     var tokenSelectorStr = id.replace("_BTN", "_SEL");
     var tokenSelector = document.getElementById(id.replace("_BTN", "_SEL"));
     var tokenContractAddress = document.getElementById(id.replace("_BTN", "_ADR")).value;
+
+    ts.AddTokenContract(tokenContractAddress);
 
     var newContract = await tm.addValidTokenContract(tokenContractAddress, spCoinABI, wallet.signer);
 

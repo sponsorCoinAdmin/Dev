@@ -46,7 +46,7 @@ class TokenMap {
   }
 
   async addValidTokenContract(_contractAddress, _abi, _signer) {
-    contract = new Contract(_contractAddress, _abi, _signer);
+    var contract = new Contract(_contractAddress, _abi, _signer);
     await contract.init();
 
     var name = contract.name;
