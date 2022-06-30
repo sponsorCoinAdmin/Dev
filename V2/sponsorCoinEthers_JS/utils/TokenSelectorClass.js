@@ -1,25 +1,16 @@
-var ts;
-
-function initTokenSelectorClass(selectedToken) {
-    ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX");
-    tm = initTokenMap();
-    tm.mapTokensToSelector(ts);
-    ts.setSelectedTokenText(selectedToken);
-}
-
 class TokenSelectorClass {
-    constructor(selector_ID, selector_TX) {
-        this.tm = initTokenMap();;
+    constructor(selector_ID, selector_TX, _wallet) {
+        this.wallet = _wallet;
         this.selector = document.getElementById(selector_ID);
         this.selector_TX = document.getElementById(selector_TX);
         this.SelectorPropertyKey = "address";
-        this.lastTokenIndex = -1;
     }
 
     init() {
-        this.tm = initTokenMap();
+        this.tm = this.wallet.tm;
         this.tm.mapTokensToSelector(ts);
-        this.ts.setSelectedTokenText(selectedToken); 
+        this.ts.setSelectedTokenText(selectedToken);
+        this.lastTokenIndex = -1;
     }
 
     buttonPressed() {

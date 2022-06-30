@@ -11,7 +11,7 @@ function initTokenMap() {
 }
 
 class TokenMap {
-  constructor () {
+  constructor() {
     this.tokens = new Map([]);
   }
 

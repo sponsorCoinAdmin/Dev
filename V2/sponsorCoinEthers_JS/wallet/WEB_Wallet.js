@@ -1,6 +1,8 @@
+var wallet;
+var ts;
+
 function GUI_initPage() {
   clearContractFields();
-  ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX");
   document.getElementById("addContractDiv").style.display = "none";
   window.addEventListener('resize', function (event) {
     setWindowCentre();
@@ -10,10 +12,12 @@ function GUI_initPage() {
 // 1. Connect Metamask with Dapp
 async function GUI_connectWallet(id, _walletName) {
   try {
-    wallet  = connectWallet(_walletName);
+    wallet  = new Wallet(_walletName);
 //    wallet = new Wallet(_walletName);
     acct = wallet.getActiveAccount();
     changeElementIdColor(id, "green");
+    ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX", wallet);
+
   } catch (err) {                                                                                                                                                                                                               
     document.getElementById("ethereumAccountBalance_TX").value = "";
     alertLogError(err, id);

@@ -2,7 +2,7 @@
 async function GUI_connectContract(id, _contractAddress) {
   try {
     var abi = spCoinABI;
-    wallet  = connectWallet("METAMASK");
+    wallet  = new Wallet("METAMASK");
    // wallet.init();
 
     contract = new Contract(_contractAddress, spCoinABI, wallet.signer);
