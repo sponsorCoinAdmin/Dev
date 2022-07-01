@@ -19,8 +19,8 @@ async function GUI_connectWallet(id, _walletName) {
     ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX", wallet);
 
   } catch (err) {                                                                                                                                                                                                               
-    document.getElementById("ethereumAccountBalance_TX").value = "";
     alertLogError(err, id);
+    document.getElementById("ethereumAccountBalance_TX").value = "";
   }
 }
 
@@ -66,7 +66,7 @@ async function GUI_AddTokenContract(id) {
 
     ts.AddTokenContract(tokenContractAddress);
 
-    var newContract = await tm.addValidTokenContract(tokenContractAddress, spCoinABI, wallet.signer);
+    var newContract = await wallet.addTokenContract(tokenContractAddress);
 
     var opt = tokenSelector.options;
     var optionLength = opt.length;

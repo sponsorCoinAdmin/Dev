@@ -9,12 +9,12 @@ async function init(contract) {
 }
 
 class Contract {
-  constructor(_contractAddress, _ABI, _signer) {
+  constructor(_address, _ABI, _signer) {
     this.loaded = false;
-    this.contractAddress = _contractAddress;
+    this.address = _address;
     this.ABI = _ABI;
     this.signer = _signer;
-    this.contract = this.getContract(_contractAddress, _ABI, _signer);
+    this.contract = this.getContract(_address, _ABI, _signer);
     this.name;
     this.symbol;
     this.totalSupply;
@@ -25,11 +25,18 @@ class Contract {
   }
 
   async init() {
-    this.name = await this.contract.name();
-    this.symbol = await this.contract.symbol();
-    this.totalSupply = await this.contract.totalSupply();
-    this.decimals = await this.contract.decimals();
-    this.tokenSupply = weiToToken(this.totalSupply, this.decimals);
+    try {
+      this.name = await this.contract.name();
+      this.symbol = await this.contract.symbol();
+      this.totalSupply = await this.contract.totalSupply();
+      this.decimals = await this.contract.decimals();
+      this.tokenSupply = weiToToken(this.totalSupply, this.decimals);
+    } catch (err) {
+      var msg = "** Error Contract Creation\n";
+      msg += "Invalad Address: "+this.address;
+      alertLogErrorMessage(msg);
+      throw err;
+    }
     return true;
   }
 
@@ -38,51 +45,46 @@ class Contract {
     vals += "\nSymbol = " + this.symbol;
     vals += "\ntotalSupply" + this.totalSupply;
     vals += "\ndecimals" + this.decimals;
-    alert ("Contract Values" + vals);
+    alert("Contract Values" + vals);
   }
 
-  getNamePromise() {
-    var name = this.contract.name();
-    return name;
-  }
-
-  getContract(_contractAddress, _ABI, _signer) {
+  getContract(_address, _ABI, _signer) {
     var contract;
     try {
-      if (_contractAddress != null) {
-        contract = new ethers.Contract(_contractAddress, _ABI, _signer);
+      if (_address != null) {
+        contract = new ethers.Contract(_address, _ABI, _signer);
       }
     } catch (err) {
       processError(err);
     }
     return contract;
   }
-/*
-  balanceOf(accountAddress) {
-    try {
-      balance = await getContract().balanceOf(accountAddress);
-      return balance;
-    } catch (err) {
-      processError(err);
+  /*
+    balanceOf(accountAddress) {
+      try {
+        balance = await getContract().balanceOf(accountAddress);
+        return balance;
+      } catch (err) {
+        processError(err);
+      }
     }
-  }
-  */
+    */
 }
 
-async function connectValidContract(_contractAddress) {
+async function connectValidContract(_address) {
   try {
     // MetaMask requires requesting permission to connect users accounts
-    if (_contractAddress == undefined || _contractAddress.length == 0) {
+    if (_address == undefined || _address.length == 0) {
       msg = "Error: Contract Address Required";
       throw { "name": "missingContractAddress", "message": msg };
     }
     try {
-      contract = new ethers.Contract(_contractAddress, spCoinABI, signer);
+      contract = new ethers.Contract(_address, spCoinABI, signer);
       // do a test call to see if contract is valid.
       tokenName = await contract.name();
     }
     catch {
-      msg = "Error: Cannot connect to Contract Address  <" + _contractAddress + ">";
+      msg = "Error: Cannot connect to Contract Address  <" + _address + ">";
       throw { "name": "emptyWalletSigner", "message": msg };
     }
     return contract;
@@ -104,13 +106,13 @@ async function sendToAccount(addr) {
           message: "Address is not valid",
         };
       } else {
-         contractDecimals = await getContractDecimals();
-         contractWeiBalance = tokenToWei(tokenAmount, contractDecimals);
-         strVal = contractWeiBalance.toFixed(contractDecimals);
-         alert("contractDecimals = " + contractDecimals + "\ncontractWeiBalance = " + contractWeiBalance);
-         getContract().connect(signer).transfer(addr, "55000000000000000000000");
-         getContract().connect(signer).transfer(addr, contractWeiBalance);
-//         contract.connect(signer).transfer(addr, "500000000");
+        contractDecimals = await getContractDecimals();
+        contractWeiBalance = tokenToWei(tokenAmount, contractDecimals);
+        strVal = contractWeiBalance.toFixed(contractDecimals);
+        alert("contractDecimals = " + contractDecimals + "\ncontractWeiBalance = " + contractWeiBalance);
+        getContract().connect(signer).transfer(addr, "55000000000000000000000");
+        getContract().connect(signer).transfer(addr, contractWeiBalance);
+        //         contract.connect(signer).transfer(addr, "500000000");
       }
     }
   } catch (err) {
@@ -121,7 +123,7 @@ async function sendToAccount(addr) {
 async function OLD_sendTokensToAccount(addr, tokenAmount) {
   try {
     var signer = getValidatedSigner();
-    contract = new ethers.Contract(contractAddress, spCoinABI, getProvider());
+    contract = new ethers.Contract(address, spCoinABI, getProvider());
     if (!addr && addr.length == 0) {
       console.log("Address is empty");
       sendToAccountAddr.value = "Address is empty";
@@ -131,7 +133,7 @@ async function OLD_sendTokensToAccount(addr, tokenAmount) {
       } else {
         spCoinContract.connect(signer).transfer(addr, "500000000");
       }
-    } 
+    }
   } catch (err) {
     processError(err);
   }

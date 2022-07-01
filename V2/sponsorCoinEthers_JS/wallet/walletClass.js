@@ -57,6 +57,25 @@ class Wallet {
       processError(err);
     }
   }
+
+async addTokenContract(_contractAddress, _abi) {
+  var contractMap = null;
+    try {
+      var abi = _abi == undefined ? spCoinABI : _abi;
+      var contract = new Contract(_contractAddress, abi, this.signer);
+      await contract.init();
+      contractMap = this.tm.addTokenContract(contract);
+    } catch (err) {
+      processError(err);
+      throw err;
+    }
+    return contractMap;
+  }
+
+  setTokenProperty(_address, _propertyKey, _propertyValue) {
+    this.tm.setTokenProperty(_address, _propertyKey, _propertyValue);
+  }
+
 }
 
 

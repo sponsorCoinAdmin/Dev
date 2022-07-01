@@ -30,9 +30,13 @@ class disconnectContract {
 }
 
 function alertLogError(err, element) {
-  console.log(err.message);
+  alertLogErrorMessage(err.message);
   changeElementIdColor(element, "red");
-  alert(err.message);
+}
+
+function alertLogErrorMessage(msg) {
+  console.log(msg);
+  alert(msg);
 }
 
 function changeElementIdColor(name, color) {

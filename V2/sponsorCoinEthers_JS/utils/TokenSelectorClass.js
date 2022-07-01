@@ -69,7 +69,7 @@ class TokenSelectorClass {
         var a = _address
         var abi = spCoinABI;
  //       var w = wallet;
-        // var newContract = await this.tm.addValidTokenContract(_address, spCoinABI, wallet.signer);
+        // var newContract = await this.tm.addTokenContract(_address, spCoinABI, wallet.signer);
         // var opt = tokenSelector.options;
         // var optionLength = opt.length;
         // var tokenSymbol = newContract.get("symbol");
