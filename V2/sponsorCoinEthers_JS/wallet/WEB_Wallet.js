@@ -12,15 +12,37 @@ function GUI_initPage() {
 // 1. Connect Metamask with Dapp
 async function GUI_connectWallet(id, _walletName) {
   try {
-    wallet  = new Wallet(_walletName);
-//    wallet = new Wallet(_walletName);
-    acct = wallet.getActiveAccount();
+    wallet = new Wallet(_walletName);
+    await wallet.init();
     changeElementIdColor(id, "green");
     ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX", wallet);
 
   } catch (err) {                                                                                                                                                                                                               
     alertLogError(err, id);
     document.getElementById("ethereumAccountBalance_TX").value = "";
+  }
+}
+
+async function GUI_AddTokenContract(id) {
+  try {
+    var tokenSelectorStr = id.replace("_BTN", "_SEL");
+    var tokenSelector = document.getElementById(id.replace("_BTN", "_SEL"));
+    var addressKey = document.getElementById(id.replace("_BTN", "_ADR")).value;
+    contractMap = await wallet.getContractMapByAddressKey(addressKey);
+   // ts.AddTokenContract(addressKey);
+
+    var newContract = await wallet.mapWalletObjectByAddressKey(addressKey);
+
+    var opt = tokenSelector.options;
+    var optionLength = opt.length;
+    var tokenSymbol = newContract.get("symbol");
+    tokenSelector.options[tokenSelector.options.length] = new Option(tokenSymbol, addressKey)
+    alert("Validating Token Contract " + addressKey);
+
+    changeElementIdColor(id, "green");
+  } catch (err) {
+    document.getElementById(id.replace("_BTN", "_TX")).value = "";
+    alertLogError(err, id);
   }
 }
 
@@ -57,29 +79,6 @@ async function GUI_getEthereumAccountBalance(id) {
   }
 }
 */
-
-async function GUI_AddTokenContract(id) {
-  try {
-    var tokenSelectorStr = id.replace("_BTN", "_SEL");
-    var tokenSelector = document.getElementById(id.replace("_BTN", "_SEL"));
-    var tokenContractAddress = document.getElementById(id.replace("_BTN", "_ADR")).value;
-
-    ts.AddTokenContract(tokenContractAddress);
-
-    var newContract = await wallet.addTokenContract(tokenContractAddress);
-
-    var opt = tokenSelector.options;
-    var optionLength = opt.length;
-    var tokenSymbol = newContract.get("symbol");
-    tokenSelector.options[tokenSelector.options.length] = new Option(tokenSymbol, tokenContractAddress)
-    alert("Validating Token Contract " + tokenContractAddress);
-
-    changeElementIdColor(id, "green");
-  } catch (err) {
-    document.getElementById(id.replace("_BTN", "_TX")).value = "";
-    alertLogError(err, id);
-  }
-}
 
 function GUI_OpenAddCryptoForm() {
   document.getElementById("addContractDiv").style.display = "block";

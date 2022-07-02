@@ -12,24 +12,24 @@ function initTokenMap(tm) {
 
 class TokenMap {
   constructor() {
-    this.tokens = new Map([]);
+    this.addrMapObjs = new Map([]);
   }
 
   get(_address) {
-    var contract = this.tokens.get(_address)
+    var contract = this.addrMapObjs.get(_address)
     return contract;
   }
 
   getTokenKeys() {
-    var tokenKeys = [...this.tokens.keys()];
+    var tokenKeys = [...this.addrMapObjs.keys()];
     return tokenKeys;
   }
 
   setTokenProperty(address, propertyKey, propertyValue) {
     if (!isEmpty(address) && !isEmpty(propertyKey)) {
-      var token = this.tokens.get(address);
+      var token = this.addrMapObjs.get(address);
       if (token == null || token == undefined || token == "")
-        token = this.addNewContractAddressMap(address);
+        token = this.addNewAddressMapObject(address);
       if (token instanceof Map) {
         token.set(propertyKey, propertyValue)
         return token;
@@ -38,44 +38,51 @@ class TokenMap {
     return null;
   }
 
-  addNewContractAddressMap(_address) {
-    var token = new Map();
-    token.set("address", _address)
-    this.tokens.set(_address, token);
-    return token;
+  addNewAddressMapObject(_address) {
+    var objMap = new Map();
+    objMap.set("address", _address)
+    this.addrMapObjs.set(_address, objMap);
+    return objMap;
   }
 
-  addTokenContract(contract) {
-    var contractAddress = contract.address;
-    var name = contract.name;
-    var symbol = contract.symbol;
-    var totalSupply = contract.totalSupply;
-    var decimals = contract.decimals;
-    var tokenSupply = contract.tokenSupply;
+  mapWalletObjectByAddressKey(obj) {
+    var addressKey = obj.address;
+    var name = obj.name;
+    var symbol = obj.symbol;
+    var totalSupply = obj.totalSupply;
+    var decimals = obj.decimals;
+    var tokenSupply = obj.tokenSupply;
 
-    this.setTokenProperty(contractAddress, "contract",    contract);
-    this.setTokenProperty(contractAddress, "name",        name);
-    this.setTokenProperty(contractAddress, "symbol",      symbol);
-    this.setTokenProperty(contractAddress, "totalSupply", totalSupply);
-    this.setTokenProperty(contractAddress, "decimals",    decimals);
-    this.setTokenProperty(contractAddress, "tokenSupply", tokenSupply);
+    this.setTokenProperty(addressKey, "contract",    obj);
+    this.setTokenProperty(addressKey, "name",        name);
+    this.setTokenProperty(addressKey, "symbol",      symbol);
+    this.setTokenProperty(addressKey, "totalSupply", totalSupply);
+    this.setTokenProperty(addressKey, "decimals",    decimals);
+    this.setTokenProperty(addressKey, "tokenSupply", tokenSupply);
     
-    var contractMap = this.get(contractAddress);
-    return contractMap;
+    var contractMap = this.get(addressKey);
+    return this.getTokenMapValues(addressKey);
   }
 
   getTokenProperty(address, propertyKey) {
     var propertyValue = null;
-    if (!isEmpty(address) && !isEmpty(propertyKey)) {
-      var token = this.tokens.get(address);
-      if (token instanceof Map)
-        propertyValue = token.get(propertyKey);
+    var tokenMap = getTokenMapValues(address)
+    if (!isEmpty(tokenMap) && !isEmpty(propertyKey)) {
+      propertyValue = tokenMap.get(propertyKey);
     }
     return propertyValue;
   }
+  
+  getTokenMapValues(address) {
+    var tokenMap;
+    if (!isEmpty(address)) {
+      tokenMap = this.addrMapObjs.get(address);
+    }
+    return tokenMap;
+  }
 
   mapTokensToSelector(selector) {
-    for (let [key] of this.tokens) {
+    for (let [key] of this.addrMapObjs) {
       var tokenSymbol = this.getTokenProperty(key, "Symbol");
       selector.addTokenKeyToSelector(tokenSymbol, key);
     }

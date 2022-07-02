@@ -2,8 +2,12 @@ class Wallet {
   constructor(_walletName) {
     try {
       this.accountList;
-      this.accountAddress;
+      this.address;
       this.walletName = _walletName;
+      this.name = "Ethereum";
+      this.balance;
+      this.symbol;
+
       this.defaultWalletName = "METAMASK";
       this.provider = this.connectValidWalletProvider(_walletName);
       this.signer = provider.getSigner();
@@ -12,6 +16,46 @@ class Wallet {
     } catch (err) {
       processError(err);
     }
+  }
+
+  async init() {
+    this.address = await this.signer.getAddress();;
+    this.name = "Ethereum";
+    this.symbol = "ETH";
+    this.balance = await this.getEthereumAccountBalance();
+    this.totalSupply = await this.signer.getBalance();
+    this.decimals = 18;
+    this.tokenSupply = await this.signer.getBalance(); // weiToToken(this.totalSupply, this.decimals);
+    var tokenMapValues = this.tm.mapWalletObjectByAddressKey(this);
+    return true;
+  }
+
+  async getContractMapByAddressKey(_addressKey) {
+    var addressObject;
+    var contractMap = this.tm.getTokenMapValues(_addressKey);
+  
+    // check if contract exists
+    if (contractMap == undefined) {
+      contractMap = await this.addNewTokenContractToMap(_addressKey, spCoinABI);
+    }
+    else {
+      contractMap = tm.mapWalletObjectByAddressKey(addressObj);
+    }
+    return contractMap;
+  }
+
+  async addNewTokenContractToMap(_contractAddress, _abi) {
+    var contractMap = null;
+    try {
+      var abi = _abi == undefined ? spCoinABI : _abi;
+      var contract = new Contract(_contractAddress, abi, this.signer);
+      await contract.init();
+      contractMap = this.tm.mapWalletObjectByAddressKey(contract);
+    } catch (err) {
+      processError(err);
+      throw err;
+    }
+    return contractMap;
   }
 
   connectValidWalletProvider(_walletName) {
@@ -49,35 +93,33 @@ class Wallet {
     return provider;
   }
 
-  getActiveAccount() {
+  async getActiveAccount() {
     try {
       // MetaMask requires requesting permission to connect users accounts
-      return this.signer.getAddress();
+      this.address = await this.signer.getAddress();
+      return this.address;
     } catch (err) {
       processError(err);
     }
-  }
-
-async addTokenContract(_contractAddress, _abi) {
-  var contractMap = null;
-    try {
-      var abi = _abi == undefined ? spCoinABI : _abi;
-      var contract = new Contract(_contractAddress, abi, this.signer);
-      await contract.init();
-      contractMap = this.tm.addTokenContract(contract);
-    } catch (err) {
-      processError(err);
-      throw err;
-    }
-    return contractMap;
   }
 
   setTokenProperty(_address, _propertyKey, _propertyValue) {
     this.tm.setTokenProperty(_address, _propertyKey, _propertyValue);
   }
 
+  async getEthereumAccountBalance() {
+    const decimals = 1e18;
+    var ethbalance;
+    try {
+      const balance = await this.signer.getBalance();
+      ethbalance = balance.toString() / decimals;
+      console.log("account's balance in ether:", ethbalance);
+    } catch (err) {
+      processError(err);
+    }
+    return ethbalance;
+  }
 }
-
 
 function connectMetaMask() {
   try {
@@ -88,20 +130,4 @@ function connectMetaMask() {
     throw err;
   }
   return provider;
-}
-
-// 3. Get Ethereum balance
-async function getEthereumAccountBalance() {
-  try {
-    const balance = await signer.getBalance();
-    const convertToEth = 1e18;
-    const ethbalance = balance.toString() / convertToEth;
-    console.log(
-      "account's balance in ether:",
-      balance.toString() / convertToEth
-    );
-  } catch (err) {
-    processError(err);
-  }
-  return balance;
 }

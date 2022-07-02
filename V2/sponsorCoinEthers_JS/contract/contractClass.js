@@ -31,6 +31,7 @@ class Contract {
       this.totalSupply = await this.contract.totalSupply();
       this.decimals = await this.contract.decimals();
       this.tokenSupply = weiToToken(this.totalSupply, this.decimals);
+      this.mapWalletObjectByAddressKey(this);
     } catch (err) {
       var msg = "** Error Contract Creation\n";
       msg += "Invalad Address: "+this.address;
