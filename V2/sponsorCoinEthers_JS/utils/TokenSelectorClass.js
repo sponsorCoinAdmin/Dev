@@ -1,16 +1,18 @@
 class TokenSelectorClass {
-    constructor(selector_ID, selector_TX, _wallet) {
+    constructor(_selector_ID, _selector_TX, _wallet) {
         this.wallet = _wallet;
-        this.selector = document.getElementById(selector_ID);
-        this.selector_TX = document.getElementById(selector_TX);
+        this.tm = this.wallet.tm;
+        this.selector = document.getElementById(_selector_ID);
+        this.selector_TX = document.getElementById(_selector_TX);
         this.SelectorPropertyKey = "address";
+        this.selectedToken = "ETH";
+        this.init();
     }
 
     init() {
-        this.tm = this.wallet.tm;
-        this.tm.mapTokensToSelector(ts);
-        this.ts.setSelectedTokenText(selectedToken);
-        this.lastTokenIndex = -1;
+        this.mapTokensToSelector(this.tm);
+        this.setSelectedTokenText(this.selectedToken);
+        this.lastTokenIndex = 0;
     }
 
     buttonPressed() {
@@ -31,7 +33,7 @@ class TokenSelectorClass {
             var selOption = this.selector.options[idx];
             var tokenText = selOption.text;
             var address = selOption.value;
-            var tokenValue = tm.getTokenProperty(address, this.SelectorPropertyKey);
+            var tokenValue = this.tm.getTokenProperty(address, this.SelectorPropertyKey);
 
             if (isEmpty(tokenValue))
                 tokenValue = address;
@@ -68,7 +70,7 @@ class TokenSelectorClass {
         var x = this.tm;
         var a = _address
         var abi = spCoinABI;
- //       var w = wallet;
+        //       var w = wallet;
         // var newContract = await this.tm.mapWalletObjectByAddressKey(_address, spCoinABI, wallet.signer);
         // var opt = tokenSelector.options;
         // var optionLength = opt.length;
@@ -77,4 +79,17 @@ class TokenSelectorClass {
         // alert("Validating Token Contract " + tokenContractAddress);
     }
 
+
+    mapWalletToSelector(wallet) {
+        this.wallet = wallet;
+        mapTokensToSelector(wallet.tm)
+    }
+
+    mapTokensToSelector(tm) {
+        this.tm = tm;
+        for (let [addrKey] of tm.addrMapObjs) {
+            var tokenSymbol = tm.getTokenProperty(addrKey, "Symbol");
+            this.selector.addTokenKeyToSelector(tokenSymbol, addrKey);
+        }
+    }
 }

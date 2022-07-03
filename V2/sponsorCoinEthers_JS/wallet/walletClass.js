@@ -36,10 +36,8 @@ class Wallet {
   
     // check if contract exists
     if (contractMap == undefined) {
+      // Contract not found. Create new contract
       contractMap = await this.addNewTokenContractToMap(_addressKey, spCoinABI);
-    }
-    else {
-      contractMap = tm.mapWalletObjectByAddressKey(addressObj);
     }
     return contractMap;
   }

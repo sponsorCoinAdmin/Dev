@@ -13,7 +13,6 @@ function GUI_initPage() {
 async function GUI_connectWallet(id, _walletName) {
   try {
     wallet = new Wallet(_walletName);
-    await wallet.init();
     changeElementIdColor(id, "green");
     ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX", wallet);
 
@@ -31,11 +30,9 @@ async function GUI_AddTokenContract(id) {
     contractMap = await wallet.getContractMapByAddressKey(addressKey);
    // ts.AddTokenContract(addressKey);
 
-    var newContract = await wallet.mapWalletObjectByAddressKey(addressKey);
-
     var opt = tokenSelector.options;
     var optionLength = opt.length;
-    var tokenSymbol = newContract.get("symbol");
+    var tokenSymbol = contractMap.get("symbol");
     tokenSelector.options[tokenSelector.options.length] = new Option(tokenSymbol, addressKey)
     alert("Validating Token Contract " + addressKey);
 

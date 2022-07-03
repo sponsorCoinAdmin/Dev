@@ -80,13 +80,6 @@ class TokenMap {
     }
     return tokenMap;
   }
-
-  mapTokensToSelector(selector) {
-    for (let [key] of this.addrMapObjs) {
-      var tokenSymbol = this.getTokenProperty(key, "Symbol");
-      selector.addTokenKeyToSelector(tokenSymbol, key);
-    }
-  }
 }
 
 function popupAddTokenForm(tokenSelect) {

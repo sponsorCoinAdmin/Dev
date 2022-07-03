@@ -9,13 +9,13 @@ async function init(contract) {
 }
 
 class Contract {
-  constructor(_address, _ABI, _signer) {
+  constructor(_address, _abi, _signer) {
     this.loaded = false;
     this.address = _address;
-    this.ABI = _ABI;
+    this.ABI = _abi;
     this.signer = _signer;
-    this.contract = this.getContract(_address, _ABI, _signer);
-    this.name;
+    this.contract = this.getContract(_address, _abi, _signer);
+    this.name = this.contract.name();
     this.symbol;
     this.totalSupply;
     this.decimals;
@@ -31,7 +31,6 @@ class Contract {
       this.totalSupply = await this.contract.totalSupply();
       this.decimals = await this.contract.decimals();
       this.tokenSupply = weiToToken(this.totalSupply, this.decimals);
-      this.mapWalletObjectByAddressKey(this);
     } catch (err) {
       var msg = "** Error Contract Creation\n";
       msg += "Invalad Address: "+this.address;
