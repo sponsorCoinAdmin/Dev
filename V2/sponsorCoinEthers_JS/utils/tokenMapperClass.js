@@ -66,8 +66,8 @@ class TokenMap {
 
   getTokenProperty(address, propertyKey) {
     var propertyValue = null;
-    var tokenMap = getTokenMapValues(address)
-    if (!isEmpty(tokenMap) && !isEmpty(propertyKey)) {
+    var tokenMap = this.getTokenMapValues(address)
+    if (tokenMap != null && !isEmpty(propertyKey)) {
       propertyValue = tokenMap.get(propertyKey);
     }
     return propertyValue;

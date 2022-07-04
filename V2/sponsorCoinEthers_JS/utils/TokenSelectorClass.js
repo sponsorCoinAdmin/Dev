@@ -61,10 +61,6 @@ class TokenSelectorClass {
         this.setSelectedTokenIndex(this.lastTokenIndex);
     }
 
-    addTokenKeyToSelector(tokenSymbol, tokenKey) {
-        var selector = this.selector;
-        selector.options[selector.options.length] = new Option(tokenSymbol, tokenKey);
-    }
 
     AddTokenContract(_address) {
         var x = this.tm;
@@ -88,8 +84,14 @@ class TokenSelectorClass {
     mapTokensToSelector(tm) {
         this.tm = tm;
         for (let [addrKey] of tm.addrMapObjs) {
-            var tokenSymbol = tm.getTokenProperty(addrKey, "Symbol");
-            this.selector.addTokenKeyToSelector(tokenSymbol, addrKey);
+            var tokenSymbol = tm.getTokenProperty(addrKey, "symbol");
+            this.addTokenKeyToSelector(tokenSymbol, addrKey);
         }
     }
+
+    addTokenKeyToSelector(tokenSymbol, tokenKey) {
+        var selector = this.selector;
+        selector.options[selector.options.length] = new Option(tokenSymbol, tokenKey);
+    }
+
 }

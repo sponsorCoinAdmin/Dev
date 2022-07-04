@@ -19,7 +19,7 @@ class Wallet {
   }
 
   async init() {
-    this.address = await this.signer.getAddress();;
+    this.address = await this.signer.getAddress();
     this.name = "Ethereum";
     this.symbol = "ETH";
     this.balance = await this.getEthereumAccountBalance();

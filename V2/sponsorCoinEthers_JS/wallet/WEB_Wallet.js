@@ -13,6 +13,7 @@ function GUI_initPage() {
 async function GUI_connectWallet(id, _walletName) {
   try {
     wallet = new Wallet(_walletName);
+    await wallet.init();
     changeElementIdColor(id, "green");
     ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX", wallet);
 
