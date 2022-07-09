@@ -5,12 +5,13 @@ class Wallet {
       this.address;
       this.walletName = _walletName;
       this.name = "Ethereum";
+      this.symbol = "ETH";
+      this.decimals = 18;
       this.balance;
       this.symbol;
 
       this.defaultWalletName = "METAMASK";
       this.provider = this.connectValidWalletProvider(_walletName);
-      this.signer = provider.getSigner();
       this.tm = new TokenMap();
       // return this.provider;
     } catch (err) {
@@ -19,21 +20,24 @@ class Wallet {
   }
 
   async init() {
-    this.address = await this.signer.getAddress();
-    this.name = "Ethereum";
-    this.symbol = "ETH";
-    this.balance = await this.getEthereumAccountBalance();
-    this.totalSupply = await this.signer.getBalance();
-    this.decimals = 18;
-    this.tokenSupply = await this.signer.getBalance(); // weiToToken(this.totalSupply, this.decimals);
-    var tokenMapValues = this.tm.mapWalletObjectByAddressKey(this);
+    try {
+      this.signer = await provider.getSigner();
+      this.address = await this.signer.getAddress();
+      this.balance = await this.getEthereumAccountBalance();
+      this.totalSupply = await this.signer.getBalance();
+      this.tokenSupply = await this.signer.getBalance(); // weiToToken(this.totalSupply, this.decimals);
+      var tokenMapValues = this.tm.mapWalletObjectByAddressKey(this);
+    } catch (err) {
+      processError(err);
+      throw err;
+    }
     return true;
   }
 
   async getContractMapByAddressKey(_addressKey) {
     var addressObject;
     var contractMap = this.tm.getTokenMapValues(_addressKey);
-  
+
     // check if contract exists
     if (contractMap == undefined) {
       // Contract not found. Create new contract
