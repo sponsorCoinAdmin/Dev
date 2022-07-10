@@ -29,13 +29,14 @@ async function GUI_AddTokenContract(id) {
     var tokenSelector = document.getElementById(id.replace("_BTN", "_SEL"));
     var addressKey = document.getElementById(id.replace("_BTN", "_ADR")).value;
     contractMap = await wallet.getContractMapByAddressKey(addressKey);
-   // ts.AddTokenContract(addressKey);
-
+    // ts.AddTokenContract(addressKey);
+  
     var opt = tokenSelector.options;
     var optionLength = opt.length;
     var tokenSymbol = contractMap.get("symbol");
     tokenSelector.options[tokenSelector.options.length] = new Option(tokenSymbol, addressKey)
-    alert("Validating Token Contract " + addressKey);
+    ts.sortSelector();
+    // alert("Validating Token Contract " + addressKey);
 
     changeElementIdColor(id, "green");
   } catch (err) {

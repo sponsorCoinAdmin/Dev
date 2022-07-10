@@ -6,6 +6,8 @@ function initTokenMap(tm) {
   token = tm.setTokenProperty("0xa36085F69e2889c224210F603D836748e7dC0088", "Symbol", "LINK")
   token = tm.setTokenProperty("0xf3e0d7bF58c5d455D31ef1c2d5375904dF525105", "Symbol", "USDT")
   token = tm.setTokenProperty("0x334710ABc2Efcc3DF2AfdA839bF8d0dA923dB36A", "Symbol", "SPCOIN")
+  token = tm.setTokenProperty("0xbcef8576da8d073a7e46a640fda830067f8c107e", "Symbol", "APY")
+  token = tm.setTokenProperty("0x4c21b98ec8011a4762d28cd5ae2bd98fbc1e2614", "Symbol", "CHSB")
   return tm;
 }
 */
