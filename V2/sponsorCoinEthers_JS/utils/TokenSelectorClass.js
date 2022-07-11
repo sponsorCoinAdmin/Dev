@@ -76,12 +76,12 @@ class TokenSelectorClass {
 
     mapWalletToSelector(wallet) {
         this.wallet = wallet;
-        this.clearSelector();
         this.mapTokensToSelector(wallet.tm)
     }
 
     mapTokensToSelector(tm) {
         this.tm = tm;
+        this.clearSelector();
         for (let [addrKey] of tm.addrMapObjs) {
             var tokenSymbol = tm.getTokenProperty(addrKey, "symbol");
             this.addTokenKeyToSelector(tokenSymbol, addrKey);
