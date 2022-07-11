@@ -70,13 +70,14 @@ class TokenSelectorClass {
         // var opt = tokenSelector.options;
         // var optionLength = opt.length;
         // var tokenSymbol = newContract.get("symbol");
-        // tokenSelector.options[tokenSelector.options.length] = new Option(tokenSymbol, tokenContractAddress)
+        // tokenSelector.options[tokenSelector.options.length] = new Option(tokenSymbol, tokenContractAddress);
         // alert("Validating Token Contract " + tokenContractAddress);
     }
 
     mapWalletToSelector(wallet) {
         this.wallet = wallet;
-        mapTokensToSelector(wallet.tm)
+        this.clearSelector();
+        this.mapTokensToSelector(wallet.tm)
     }
 
     mapTokensToSelector(tm) {
@@ -91,6 +92,12 @@ class TokenSelectorClass {
     addTokenKeyToSelector(tokenSymbol, tokenKey) {
         var selector = this.selector;
         selector.options[selector.options.length] = new Option(tokenSymbol, tokenKey);
+    }
+
+    clearSelector() {
+        var selector = this.selector;
+        selector.innerHTML = "";
+        selector.options[selector.options.length] = new Option("Connect Wallet");
     }
 
     sortSelector() {
@@ -109,7 +116,6 @@ class TokenSelectorClass {
         var sortedMap = new Map([...selMap].sort((a, b) => String(a[0]).localeCompare(b[0])))
 
         var idx = startIdx;
-
         for (var [key, value] of sortedMap.entries()) {
             options[idx++] = new Option(key, value);
         }
