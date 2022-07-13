@@ -12,16 +12,22 @@ class TokenSelectorClass {
     init() {
         this.mapTokensToSelector(this.tm);
         this.setSelectedTokenText(this.selectedToken);
-        this.lastTokenIndex = 0;
+        this.lastTokenIndex = 1;
     }
 
     buttonPressed() {
         var selIdx = this.selector.selectedIndex;
         if (selIdx == 0) {
-            GUI_OpenAddCryptoForm();
+            inportTokens_DIV.style.display = "block";
+            contractData_DIV.style.display = "none"
+            GUI_OpenPopupWallet();
             this.selector_TX.value = "";
+
         }
         else {
+            inportTokens_DIV.style.display = "none";
+            contractData_DIV.style.display = "block"
+
             this.setSelectedTokenIndex(selIdx);
         }
     }
@@ -97,7 +103,7 @@ class TokenSelectorClass {
     clearSelector() {
         var selector = this.selector;
         selector.innerHTML = "";
-        selector.options[selector.options.length] = new Option("Connect Wallet");
+        selector.options[selector.options.length] = new Option("Inport Token");
     }
 
     sortSelector() {

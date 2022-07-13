@@ -129,23 +129,6 @@ async function GUI_sendTokensToAccount(id, addr, tokkenAmount) {
   }
 }
 
-async function GUI_contractToggleData(btn) {
-  elmtStr_DIV = btn.id.replace("_BTN", "_DIV")
-  elmtObj_DIV = document.getElementById(elmtStr_DIV);
-  if (btn.innerText == "Show Contract Data")
-  {
-    btn.innerText = "Hide Contract Data";
-    elmtObj_DIV.style.display = "block";
-    loadContractFields();
-  }  
-  else
-  if (btn.innerText == "Hide Contract Data") {
-    btn.innerText = "Show Contract Data";
-    elmtObj_DIV.style.display = "none";
-    clearContractFields();
-  }
-}
-
 function loadContractFields() {
   GUI_readContractName("contractName_BTN");
   GUI_readContractSymbol("contractSymbol_BTN");

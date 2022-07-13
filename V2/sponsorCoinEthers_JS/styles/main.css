@@ -9,8 +9,12 @@ body {
 }
 
 #contractData_DIV {
-  display: none;
-}
+   display: none;
+ }
+ 
+ #inportTokens_DIV {
+   display: none;
+ }
 
 tr, td {
    border: 5px solid white;
@@ -47,6 +51,8 @@ tr {
 .spacer {
    width:20px;
 }
+
+
 
 th {
    margin-left: 130px;

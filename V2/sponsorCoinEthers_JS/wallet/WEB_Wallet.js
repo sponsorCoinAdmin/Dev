@@ -3,7 +3,7 @@ var ts;
 
 function GUI_initPage() {
   clearContractFields();
-  document.getElementById("addContractDiv").style.display = "none";
+  document.getElementById("popupWallet_Div").style.display = "none";
   window.addEventListener('resize', function (event) {
     setWindowCentre();
   }, true);
@@ -16,7 +16,6 @@ async function GUI_connectWallet(id, _walletName) {
     await wallet.init();
     changeElementIdColor(id, "green");
     ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX", wallet);
-
   } catch (err) {                                                                                                                                                                                                               
     alertLogError(err, id);
     document.getElementById("ethereumAccountBalance_TX").value = "";
@@ -79,12 +78,12 @@ async function GUI_getEthereumAccountBalance(id) {
 }
 */
 
-function GUI_OpenAddCryptoForm() {
-  document.getElementById("addContractDiv").style.display = "block";
+function GUI_OpenPopupWallet() {
+  document.getElementById("popupWallet_Div").style.display = "block";
   setWindowCentre();
 }
 
-function GUI_CloseAddCryptoForm(selectId) {
-  document.getElementById("addContractDiv").style.display = "none";
+function GUI_ClosePopupWallet(selectId) {
+  document.getElementById("popupWallet_Div").style.display = "none";
   ts.rebaseSelected();
 }
