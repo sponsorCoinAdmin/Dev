@@ -31,22 +31,7 @@
 
   <h3>Sponsor Coin</h3>
   <table>
-    <tbody id="connectWallet_TBL">
-      <tr>
-        <th>Wallet Calls</th>
-        <th class="addr">Parameters</th>
-        <td class="spacer"></td>
-      </tr>
-      <tr>
-        <td>
-          <button id="connectWallet_BTN" class="cell_BTN"
-            onclick="GUI_connectWallet(this.id, document.getElementById('connectWallet_TX').value)">
-            Connect Wallet
-          </button>
-        </td>
-        <td><input type="text" id="connectWallet_TX" value="METAMASK" /></td>
-        <td class="spacer"></td>
-      </tr>
+    <tbody>
       <tr>
         <th>Token Manager</th>
         <td class="addr"></td>
@@ -54,37 +39,6 @@
       </tr>
     </tbody>
   </table>
-  <table>
-    <tr>
-      <td>
-        <select id="tokenContract_SEL" class="cell_BTN" onchange="ts.buttonPressed()">
-          <option value="" selected="selected">Inport Token</option>
-        </select>
-      </td>
-      <td><input type="text" id="tokenContract_TX" /></td>
-      <td class="spacer"></td>
-    </tr>
-    </tbody>
-  </table>
-
-  <div id="inportTokens_DIV">
-    <table>
-      <tbody id="connectWallet_TBL">
-        <th>Inport Token</th>
-        <tr>
-          <td><input type="text" id="tokenContract_ADR" /></td>
-        </tr>
-        <tr>
-          <td>
-            <button id="tokenContract_BTN" class="cell_BTN" onclick="GUI_AddTokenContract(this.id)">
-              Add Token
-            </button>
-          </td>
-          <td class="spacer"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 
   <table>
     <tbody>
@@ -96,55 +50,6 @@
           </tr>
         </tbody>
       </table>
-
-      <div id="contractData_DIV">
-        <table id="contract_TBL">
-          <tbody>
-            <tr>
-              <td>
-                <button id="contractName_BTN" class="cell_BTN" onClick="GUI_readContractName(this.id);">
-                  Contract Name
-                </button>
-              </td>
-              <td><input type="text" id="contractName_TX" /></td>
-            </tr>
-
-            <tr>
-              <td>
-                <button id="contractSymbol_BTN" class="cell_BTN" onclick="GUI_readContractSymbol(this.id)">
-                  Contract Symbol
-                </button>
-              </td>
-              <td><input type="text" id="contractSymbol_TX" /></td>
-            </tr>
-
-            <tr>
-              <td>
-                <button id="contractTotalSupply_BTN" class="cell_BTN"
-                  onclick="GUI_readContractTotalSupply(this.id)">Contract Total Supply
-                </button>
-              </td>
-              <td><input type="text" id="contractTotalSupply_TX" /></td>
-            </tr>
-            <tr>
-              <td>
-                <button id="contractDecimals_BTN" class="cell_BTN" onclick="GUI_readContractDecimals(this.id)">
-                  Contract Decimals
-                </button>
-              </td>
-              <td><input type="text" id="contractDecimals_TX" /></td>
-            </tr>
-            <tr>
-              <td>
-                <button id="contractTokenSupply_BTN" class="cell_BTN" onclick="GUI_readContractTokenSupply(this.id)">
-                  Contract Token Supply
-                </button>
-              </td>
-              <td><input type="text" id="contractTokenSupply_TX" /></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
       <div>
         <table id="action_TBL">
@@ -214,19 +119,83 @@
       <button onclick="document.location.reload(true);">Reload Page</button>
 
       <!--button class="open-button" onclick="GUI_OpenPopupWallet()">Open Form</button-->
-      <div class="form-popup" id="addContract_Div"></div>
+      <!--################################################################################################-->
 
-      <div class="form-popup" id="popupWallet_Div">
-          <div id="addContract_Div">
-          <button id="connectWallet_BTN" class="cell_BTN"
-          onclick="GUI_connectWallet(this.id, document.getElementById('connectWallet_TX').value)">
-          Connect Wallet
+      <div class="form-popup scroll" id="popupWallet_Div">
+        <div id="addContract_Div">
+          <button id="connectWallet_BTN" class="cell_BTN" onclick="GUI_connectWallet(this.id, 'METAMASK')">
+            Connect Wallet
+          </button>
+        </div>
+
+        <div id="selector_Div">
+          <select id="tokenContract_SEL" class="cell_BTN" onchange="ts.buttonPressed()">
+            <option value="" selected="selected">Inport Token</option>
+          </select>
+        </div>
+
+        <div id="contractData_DIV">
+          <form action="/action_page.php" class="form-container" id="form-container-id">
+
+            <!-- <button id="contractName_BTN" class="cell_BTN" onClick="GUI_readContractName(this.id);">
+            Contract Name -->
+            </button>
+            <label for="address"><b>Token Contract Address</b></label>
+            <input type="text" id="tokenContract_TX" />
+
+            <label for="name"><b>Token Contract Name</b></label>
+            <input type="text" id="contractName_TX" />
+
+            <label for="psw"><b>Contract Symbol</b></label>
+            <input type="text" id="contractSymbol_TX" />
+
+                       <label for="totalSupply"><b>Total Supply</b></label>
+            <input type="text" id="contractTotalSupply_TX" />
+
+            <label for="decimals"><b>Decimals</b></label>
+            <input type="text" id="contractDecimals_TX" />
+
+            <label for="decimals"><b>Token Supply</b></label>
+            <input type="text" id="contractTokenSupply_TX" />
+
+            <button type="submit" class="btn">Validate Token Contract</button>
+            <button type="button" class="btn cancel" onclick="GUI_ClosePopupWallet('tokenContract_SEL')">Save
+              Token</button>
+          </form>
+
+          <!-------------------------------------------------------------------------------------------------->
+          <!-- 
+          <button id="contractSymbol_BTN" class="cell_BTN" onclick="GUI_readContractSymbol(this.id)">
+            Contract Symbol
+          </button>
+        <input type="text" id="contractSymbol_TX" />
+           <button id="contractTotalSupply_BTN" class="cell_BTN"
+            onclick="GUI_readContractTotalSupply(this.id)">Contract Total Supply
+          </button>
+        <input type="text" id="contractTotalSupply_TX" />
+          <button id="contractDecimals_BTN" class="cell_BTN" onclick="GUI_readContractDecimals(this.id)">
+            Contract Decimals
+          </button>
+          <input type="text" id="contractDecimals_TX" />
+          <button id="contractTokenSupply_BTN" class="cell_BTN" onclick="GUI_readContractTokenSupply(this.id)">
+            Contract Token Supply
+          </button>
+          <input type="text" id="contractTokenSupply_TX" />
+
+ -->
+          <!-------------------------------------------------------------------------------------------------->
+        </div>
+
+        <div id="inportTokens_DIV">
+          <th>Inport Token</th>
+          <td><input type="text" id="tokenContract_ADR" /></td>
+          <button id="tokenContract_BTN" class="cell_BTN" onclick="GUI_AddTokenContract(this.id)">
+            Add Token
           </button>
         </div>
 
         <div id="addContract_Div">
           <form action="/action_page.php" class="form-container" id="form-container-id">
-            <h1>Select a Token</h1>
 
             <label for="email"><b>Token Contract Address</b></label>
             <input type="text" placeholder="Enter Contract Address" name="email" required>
@@ -243,7 +212,7 @@
           </form>
         </div>
       </div>
-
+      <!--################################################################################################-->
 
       <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
       <!---->

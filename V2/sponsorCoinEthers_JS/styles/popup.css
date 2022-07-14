@@ -14,7 +14,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
   right: 380px; 
   width: 280px;
 }
- */
+*/
+
 /* The popup form - hidden by default */
 .form-popup {
   display: none;
@@ -67,4 +68,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
 /* Add some hover effects to buttons */
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
+}
+
+div.scroll {
+  margin:2px, 2px;
+  padding:2px;
+  background-color: rgb(235, 237, 239);
+  width: 350px;
+  height: 540px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
