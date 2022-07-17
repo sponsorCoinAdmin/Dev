@@ -1,5 +1,6 @@
 var wallet;
 var ts;
+var activePage = "home";
 
 function GUI_initPage() {
   clearContractFields();
@@ -86,4 +87,36 @@ function GUI_OpenPopupWallet() {
 function GUI_ClosePopupWallet(selectId) {
   document.getElementById("popupWallet_Div").style.display = "none";
   ts.rebaseSelected();
+}
+
+function activateWalletPage(_activePage) {
+  activePage = _activePage;
+  clearWalletPages();
+  switch(activePage.toUpperCase()) {
+    case "ADD_CONTRACT":
+      break;
+      case "IMPORT_TOKENS":
+            inportTokens_DIV.style.display = "block";
+            break;
+      case "HOME":
+            // code block
+            break;
+      case "DISPLAY_TOKEN_DATA":
+            contractData_DIV.style.display = "block"
+            break;
+      case "TRANSASTION":
+            transaction_Div.style.display = "block";
+      // code block
+      break;
+    default:
+      // code block
+  }
+
+function clearWalletPages() {
+    inportTokens_DIV.style.display = "none";
+    contractData_DIV.style.display = "none";
+    transaction_Div.style.display = "none"
+//    selector_Div.style.display = "none";
+    inportTokens_DIV.style.display = "none";
+  }
 }

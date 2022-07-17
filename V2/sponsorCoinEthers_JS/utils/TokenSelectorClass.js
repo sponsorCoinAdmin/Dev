@@ -18,16 +18,10 @@ class TokenSelectorClass {
     buttonPressed() {
         var selIdx = this.selector.selectedIndex;
         if (selIdx == 0) {
-            inportTokens_DIV.style.display = "block";
-            contractData_DIV.style.display = "none"
-            GUI_OpenPopupWallet();
-            this.selector_TX.value = "";
-
+            activateWalletPage("IMPORT_TOKENS");
         }
         else {
-            inportTokens_DIV.style.display = "none";
-            contractData_DIV.style.display = "block"
-
+            activateWalletPage("DISPLAY_TOKEN_DATA");
             this.setSelectedTokenIndex(selIdx);
         }
     }
