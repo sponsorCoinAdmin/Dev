@@ -1,12 +1,9 @@
 class TokenSelectorClass {
-    constructor(_selector_ID, _selector_TX, _wallet) {
-        this.wallet = _wallet;
-        this.tm = this.wallet.tm;
+    constructor(_selector_ID) {
+        this.tm = new TokenMap();
         this.selector = document.getElementById(_selector_ID);
-        this.selector_TX = document.getElementById(_selector_TX);
         this.SelectorPropertyKey = "address";
         this.selectedToken = "ETH";
-        this.init();
     }
 
     init() {
@@ -16,14 +13,14 @@ class TokenSelectorClass {
     }
 
     buttonPressed() {
-        var selIdx = this.selector.selectedIndex;
-        if (selIdx == 0) {
-            activateWalletPage("IMPORT_TOKENS");
-        }
-        else {
-            activateWalletPage("DISPLAY_TOKEN_DATA");
-            this.setSelectedTokenIndex(selIdx);
-        }
+        // var selIdx = this.selector.selectedIndex;
+        // if (selIdx == 0) {
+        //     activateWalletPage("IMPORT_TOKENS");
+        // }
+        // else {
+        //     activateWalletPage("DISPLAY_TOKEN_DATA");
+        //     this.setSelectedTokenIndex(selIdx);
+        // }
     }
 
     setSelectedTokenIndex(idx) {
@@ -38,7 +35,6 @@ class TokenSelectorClass {
             if (isEmpty(tokenValue))
                 tokenValue = address;
             // Populate Address Text Field
-            this.selector_TX.value = tokenValue;
         }
         else
             alert("token Selector Index " + idx + " Out of Range")
@@ -75,7 +71,6 @@ class TokenSelectorClass {
     }
 
     mapWalletToSelector(wallet) {
-        this.wallet = wallet;
         this.mapTokensToSelector(wallet.tm)
     }
 

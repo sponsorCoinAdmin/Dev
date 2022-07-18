@@ -1,6 +1,8 @@
 var wallet;
+var tm;
 var ts;
 var activePage = "home";
+document.getElementById("tokenContract_SEL").addEventListener("change", selectedTokenChanged);
 
 function GUI_initPage() {
   clearContractFields();
@@ -16,8 +18,10 @@ async function GUI_connectWallet(id, _walletName) {
     wallet = new Wallet(_walletName);
     await wallet.init();
     changeElementIdColor(id, "green");
-    ts = new TokenSelectorClass("tokenContract_SEL", "tokenContract_TX", wallet);
-  } catch (err) {                                                                                                                                                                                                               
+    ts = wallet.ts;
+    tm = ts.tm;
+    selectedTokenChanged();
+  } catch (err) {
     alertLogError(err, id);
     document.getElementById("ethereumAccountBalance_TX").value = "";
   }
@@ -31,7 +35,7 @@ async function GUI_AddTokenContract(id) {
     contractMap = await wallet.getContractMapByAddressKey(addressKey);
     ts.mapWalletToSelector(wallet);
     // ts.AddTokenContract(addressKey);
-  
+
     // var opt = tokenSelector.options;
     // var optionLength = opt.length;
     // var tokenSymbol = contractMap.get("symbol");
@@ -50,7 +54,7 @@ async function GUI_getActiveAccount(id) {
   try {
     // MetaMask requires requesting permission to connect users accounts
     accountAddress = await wallet.getActiveAccount();
-//    accountAddress = await getActiveAccount(signer);
+    //    accountAddress = await getActiveAccount(signer);
     document.getElementById(id.replace("_BTN", "_TX")).value = accountAddress;
     changeElementIdColor(id, "green");
   } catch (err) {
@@ -89,34 +93,66 @@ function GUI_ClosePopupWallet(selectId) {
   ts.rebaseSelected();
 }
 
+function selectedTokenChanged() {
+  var selector = document.getElementById("tokenContract_SEL");
+  var size = selector.options.length;
+  var idx = selector.selectedIndex;
+  if (idx == 0) {
+    activateWalletPage("IMPORT_TOKENS");
+  } 
+  else if (idx < size && idx > 0) {
+    activateWalletPage("DISPLAY_TOKEN_DATA");
+    var selOption = selector.options[idx];
+    var tokenText = selOption.text;
+    var selectorPropertyKey = selOption.value;
+    var address = tm.getTokenProperty(selectorPropertyKey, "address");
+    var name = tm.getTokenProperty(selectorPropertyKey, "name");
+    var symbol = tm.getTokenProperty(selectorPropertyKey, "symbol");
+    var totalSupply = tm.getTokenProperty(selectorPropertyKey, "totalSupply");
+    var decimals = tm.getTokenProperty(selectorPropertyKey, "decimals");
+    var tokenSupply = tm.getTokenProperty(selectorPropertyKey, "tokenSupply");
+
+    document.getElementById("tokenAddress_TX").value = address;
+    document.getElementById("contractName_TX").value = name;
+    document.getElementById("contractSymbol_TX").value = symbol;
+    document.getElementById("contractTotalSupply_TX").value = totalSupply;
+    document.getElementById("contractDecimals_TX").value = decimals;
+    document.getElementById("contractTokenSupply_TX").value =
+    document.getElementById("balanceOf_TX").value = totalSupply;
+    document.getElementById("AccountTokenBalance_TX").value = tokenSupply;
+  }
+  else
+    alert("token Selector Index " + idx + " Out of Range")
+}
+
 function activateWalletPage(_activePage) {
   activePage = _activePage;
   clearWalletPages();
-  switch(activePage.toUpperCase()) {
+  switch (activePage.toUpperCase()) {
     case "ADD_CONTRACT":
       break;
-      case "IMPORT_TOKENS":
-            inportTokens_DIV.style.display = "block";
-            break;
-      case "HOME":
-            // code block
-            break;
-      case "DISPLAY_TOKEN_DATA":
-            contractData_DIV.style.display = "block"
-            break;
-      case "TRANSASTION":
-            transaction_Div.style.display = "block";
+    case "IMPORT_TOKENS":
+      inportTokens_DIV.style.display = "block";
+      break;
+    case "HOME":
+      // code block
+      break;
+    case "DISPLAY_TOKEN_DATA":
+      contractData_DIV.style.display = "block"
+      break;
+    case "TRANSASTION":
+      transaction_Div.style.display = "block";
       // code block
       break;
     default:
-      // code block
+    // code block
   }
 
-function clearWalletPages() {
+  function clearWalletPages() {
     inportTokens_DIV.style.display = "none";
     contractData_DIV.style.display = "none";
     transaction_Div.style.display = "none"
-//    selector_Div.style.display = "none";
+    //    selector_Div.style.display = "none";
     inportTokens_DIV.style.display = "none";
   }
 }
