@@ -101,6 +101,7 @@ function setWindowCentre() {
   var leftWindowMargin = windowCenterWidth - (popupCenterWidth / 2);
   var topWindowMargin = windowCenterHeight - (popupCenterHeight / 2);
 
-  popupDiv.style.top = topWindowMargin+"px";
+  // popupDiv.style.top = topWindowMargin+"px";
+  popupDiv.style.top = "60px";
   popupDiv.style.right = leftWindowMargin+"px";
 }

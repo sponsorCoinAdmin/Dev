@@ -2,14 +2,20 @@ var wallet;
 var tm;
 var ts;
 var activePage = "home";
-document.getElementById("tokenContract_SEL").addEventListener("change", selectedTokenChanged);
+document
+  .getElementById("tokenContract_SEL")
+  .addEventListener("change", selectedTokenChanged);
 
 function GUI_initPage() {
   clearContractFields();
   document.getElementById("popupWallet_Div").style.display = "none";
-  window.addEventListener('resize', function (event) {
-    setWindowCentre();
-  }, true);
+  window.addEventListener(
+    "resize",
+    function (event) {
+      setWindowCentre();
+    },
+    true
+  );
 }
 
 // 1. Connect Metamask with Dapp
@@ -99,8 +105,7 @@ function selectedTokenChanged() {
   var idx = selector.selectedIndex;
   if (idx == 0) {
     activateWalletPage("IMPORT_TOKENS");
-  } 
-  else if (idx < size && idx > 0) {
+  } else if (idx < size && idx > 0) {
     activateWalletPage("DISPLAY_TOKEN_DATA");
     var selOption = selector.options[idx];
     var tokenText = selOption.text;
@@ -120,9 +125,7 @@ function selectedTokenChanged() {
     document.getElementById("contractTokenSupply_TX").value =
     document.getElementById("balanceOf_TX").value = totalSupply;
     document.getElementById("AccountTokenBalance_TX").value = tokenSupply;
-  }
-  else
-    alert("token Selector Index " + idx + " Out of Range")
+  } else alert("token Selector Index " + idx + " Out of Range");
 }
 
 function activateWalletPage(_activePage) {
@@ -130,7 +133,11 @@ function activateWalletPage(_activePage) {
   clearWalletPages();
   switch (activePage.toUpperCase()) {
     case "ADD_CONTRACT":
+      inportTokens_DIV.style.display = "block";
       break;
+    // case "ADMIN":
+    //   admin_DIV.style.display = "block";
+    //   break;
     case "IMPORT_TOKENS":
       inportTokens_DIV.style.display = "block";
       break;
@@ -138,7 +145,10 @@ function activateWalletPage(_activePage) {
       // code block
       break;
     case "DISPLAY_TOKEN_DATA":
-      contractData_DIV.style.display = "block"
+      contractData_DIV.style.display = "block";
+      break;
+    case "DISPLAY_TOKEN_SELECTOR":
+      contractData_DIV.style.display = "block";
       break;
     case "TRANSASTION":
       transaction_Div.style.display = "block";
@@ -149,10 +159,9 @@ function activateWalletPage(_activePage) {
   }
 
   function clearWalletPages() {
-    inportTokens_DIV.style.display = "none";
-    contractData_DIV.style.display = "none";
-    transaction_Div.style.display = "none"
-    //    selector_Div.style.display = "none";
-    inportTokens_DIV.style.display = "none";
+    var selectedClasses = document.getElementsByClassName('walletSubContainer');
+    for (var i = 0; i < selectedClasses.length; i++) {
+      selectedClasses[i].style.display = 'none';
+    }
   }
 }

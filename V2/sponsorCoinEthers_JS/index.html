@@ -16,11 +16,14 @@
     <li><a href="#" onclick="GUI_OpenPopupWallet()">WALLET</a></li>
     <li><a href="#news">ACCOUNTS</a></li>
     <li class="dropdown">
-      <a href="javascript:void(0)" class="dropbtn">CONTRACT CALLS</a>
+      <a href="javascript:void(0)" class="dropbtn">WALLET PAGES</a>
       <div class="dropdown-content">
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
+        <a href="#" onclick="activateWalletPage('ADD_CONTRACT')">ADD_CONTRACT</a>
+        <a href="#" onclick="activateWalletPage('ADMIN')">ADMIN</a>
+        <a href="#" onclick="activateWalletPage('DISPLAY_TOKEN_DATA')">DISPLAY_TOKEN_DATA</a>
+        <a href="#" onclick="activateWalletPage('HOME')">HOME</a>
+        <a href="#" onclick="activateWalletPage('IMPORT_TOKENS')">IMPORT_TOKENS</a>
+        <a href="#" onclick="activateWalletPage('TRANSASTION')">TRANSASTION</a>
       </div>
     </li>
     <li><a href="#news">REBASE</a></li>
@@ -29,170 +32,102 @@
     <li><a href="#news">ABOUT</a></li>
   </ul>
 
-  <h3>Sponsor Coin</h3>
-  <table>
-    <tbody>
-      <tr>
-        <th>Token Manager</th>
-        <td class="addr"></td>
-        <td class="spacer"></td>
-      </tr>
-    </tbody>
-  </table>
+  <button onclick="document.location.reload(true);">Reload Page</button>
 
-  <table>
-    <tbody>
-      <table id="account_TBL">
-        <tbody>
-          <tr>
-            <th>Contract Calls</th>
-            <td class="addr"></td>
-          </tr>
-        </tbody>
-      </table>
+  <!--button class="open-button" onclick="GUI_OpenPopupWallet()">Open Form</button-->
+  <!--################################################################################################-->
 
-      <div id="transaction_Div">
-        <table id="action_TBL">
-          <tbody>
-            <tr>
-              <th>Contract Transaction</th>
-              <td class="addr"></td>
-            </tr>
-            <tr>
-              <td>
-                <button id="sendToAccount_BTN" class="cell_BTN" onclick="GUI_sendTokensToAccount(this.id, 
+  <div class="wallet_popup walletContainer" id="popupWallet_Div">
+    <div id="addContract_Div">
+      <button id="connectWallet_BTN" class="cell_BTN" onclick="GUI_connectWallet(this.id, 'METAMASK')">
+        Connect Wallet
+      </button>
+    </div>
+
+
+    <div id="mainPanel_DIV">
+      <div id="selector_Div">
+        <select id="tokenContract_SEL" class="cell_BTN walletSubContainer">
+          <option value="" selected="selected">Inport Token</option>
+        </select>
+      </div>
+      <div id="contractData_DIV" class="scroll">
+        <form class="walletSubContainer" id="walletContainer-id">
+          <!-- <button id="contractName_BTN" class="cell_BTN" onClick="GUI_readContractName(this.id);">
+            Contract Name -->
+          </button>
+          <label for="address"><b>Token Contract Address</b>
+            <button id="send_BTN" class="float-right" onclick="activateWalletPage('TRANSASTION')">Send</button>
+          </label>
+          <input type="text" id="tokenAddress_TX" />
+
+          <label for="name"><b>Token Contract Name</b></label>
+          <input type="text" id="contractName_TX" />
+
+          <label for="psw"><b>Contract Symbol</b></label>
+          <input type="text" id="contractSymbol_TX" />
+
+          <label for="totalSupply"><b>Total Supply</b></label>
+          <input type="text" id="contractTotalSupply_TX" />
+
+          <label for="decimals"><b>Decimals</b></label>
+          <input type="text" id="contractDecimals_TX" />
+
+          <label for="decimals"><b>Token Supply</b></label>
+          <input type="text" id="contractTokenSupply_TX" />
+
+          <!--  onclick="GUI_balanceOf(this.id) -->
+          <label for="balanceOf"><b>Account Wei balance</b></label>
+          <input type="text" id="balanceOf_TX" />
+
+          <!-- GUI_readContractTokenSupply(this.id) -->
+          <label for="balanceOf"><b>Account Token balance</b></label>
+          <input type="text" id="AccountTokenBalance_TX" />
+
+          <button type="submit" class="btn">Validate Token Contract</button>
+          <button type="button" class="btn cancel" onclick="GUI_ClosePopupWallet('tokenContract_SEL')">Save
+            Token</button>
+        </form>
+        <div class="walletSubContainer" id="transaction_Div">
+          <button id="sendToAccount_BTN" class="cell_BTN" onclick="GUI_sendTokensToAccount(this.id, 
                         document.getElementById('sendToAccountAddr_TX').value, 
                         document.getElementById('tokenAmount_TX').value)">
-                  Send Tokens To Account
-                </button>
-              </td>
-              <td><input type="text" id="sendToAccountAddr_TX" /></td>
-              <td class="spacer"></td>
-              <td>Amount</td>
-              <td><input type="text" id="tokenAmount_TX" /></td>
-            </tr>
-            <tr>
-              <td>
-                <button id="ReadFromScConctractStorage_BTN" class="cell_BTN"
-                  onclick="GUI_readFromScConctractStorage(this.id)">
-                  readFromScConctractStorage
-                </button>
-              </td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>
-                <button class="cell_BTN"="document.onclicklocation.reload(true)">
-                  Clear Fields
-                </button>
-              </td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <button onclick="document.location.reload(true);">Reload Page</button>
-
-      <!--button class="open-button" onclick="GUI_OpenPopupWallet()">Open Form</button-->
-      <!--################################################################################################-->
-
-      <div class="form-popup scroll walletContainer" id="popupWallet_Div">
-        <div id="addContract_Div">
-          <button id="connectWallet_BTN" class="cell_BTN" onclick="GUI_connectWallet(this.id, 'METAMASK')">
-            Connect Wallet
+            Send Tokens To Account
           </button>
+          <input type="text" id="sendToAccountAddr_TX" />
         </div>
-
-        <div id="selector_Div">
-          <select id="tokenContract_SEL" class="cell_BTN" onchange="ts.buttonPressed()">
-            <option value="" selected="selected">Inport Token</option>
-          </select>
-        </div>
-
-        <div id="contractData_DIV" class="walletContainer">
-          <form class="walletContainer" id="walletContainer-id">
-            <!-- <button id="contractName_BTN" class="cell_BTN" onClick="GUI_readContractName(this.id);">
-            Contract Name -->
-            </button>
-            <label for="address"><b>Token Contract Address</b>
-              <button id="send_BTN" class="float-right">Send</button>
-          </label>
-            <input type="text" id="tokenAddress_TX" />
-
-            <label for="name"><b>Token Contract Name</b></label>
-            <input type="text" id="contractName_TX" />
-
-            <label for="psw"><b>Contract Symbol</b></label>
-            <input type="text" id="contractSymbol_TX" />
-
-            <label for="totalSupply"><b>Total Supply</b></label>
-            <input type="text" id="contractTotalSupply_TX" />
-
-            <label for="decimals"><b>Decimals</b></label>
-            <input type="text" id="contractDecimals_TX" />
-
-            <label for="decimals"><b>Token Supply</b></label>
-            <input type="text" id="contractTokenSupply_TX" />
-
-            <!--  onclick="GUI_balanceOf(this.id) -->
-            <label for="balanceOf"><b>Account Wei balance</b></label>
-            <input type="text" id="balanceOf_TX" />
-            
-            <!-- GUI_readContractTokenSupply(this.id) -->
-            <label for="balanceOf"><b>Account Token balance</b></label>
-            <input type="text" id="AccountTokenBalance_TX" />
-
-            <button type="submit" class="btn">Validate Token Contract</button>
-            <button type="button" class="btn cancel" onclick="GUI_ClosePopupWallet('tokenContract_SEL')">Save
-              Token</button>
-          </form>
-
-           <!-------------------------------------------------------------------------------------------------->
-        </div>
-
-        <div class="walletContainer" id="inportTokens_DIV">
-          <th>Inport Token</th>
-          <td><input type="text" id="tokenContract_ADR" /></td>
-          <button id="tokenContract_BTN" class="cell_BTN" onclick="GUI_AddTokenContract(this.id)">
-            Add Token
-          </button>
-        </div>
-
-      <!-- 
-        <div id="addContract_Div">
-          <form class="walletContainer" id="walletContainer-id">
-
-            <label for="email"><b>Token Contract Address</b></label>
-            <input type="text" placeholder="Enter Contract Address" name="email" required>
-
-            <label for="psw"><b>Contract Name</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-
-            <label for="psw"><b>Contract Symbol</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-
-            <button type="submit" class="btn">Validate Token Contract</button>
-            <button type="button" class="btn cancel" onclick="GUI_ClosePopupWallet('tokenContract_SEL')">Save
-              Token</button>
-          </form>
-        </div> 
-      -->
       </div>
-      <!--################################################################################################-->
+    </div>
+    <!-------------------------------------------------------------------------------------------------->
 
-      <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
-      <!---->
-      <script src="utils/utils.js" type="application/javascript"></script>
-      <!---->
-      <script src="contract/spCoinABI.js" type="application/javascript"></script>
-      <script src="contract/contractClass.js" type="application/javascript"></script>
-      <script src="contract/contract.js" type="application/javascript"></script>
-      <script src="utils/TokenMapperClass.js" type="application/javascript"></script>
-      <script src="utils/TokenSelectorClass.js" type="application/javascript"></script>
-      <script src="wallet/walletClass.js" type="application/javascript"></script>
-      <script src="wallet/WEB_Wallet.js" type="application/javascript"></script>
-      <script src="contract/WEB_Contract.js" type="application/javascript"></script>
+    <div class="walletSubContainer" id="admin_Div">
+      <button class="cell_BTN" onclick="document.onclicklocation.reload(true)">
+        Clear Fields
+      </button>
+    </div>
+
+    <div class="walletSubContainer" id="inportTokens_DIV">
+      <th>Inport Token</th>
+      <input type="text" id="tokenContract_ADR" />
+      <button id="tokenContract_BTN" class="cell_BTN" onclick="GUI_AddTokenContract(this.id)">
+        Add Token
+      </button>
+    </div>
+  </div>
+  <!--################################################################################################-->
+
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+  <!---->
+  <script src="utils/utils.js" type="application/javascript"></script>
+  <!---->
+  <script src="contract/spCoinABI.js" type="application/javascript"></script>
+  <script src="contract/contractClass.js" type="application/javascript"></script>
+  <script src="contract/contract.js" type="application/javascript"></script>
+  <script src="utils/TokenMapperClass.js" type="application/javascript"></script>
+  <script src="utils/TokenSelectorClass.js" type="application/javascript"></script>
+  <script src="wallet/walletClass.js" type="application/javascript"></script>
+  <script src="wallet/WEB_Wallet.js" type="application/javascript"></script>
+  <script src="contract/WEB_Contract.js" type="application/javascript"></script>
 </body>
 
 </html>

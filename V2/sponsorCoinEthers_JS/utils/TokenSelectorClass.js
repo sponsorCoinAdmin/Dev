@@ -12,17 +12,6 @@ class TokenSelectorClass {
         this.lastTokenIndex = 1;
     }
 
-    buttonPressed() {
-        // var selIdx = this.selector.selectedIndex;
-        // if (selIdx == 0) {
-        //     activateWalletPage("IMPORT_TOKENS");
-        // }
-        // else {
-        //     activateWalletPage("DISPLAY_TOKEN_DATA");
-        //     this.setSelectedTokenIndex(selIdx);
-        // }
-    }
-
     setSelectedTokenIndex(idx) {
         var size = this.selector.options.length;
         if (idx < size && idx > 0) {

@@ -1,28 +1,30 @@
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 
+.walletSubContainer {
+   display: none;
+ }
 
 /* The popup form - hidden by default */
-.form-popup {
+.wallet_popup {
   display: none;
   position: fixed;
   top: 10px;
-  right: 440px;
-  border: 3px solid #f1f1f1;
+  border: 3px solid #150a53;
   z-index: 9;
 }
 
 /* Add styles to the form container */
 .walletContainer {
-  max-width: 370px;
+  width: 440px;
   padding: 10px;
-  background-color: white;
+  background-color: rgb(123, 46, 46);
 }
 
 /* Full-width input fields */
 .walletContainer input[type=text], .walletContainer input[type=password] {
-  width: 100%;
-  padding: 15px;
+  width:   100%;
+  padding: 10px;
   margin: 5px 0 22px 0;
   border: none;
   background: #f1f1f1;
@@ -35,7 +37,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 
 /* Set a style for the submit/login button */
-.walletContainer .btn {
+.btn {
   background-color: #04AA6D;
   color: white;
   padding: 1px 1px;
@@ -58,11 +60,11 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 div.scroll {
   margin:2px, 2px;
-  padding:2px;
-  background-color: rgb(235, 237, 239);
-  width: 440px;
+  padding:10px;
+  background-color: rgb(238, 242, 245);
+  width: 100%;
   height: 500px;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
 }
 

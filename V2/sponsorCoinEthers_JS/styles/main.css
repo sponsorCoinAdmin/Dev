@@ -2,13 +2,6 @@ body {
    background-color:white;
  }
  
-#contractData_DIV {
-   display: none;
- }
- 
- #inportTokens_DIV {
-   display: none;
- }
 
 .cell_BTN {
    background-color: #5482c7;
