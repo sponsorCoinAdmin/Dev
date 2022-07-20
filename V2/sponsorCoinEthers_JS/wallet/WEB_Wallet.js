@@ -145,6 +145,7 @@ function activateWalletPage(_activePage) {
       // code block
       break;
     case "DISPLAY_TOKEN_DATA":
+      walletContainer_FORM.style.display = "block";
       contractData_DIV.style.display = "block";
       break;
     case "DISPLAY_TOKEN_SELECTOR":
