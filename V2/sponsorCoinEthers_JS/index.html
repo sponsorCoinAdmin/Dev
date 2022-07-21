@@ -18,12 +18,13 @@
     <li class="dropdown">
       <a href="javascript:void(0)" class="dropbtn">WALLET PAGES</a>
       <div class="dropdown-content">
-        <a href="#" onclick="activateWalletPage('ADD_CONTRACT')">ADD_CONTRACT</a>
-        <a href="#" onclick="activateWalletPage('ADMIN')">ADMIN</a>
-        <a href="#" onclick="activateWalletPage('DISPLAY_TOKEN_DATA')">DISPLAY_TOKEN_DATA</a>
-        <a href="#" onclick="activateWalletPage('HOME')">HOME</a>
-        <a href="#" onclick="activateWalletPage('IMPORT_TOKENS')">IMPORT_TOKENS</a>
-        <a href="#" onclick="activateWalletPage('TRANSASTION')">TRANSASTION</a>
+        <a href="#" onclick="toggleWalletPage('ADD_CONTRACT')">ADD_CONTRACT</a>
+        <a href="#" onclick="toggleWalletPage('ADMIN')">ADMIN</a>
+        <a href="#" onclick="toggleWalletPage('DISPLAY_TOKEN_DATA')">DISPLAY_TOKEN_DATA</a>
+        <a href="#" onclick="toggleWalletPage('HOME')">HOME</a>
+        <a href="#" onclick="toggleWalletPage('IMPORT_TOKENS')">IMPORT_TOKENS</a>
+        <a href="#" onclick="toggleWalletPage('TRANSASTION')">TRANSASTION</a>
+        <a href="#" onclick="toggleWalletPage('SELECTOR')">SELECTOR</a>
       </div>
     </li>
     <li><a href="#news">REBASE</a></li>
@@ -43,17 +44,31 @@
         Connect Wallet
       </button>
     </div>
-
-
-    <div id="mainPanel_DIV">
-      <div id="selector_Div">
-        <select id="tokenContract_SEL" class="cell_BTN walletSubContainer">
+    <div id="test_Div" class="walletSubContainer">TEST DIV</div>
+      <div id="selector_Div" class="walletSubContainer">
+        <select id="tokenContract_SEL" class="cell_BTN">
           <option value="" selected="selected">Inport Token</option>
         </select>
       </div>
+      <div id="mainPanel_DIV">
+        <div id="transaction_Div" class="walletSubContainer">
+        <button id="sendToAccount_BTN" class="cell_BTN" onclick="GUI_sendTokensToAccount(this.id, 
+                      document.getElementById('sendToAccountAddr_TX').value, 
+                      document.getElementById('tokenAmount_TX').value)">
+          Send Tokens To Account
+        </button>
+      </div>
       <div id="contractData_DIV" class="scroll">
-        <form class="walletSubContainer" id="walletContainer_FORM">
-          <!-- <button id="contractName_BTN" class="cell_BTN" onClick="GUI_readContractName(this.id);">
+        <div id="transaction_Div" class="walletSubContainer">
+          <button id="sendToAccount_BTN" class="cell_BTN" onclick="GUI_sendTokensToAccount(this.id, 
+                      document.getElementById('sendToAccountAddr_TX').value, 
+                      document.getElementById('tokenAmount_TX').value)">
+            Send Tokens To Account
+          </button>
+          <input type="text" id="sendToAccountAddr_TX" />
+        </div>
+       <form class="walletSubContainer" id="walletContainer_FORM">
+             <!-- <button id="contractName_BTN" class="cell_BTN" onClick="GUI_readContractName(this.id);">
             Contract Name -->
           </button>
           <label for="address"><b>Token Contract Address</b>
@@ -76,6 +91,9 @@
           <label for="decimals"><b>Token Supply</b></label>
           <input type="text" id="contractTokenSupply_TX" />
 
+          <label for="decimals"><b>Token Supply</b></label>
+          <input type="text" id="contractTokenSupply_TX" />
+
           <!--  onclick="GUI_balanceOf(this.id) -->
           <label for="balanceOf"><b>Account Wei balance</b></label>
           <input type="text" id="balanceOf_TX" />
@@ -88,14 +106,6 @@
           <button type="button" class="btn cancel" onclick="GUI_ClosePopupWallet('tokenContract_SEL')">Save
             Token</button>
         </form>
-        <div class="walletSubContainer" id="transaction_Div">
-          <button id="sendToAccount_BTN" class="cell_BTN" onclick="GUI_sendTokensToAccount(this.id, 
-                        document.getElementById('sendToAccountAddr_TX').value, 
-                        document.getElementById('tokenAmount_TX').value)">
-            Send Tokens To Account
-          </button>
-          <input type="text" id="sendToAccountAddr_TX" />
-        </div>
       </div>
     </div>
     <!-------------------------------------------------------------------------------------------------->

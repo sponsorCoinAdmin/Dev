@@ -123,7 +123,7 @@ function selectedTokenChanged() {
     document.getElementById("contractTotalSupply_TX").value = totalSupply;
     document.getElementById("contractDecimals_TX").value = decimals;
     document.getElementById("contractTokenSupply_TX").value =
-    document.getElementById("balanceOf_TX").value = totalSupply;
+      document.getElementById("balanceOf_TX").value = totalSupply;
     document.getElementById("AccountTokenBalance_TX").value = tokenSupply;
   } else alert("token Selector Index " + idx + " Out of Range");
 }
@@ -135,9 +135,9 @@ function activateWalletPage(_activePage) {
     case "ADD_CONTRACT":
       inportTokens_DIV.style.display = "block";
       break;
-    // case "ADMIN":
-    //   admin_DIV.style.display = "block";
-    //   break;
+    case "ADMIN":
+      admin_DIV.style.display = "block";
+      break;
     case "IMPORT_TOKENS":
       inportTokens_DIV.style.display = "block";
       break;
@@ -146,23 +146,70 @@ function activateWalletPage(_activePage) {
       break;
     case "DISPLAY_TOKEN_DATA":
       walletContainer_FORM.style.display = "block";
-      contractData_DIV.style.display = "block";
+      selector_Div.style.display = "block";
       break;
     case "DISPLAY_TOKEN_SELECTOR":
-      contractData_DIV.style.display = "block";
+      selector_Div.style.display = "block";
       break;
     case "TRANSASTION":
       transaction_Div.style.display = "block";
       // code block
       break;
+    case "SELECTOR":
+      selector_Div.style.display = "block";
+      break;
     default:
-    // code block
+      break;
   }
+}
 
-  function clearWalletPages() {
-    var selectedClasses = document.getElementsByClassName('walletSubContainer');
-    for (var i = 0; i < selectedClasses.length; i++) {
-      selectedClasses[i].style.display = 'none';
-    }
+function toggleWalletPage(_activePage) {
+  activePage = _activePage;
+  switch (activePage.toUpperCase()) {
+    case "ADD_CONTRACT":
+      toggle(inportTokens_DIV);
+      break;
+    // case "ADMIN":
+    //   if (admin_DIV.style.display == "block")
+    //     inportTokens_DIV.style.display = "none";
+    //   else admin_DIV.style.display = "block";
+    //   break;
+    case "IMPORT_TOKENS":
+      toggle(inportTokens_DIV);
+      break;
+    case "HOME":
+      // code block
+      break;
+    case "DISPLAY_TOKEN_DATA":
+      toggle(walletContainer_FORM);
+      break;
+    case "DISPLAY_TOKEN_SELECTOR":
+      toggle(selector_Div);
+      break;
+    case "TRANSASTION":
+      toggle(transaction_Div);
+      // code block
+      break;
+    case "SELECTOR":
+      toggle(selector_Div);
+      break;
+    default:
+      break;
+  }
+}
+
+function toggle(element) {
+  if (element.style.display == "block") {
+    inportTokens_DIV.style.display = "none";
+  } else {
+    clearWalletPages();
+    element.style.display = "block";
+  }
+}
+
+function clearWalletPages() {
+  var selectedClasses = document.getElementsByClassName("walletSubContainer");
+  for (var i = 0; i < selectedClasses.length; i++) {
+    selectedClasses[i].style.display = "none";
   }
 }
