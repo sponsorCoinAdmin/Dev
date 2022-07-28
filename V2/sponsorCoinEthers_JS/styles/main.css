@@ -1,7 +1,6 @@
 body {
    background-color:white;
  }
- 
 
 .cell_BTN {
    background-color: #5482c7;
@@ -16,19 +15,4 @@ body {
    cursor: pointer;
    height:100%;
    width:100%;
-
  }
-
-.addr {
-   width:330px;
-}
-.spacer {
-   width:20px;
-}
-
-input {
-   margin:0;
-   padding:0;
-   height:100%;
-   width:100%;
-}
