@@ -90,7 +90,7 @@ function popupAddTokenForm(tokenSelect) {
 }
 
 function setWindowCentre() {
-  var popupDiv = document.getElementById("popupWallet_Div");
+  var popupDiv = document.getElementById("popup_Wallet_Div");
 
   var windowCenterWidth = window.innerWidth / 2;
   var windowCenterHeight = window.innerHeight / 2;

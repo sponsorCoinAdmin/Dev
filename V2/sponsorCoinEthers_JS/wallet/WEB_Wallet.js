@@ -8,7 +8,7 @@ document
 
 function GUI_initPage() {
   clearContractFields();
-  document.getElementById("popupWallet_Div").style.display = "none";
+  document.getElementById("popup_Wallet_Div").style.display = "none";
   window.addEventListener(
     "resize",
     function (event) {
@@ -90,12 +90,12 @@ async function GUI_getEthereumAccountBalance(id) {
 */
 
 function GUI_OpenPopupWallet() {
-  document.getElementById("popupWallet_Div").style.display = "block";
+  document.getElementById("popup_Wallet_Div").style.display = "block";
   setWindowCentre();
 }
 
 function GUI_ClosePopupWallet(selectId) {
-  document.getElementById("popupWallet_Div").style.display = "none";
+  document.getElementById("popup_Wallet_Div").style.display = "none";
   ts.rebaseSelected();
 }
 

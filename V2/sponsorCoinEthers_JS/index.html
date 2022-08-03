@@ -38,8 +38,8 @@
   <!--button class="open-button" onclick="GUI_OpenPopupWallet()">Open Form</button-->
   <!--################################################################################################-->
 
-  <div class="wallet_popup walletContainer" id="popupWallet_Div">
-    <div id="popup_header_Div">
+  <div id="popup_Wallet_Div" class="wallet_popup walletContainer">
+    <div id="popup_Header_Div">
       <div id="addContract_Div">
         <button id="connectWallet_BTN" class="cell_BTN" onclick="GUI_connectWallet(this.id, 'METAMASK')">
           Connect Wallet
@@ -68,10 +68,7 @@
         <input type="text" id="sendToAccountAddr_TX" />
       </div>
       <form class="walletSubContainer" id="walletContainer_FORM">
-        <!-- <button id="contractName_BTN" class="cell_BTN" onClick="GUI_readContractName(this.id);">
-            Contract Name -->
-        </button>
-        <label for="address"><b>Token Contract Address</b>
+         <label for="address"><b>Token Contract Address</b>
           <button id="send_BTN" class="float-right" onclick="activateWalletPage('TRANSASTION')">Send</button>
         </label>
         <input type="text" id="tokenAddress_TX" />
@@ -94,11 +91,9 @@
         <label for="decimals"><b>Token Supply</b></label>
         <input type="text" id="contractTokenSupply_TX" />
 
-        <!--  onclick="GUI_balanceOf(this.id) -->
         <label for="balanceOf"><b>Account Wei balance</b></label>
         <input type="text" id="balanceOf_TX" />
 
-        <!-- GUI_readContractTokenSupply(this.id) -->
         <label for="balanceOf"><b>Account Token balance</b></label>
         <input type="text" id="AccountTokenBalance_TX" />
 
